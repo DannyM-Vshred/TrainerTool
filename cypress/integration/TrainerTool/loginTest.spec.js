@@ -4,7 +4,7 @@
 describe('Login Tests using Alias', () =>{
     // accessing the fixture file using alias
         before(()=>{
-            cy.fixture('invalidLogin').as ('loginData');
+            cy.fixture('loginData').as ('loginData');
             // cy.visit('https://staging-tt.vshred.com')
             // cy.get('.btn__text').contains('Login').click()
             // cy.visit('https://staging-tt.vshred.com/login')
