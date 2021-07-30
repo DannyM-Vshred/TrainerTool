@@ -1,0 +1,16 @@
+[
+    {
+        "fname":"test",
+        "lname":"wCTrainHim",
+        "email":"testwebCTrainHim",
+        "domain":"@example.net",
+        "phone":"9152513232"
+    },
+    {
+        "fname":"test",
+        "lname":"wCTraingHer",
+        "email":"testwebCTraingHer",
+        "domain":"@example.net",
+        "phone":"8152542525"
+    }
+]

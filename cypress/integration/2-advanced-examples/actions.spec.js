@@ -181,7 +181,7 @@ context('Actions', () => {
       .uncheck({ force: true }).should('not.be.checked')
   })
 
-  it('.select() - select an option in a <select> element', () => {
+  it.only('.select() - select an option in a <select> element', () => {
     // https://on.cypress.io/select
 
     // at first, no option should be selected
