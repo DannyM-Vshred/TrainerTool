@@ -23,47 +23,51 @@ describe('Quick Purchase', ()=>{
         //     .should('contain.text', 'Custom Training and Diet Plan - 8 Weeks and FREE Bonuses')
         
         //Enter Client Infoprmation    
-        cy.get('#name').clear().type('cyNameTest 07282021')
-        cy.get('#email').clear().type('cyNameTest07282021@example.net')
-        cy.get('#phone').clear().type('8421256363')
-        cy.contains('Next Step').click()
+        
+        cy.get('#name').clear().type('cyNameTest')
+            .invoke('val')
+            .then(val =>{
+                const cName = val;
+                cy.get('#email').clear().type(cName +'a1@test.com')
+            })       
+        cy.get('#phone').clear().type(2352323222)
+        // cy.contains('Next Step').click()
+        // // Enter Payment Information
+        // cy.get('#braintree-hosted-field-number')
+        //     .then(($iframe) => {
+        //        const $body = $iframe.contents().find('body')
+        //         cy.wrap($body)
+        //             .find('#credit-card-number')
+        //             .type('4242424242424242')
+        //     });
 
-        // Enter Payment Information
-        cy.get('#braintree-hosted-field-number')
-            .then(($iframe) => {
-               const $body = $iframe.contents().find('body')
-                cy.wrap($body)
-                    .find('#credit-card-number')
-                    .type('4242424242424242')
-            });
+        // // expiration date
+        // cy.get('#braintree-hosted-field-expirationDate').then(function($iframe){
+        //     var iExpDate = $iframe.contents().find('#expiration')
+        //     cy.wrap(iExpDate)
+        //     .type('1225')
+        // })
 
-        // expiration date
-        cy.get('#braintree-hosted-field-expirationDate').then(function($iframe){
-            var iExpDate = $iframe.contents().find('#expiration')
-            cy.wrap(iExpDate)
-            .type('1225')
-        })
+        // // CVV
+        // cy.get('#braintree-hosted-field-cvv').then(function($iframe){
+        //     var iCvv = $iframe.contents().find('#cvv')
+        //     cy.wrap(iCvv)
+        //     .type('635')
+        // })
 
-        // CVV
-        cy.get('#braintree-hosted-field-cvv').then(function($iframe){
-            var iCvv = $iframe.contents().find('#cvv')
-            cy.wrap(iCvv)
-            .type('635')
-        })
+        // // Postal Code
+        // cy.get('#braintree-hosted-field-postalCode').then(function($iframe){
+        //     var iPostalCode = $iframe.contents().find('#postal-code')
+        //     cy.wrap(iPostalCode)
+        //     .type('98254')
+        // })
 
-        // Postal Code
-        cy.get('#braintree-hosted-field-postalCode').then(function($iframe){
-            var iPostalCode = $iframe.contents().find('#postal-code')
-            cy.wrap(iPostalCode)
-            .type('98254')
-        })
+        // cy.get('.expand-area-2 > .expand-inputs > .next-step').click()
 
-        cy.get('.expand-area-2 > .expand-inputs > .next-step').click()
-
-        //Submit Order
-        cy.get('.ifNotTAKEN > :nth-child(1) > :nth-child(1)').should('contain.text','Custom Training and Diet Plan - 8 Weeks and FREE Bonuses')
-        cy.get('.ifNotTAKEN > :nth-child(1) > .checkout-prices').should('contain.text', '$149.00');
-        cy.get('#submit-order')
+        // //Submit Order
+        // cy.get('.ifNotTAKEN > :nth-child(1) > :nth-child(1)').should('contain.text','Custom Training and Diet Plan - 8 Weeks and FREE Bonuses')
+        // cy.get('.ifNotTAKEN > :nth-child(1) > .checkout-prices').should('contain.text', '$149.00');
+        // cy.get('#submit-order')
         
         
         // cy.contains('Custom Diet and Training Plan for Her')
@@ -72,6 +76,4 @@ describe('Quick Purchase', ()=>{
 
 
     })
-
-
 })

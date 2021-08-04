@@ -5,6 +5,7 @@ import { waitForDebugger } from 'inspector';
 describe('Custom Diet and Training Web Purchase', ()=>{
     before(()=>{
         cy.fixture('newClientRecord').as('clientData');
+        cy.fixture('loginData').as ('loginData');
         //Custom Training and Diet Plan - 8 Weeks and FREE Bonuses
         cy.visit('https://testing-2.vshred.com');
         
@@ -12,6 +13,11 @@ describe('Custom Diet and Training Web Purchase', ()=>{
         //cy.visit('https://testing-2.vshred.com/order-form/custom-training-and-diet-plan-8-week/?ref=programs%2Fcustom-training-and-diet-plan-8-week')
 
     })
+    Cypress.on('uncaught:exception', (err, runnable) => {
+        // returning false here prevents Cypress from
+        // failing the test
+        return false
+        });
 
     it.only('can purchase Custom 8Weeks OTP from web', ()=>{
        
@@ -28,16 +34,19 @@ describe('Custom Diet and Training Web Purchase', ()=>{
         cy.wait(3000);
         cy.get('@clientData').then(json=>{
             //Enter Client Infoprmation    
-            const myCtr = '14 '
-            const dateS = '0730'
-            cy.get('#name').clear().type(json[0].fname+myCtr+json[0].lname+dateS);
-            cy.get('#email').clear().type(json[0].email+myCtr+dateS+json[0].domain);
+            const myCtr = '11 ';
+            const dateS = '0802';
+            
+            cy.get('#name').clear().type(json[0].fname+myCtr+json[0].lname+dateS)
+                .invoke('val')
+                .then(val=>{
+                   const cname = val;
+                   cy.get('#email').clear().type(cname+json[0].domain)
+                })
+            // cy.get('#email').clear().type(json[0].email+myCtr+dateS+json[0].domain)
             cy.get('#phone').clear().type(json[0].phone);
+            cy.contains('Next Step').click();
 
-            cy.contains('Next Step').click()
-
-        })
-        
         // Enter Payment Information
         cy.get('#braintree-hosted-field-number')
             .then(($iframe) => {
@@ -72,6 +81,7 @@ describe('Custom Diet and Training Web Purchase', ()=>{
         cy.get('#submit-order').click()
 
         cy.wait(20000);
+
         // cy.contains('Thank you', {timeout : 20000})
         // // cy.get('h2.text-center').should('contain.text', 'Thank you for your order');
         // cy.get('.h5').should('contain.text','Custom Training and Diet Plan - 8 Weeks');
@@ -94,32 +104,32 @@ describe('Custom Diet and Training Web Purchase', ()=>{
         //weight
         cy.get("input[name='weight']").clear().type('230')          
         //weight unit
-        // cy.get(':nth-child(9) > div > div > div:nth-child(2) checkmark').click() //kg
-        cy.get(':nth-child(9) > div > div > div:nth-child(3) .checkmark').click() //lbs
+        // cy.get(':nth-child(9) > div > div > div:nth-child(2) checkmark').click({waitForAnimations : false}) //kg
+        cy.get(':nth-child(9) > div > div > div:nth-child(3) .checkmark').click({waitForAnimations : false}) //lbs
                   
         //Gender
         cy.get(':nth-child(10) > div > div > div:nth-child(2) .checkmark').click() //male
         // cy.get(':nth-child(10) > div > div > div:nth-child(3) .checkmark').click() //female
         
         //activity level
-        cy.get(':nth-child(11) > div > div > div:nth-child(2) .checkmark').click() //moderate
-        // cy.get(':nth-child(11) > div > div > div:nth-child(3) .checkmark').click() //light
+        // cy.get(':nth-child(11) > div > div > div:nth-child(2) .checkmark').click() //moderate
+        cy.get(':nth-child(11) > div > div > div:nth-child(3) .checkmark').click() //light
         // cy.get(':nth-child(11) > div > div > div:nth-child(4) .checkmark').click() //hard
 
         //Gym TimeSpent
-        cy.get(':nth-child(12) > div > div > div:nth-child(2) .checkmark').click() //none
-        // cy.get(':nth-child(12) > div > div > div:nth-child(3) .checkmark').click() //4+ Days
+        // cy.get(':nth-child(12) > div > div > div:nth-child(2) .checkmark').click() //none
+        cy.get(':nth-child(12) > div > div > div:nth-child(3) .checkmark').click() //4+ Days
         // cy.get(':nth-child(12) > div > div > div:nth-child(4) .checkmark').click() //<4Days
 
         //diet Preference
-        cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(1) .checkmark').click() // none 
-        // cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(2) .checkmark').click() // paleo 
-        // cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(3) .checkmark').click() // vegan
-        // cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(4) .checkmark').click() // vege
-        // cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(5) .checkmark').click() // gluten
-        cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(6) .checkmark').click() // pescatarian
-        // cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(7) .checkmark').click() // lactose free
-        // cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(8) .checkmark').click() // low glycemic
+        // cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(1) .checkmark').click({waitForAnimations : false}) // none 
+        // cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(2) .checkmark').click({waitForAnimations : false}) // paleo 
+        // cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(3) .checkmark').click({waitForAnimations : false}) // vegan
+        cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(4) .checkmark').click({waitForAnimations : false}) // vege
+        cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(5) .checkmark').click({waitForAnimations : false}) // gluten
+        // cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(6) .checkmark').click({waitForAnimations : false}) // pescatarian
+        // cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(7) .checkmark').click({waitForAnimations : false}) // lactose free
+        // cy.get('#dietary_preferences\\[\\]-checkbox-field > div:nth-child(8) .checkmark').click({waitForAnimations : false}) // low glycemic
 
         //Other diet
         cy.get(':nth-child(14) .cdp-input').type('new purchase - web Custom for Him')
@@ -145,17 +155,17 @@ describe('Custom Diet and Training Web Purchase', ()=>{
         cy.get(':nth-child(19) .cdp-input').clear().type('hotdogs')
 
         //allergies
-        // cy.get('#has_food_allergies\\[\\]-checkbox-field > div:nth-child(1) .checkmark').click() //No
-        cy.get('#has_food_allergies\\[\\]-checkbox-field > div:nth-child(2) .checkmark').click() //yes
+        // cy.get('#has_food_allergies\\[\\]-checkbox-field > div:nth-child(1) .checkmark').click({waitForAnimations : false}) //No
+        cy.get('#has_food_allergies\\[\\]-checkbox-field > div:nth-child(2) .checkmark').click({waitForAnimations : false}) //yes
 
         //food allergies
         cy.get(':nth-child(21) .cdp-input').clear().type('peanuts')
         
         //fitness goals
-        cy.get(':nth-child(22) > div:nth-child(2) > div > div:nth-child(2) .checkmark').click() // gainMuscle
+        // cy.get(':nth-child(22) > div:nth-child(2) > div > div:nth-child(2) .checkmark').click() // gainMuscle
         // cy.get(':nth-child(22) > div:nth-child(2) > div > div:nth-child(3) .checkmark').click() // weightLoss
         // cy.get(':nth-child(22) > div:nth-child(2) > div > div:nth-child(4) .checkmark').click() // improveHealth
-        // cy.get(':nth-child(22) > div:nth-child(2) > div > div:nth-child(5) .checkmark').click() // overcomeInjury
+        cy.get(':nth-child(22) > div:nth-child(2) > div > div:nth-child(5) .checkmark').click() // overcomeInjury
         // cy.get(':nth-child(22) > div:nth-child(2) > div > div:nth-child(6) .checkmark').click() // improveStrength
         // cy.get(':nth-child(22) > div:nth-child(2) > div > div:nth-child(7) .checkmark').click() // decreaseBodyFat
 
@@ -163,8 +173,8 @@ describe('Custom Diet and Training Web Purchase', ()=>{
         cy.get(':nth-child(23) .cdp-input').type('lean mean machine')
         
         //lifting weights
-        cy.get('#currently_active\\[\\]-checkbox-field > div:nth-child(1) .checkmark').click() //No
-        // cy.get('#currently_active\\[\\]-checkbox-field > div:nth-child(2) .checkmark').click() //Yes
+        cy.get('#currently_active\\[\\]-checkbox-field > div:nth-child(1) .checkmark').click({waitForAnimations : false}) //No
+        // cy.get('#currently_active\\[\\]-checkbox-field > div:nth-child(2) .checkmark').click({waitForAnimations : false}) //Yes
         
         // if active
         cy.get(':nth-child(25) .cdp-input').clear().type('so long ago')
@@ -175,8 +185,8 @@ describe('Custom Diet and Training Web Purchase', ()=>{
         cy.get(':nth-child(30) .cdp-input').clear().type('train')
 
         //Gym access
-        cy.get('#gym_access\\[\\]-checkbox-field > div:nth-child(1) .checkmark').click() //No
-        // cy.get('#gym_access\\[\\]-checkbox-field > div:nth-child(1) .checkmark').click() //Yes
+        cy.get('#gym_access\\[\\]-checkbox-field > div:nth-child(1) .checkmark').click({waitForAnimations : false}) //No
+        // cy.get('#gym_access\\[\\]-checkbox-field > div:nth-child(1) .checkmark').click({waitForAnimations : false}) //Yes
 
         //help to reach goal
         cy.get(':nth-child(32) .cdp-input').clear().type('Train me')     
@@ -186,7 +196,7 @@ describe('Custom Diet and Training Web Purchase', ()=>{
 
         //stress level
         cy.get(':nth-child(34) .cdp-input').select('9')
-        cy.get(':nth-child(35) .cdp-input').type('1,2,3')     
+        cy.get(':nth-child(35) .cdp-input').clear().type('1,2,3')     
         
         //overweight
         cy.get(':nth-child(36) > div > div > div:nth-child(2) .checkmark').click() //no
@@ -218,6 +228,36 @@ describe('Custom Diet and Training Web Purchase', ()=>{
         //Submit Questionnaire
         cy.get('.cdp-form-submit-button').click()
 
+        cy.wait(5000)
+        cy.get('.modal-active .wpb_wrapper h2')
+                .should('contain.text','Questionnaire Submitted')
+        cy.get('div:nth-child(2) > div > div.modal-close.modal-close-cross').click({multiple: true})
+        
+
+        cy.get('#profile-gender').select('male')
+        // cy.get('#profile-gender').select('female')
+
+        cy.contains('Save Profile').click();        
+        
+        cy.contains('Logout').click
+
+        cy.get('#menu1').contains('Login').click()
+        cy.get('@loginData').then(json=>{
+            cy.get('#email').clear().type(json[2].email);
+            cy.get('#password').type(json[2].password);
+            cy.get('[type="submit"]').click();
+        
+        cy.contains('Welcome to the admin dashboard').should('be.visible');
+
+        // Search Test Users
+        
+        const userEmail = 'testwebCTrainHim17@example.net0728';
+
+
+        cy.contains('Users').click();
+        cy.get('#__BVID__16').type(userEmail+'{enter}');
+        cy.get('.vuetable-td-email').contains(userEmail).click();
+
     })
 
     })
@@ -226,3 +266,4 @@ describe('Custom Diet and Training Web Purchase', ()=>{
         // cy.contains('Fat Loss Extreme for Him')
         // cy.contains('Fat Loss Extreme for Her')
 
+})

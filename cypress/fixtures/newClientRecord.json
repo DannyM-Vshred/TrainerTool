@@ -1,16 +1,18 @@
 [
     {
         "fname":"test",
-        "lname":"wCTrainHim",
-        "email":"testwebCTrainHim",
-        "domain":"@example.net",
-        "phone":"9152513232"
+        "lname":"otpCdpHim"
     },
     {
         "fname":"test",
-        "lname":"wCTraingHer",
-        "email":"testwebCTraingHer",
-        "domain":"@example.net",
-        "phone":"8152542525"
+        "lname":"otpCdpHer"
+    },
+    {
+        "fname":"test",
+        "lname":"otpFatLosHim"
+    },
+    {
+        "fname":"test",
+        "lname":"otpFatLosHer"
     }
 ]

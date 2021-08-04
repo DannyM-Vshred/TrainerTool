@@ -1,0 +1,34 @@
+[
+    {
+        "offer":"Custom Training and Diet Plan - 8 Weeks and FREE Bonuses",
+        "url":"https://testing-2.vshred.com/order-form/custom-training-and-diet-plan-8-week/?ref=programs%2Fcustom-training-and-diet-plan-8-week",
+        "lname":"otpCdpHim",
+        "gender":"male",
+        "orderItem1":"Custom Training and Diet Plan - 8 Weeks and FREE Bonuses"
+
+    },
+    {
+        "offer":"Custom Training and Diet Plan - 8 Weeks and FREE Bonuses",
+        "url":"https://testing-2.vshred.com/order-form/custom-training-and-diet-plan-8-week-f/?ref=sp%2Fcustom-training-and-diet-plan-8-week-f%2Fsku_BQR5AzD0pv4obg",
+        "lname":"otpCdpHer",
+        "gender":"female",
+        "orderItem1":"Custom Training and Diet Plan - 8 Weeks and FREE Bonuses"
+    },
+    {
+        "offer":"Fat Loss Extreme for Him and FREE Bonuses",
+        "url":"https://testing-2.vshred.com/order-form/fat-loss-extreme/?ref=programs%2Ffat-loss-extreme",
+        "lname":"otpFatLosHim",
+        "gender":"male",
+        "orderItem1":"Fat Loss Extreme for Him",
+        "orderItem2":"Custom Diet Plan"
+    },
+    {
+        "offer":"Fat Loss Extreme for Her and FREE Bonuses",
+        "url":"https://testing-2.vshred.com/order-form/fat-loss-extreme-f/?ref=sp%2Ffat-loss-extreme-f%2Fsku_CKcwR4TEg54IeG",
+        "lname":"otpFatLosHer",
+        "gender":"male",
+        "orderItem1":"Fat Loss Extreme for Her",
+        "orderItem2":"Custom Diet Plan"
+    }
+
+]
