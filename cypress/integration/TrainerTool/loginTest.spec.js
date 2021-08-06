@@ -12,17 +12,13 @@ describe('Login Tests using Alias', () =>{
         
         })
     
-           it('Invalid Login', () => {
-             
-            cy.get('@loginData').then(json=>{
-                cy.get('#email').clear().type(json[0].email);
-                cy.get('#password').type(json[0].password);
-                // cy.get('#email').type('@invalidUser.email')
-                // cy.get('#password').type('123456')
-                cy.get('[type=submit]').click();
+          it('cannot login with invalid credentials', () => {
+             cy.get('@loginData').then(json=>{
+             cy.get('#email').clear().type(json[0].email);
+             cy.get('#password').type(json[0].password);
+             cy.get('[type=submit]').click();
        
             //Verify error messages are displayed on invalid login credentials
-            // cy.get('[class="toast toast-error"]').should('be.visible')
             cy.get('.toast-message')
                 .should('be.visible')
                 .and('contain.text', 'Please check the form below for errors.')
@@ -32,7 +28,7 @@ describe('Login Tests using Alias', () =>{
             })   
         })
     
-           it('Login as Trainer user',() =>{
+           it('can Login as a Trainer user',() =>{
     
             cy.get('@loginData').then(json=>{
                 cy.get('#email').clear().type(json[1].email);
@@ -50,7 +46,7 @@ describe('Login Tests using Alias', () =>{
     
         })
     
-        it('Login as Trainer Manager',() =>{
+        it(' can Login as a Trainer Manager',() =>{
     
             cy.get('@loginData').then(json=>{
                 cy.get('#email').clear().type(json[2].email);
@@ -70,8 +66,8 @@ describe('Login Tests using Alias', () =>{
             cy.contains('Trainers').click()
             cy.contains('Active Trainers').should('exist')
             cy.contains('Suspended Trainers').should('exist')
-            // cy.get('[class="nav-label"]').contains('Trainers').click()    
-        
+            // cy.get('[class="nav-label"]').contains('Trainers').click()   
+            
             })
     
         })

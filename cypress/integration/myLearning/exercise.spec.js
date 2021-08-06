@@ -6,7 +6,7 @@ describe('My Exercises', () => {
     //     cy.visit('https://demoqa.com')
     // })
 
-    it.only('Element Exercises', () => {
+    it('Element Exercises', () => {
         cy.visit('https://demoqa.com/text-box')
         cy.get('#userName').type('Alex Mercia')
             .invoke('attr', 'type')
@@ -42,9 +42,48 @@ describe('My Exercises', () => {
             })
 
         cy.get('#permanentAddress').type('this is for permanency')
-        cy.get('#submit')
+        cy.get('#submit').click()
 
 
+    })
+
+    it.only('can Assign Client to Trainer',()=>{
+
+        cy.visit('https://testing-2.vshred.com/login?ref=home')
+        cy.loginTrainerManager()
+
+        cy.contains('Trainer Tool').click();
+        cy.contains('Unassigned Plans').click();
+        cy.wait(5000);
+
+        cy.get('#__BVID__21').type('0805@example.net' + '{enter}');
+
+        //assign trainer
+        // cy.contains('.vuetable-body td','cytest41otp6PackShred0805@example.net')
+        cy.contains('.vuetable-body td', 'cytest13otpToned90Days0805@example.net')
+            .parent()
+            .within($tr=>{
+                cy.get('.vuetable-slot .multiselect__placeholder')
+                .click()
+                .get('.multiselect__input')
+                .type('Trainer two {enter}')
+            })
+        cy.get('p.toast-text').should('contain.text','Successfully assigned trainer to client')
+
+        //check assignment
+        cy.contains('Trainer Tool').click();
+        cy.contains('Assigned Clients Beta').click();
+        cy.wait(5000);
+
+        cy.get('#__BVID__16').type('cytest41otp6PackShred0805@example.net' + '{enter}');
+        cy.contains('.vuetable-body', 'cytest41otp6PackShred0805@example.net')
+           .parent()
+           .within($tr=>{
+             cy.get('td.vuetable-td-trainer_name').should('have.text','cyTrainer  OTP')
+           })
+           
+        // cy.get('.vuetable-body .vuetable-td-email').contains('cytest41otp6PackShred0805@example.net').click()
+        
     })
 
 })
