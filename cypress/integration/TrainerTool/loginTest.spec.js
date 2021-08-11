@@ -5,18 +5,16 @@ describe('Login Tests using Alias', () =>{
     // accessing the fixture file using alias
         before(()=>{
             cy.fixture('loginData').as ('loginData');
-            // cy.visit('https://staging-tt.vshred.com')
-            // cy.get('.btn__text').contains('Login').click()
-            // cy.visit('https://staging-tt.vshred.com/login')
             cy.visit('/');
         
         })
     
           it('cannot login with invalid credentials', () => {
-             cy.get('@loginData').then(json=>{
-             cy.get('#email').clear().type(json[0].email);
-             cy.get('#password').type(json[0].password);
-             cy.get('[type=submit]').click();
+            cy.get('#menu1').contains('Login').click()
+            cy.get('@loginData').then(json=>{
+            cy.get('#email').clear().type(json[0].email);
+            cy.get('#password').type(json[0].password);
+            cy.get('[type=submit]').click();
        
             //Verify error messages are displayed on invalid login credentials
             cy.get('.toast-message')
@@ -29,7 +27,7 @@ describe('Login Tests using Alias', () =>{
         })
     
            it('can Login as a Trainer user',() =>{
-    
+            cy.get('#menu1').contains('Login').click()
             cy.get('@loginData').then(json=>{
                 cy.get('#email').clear().type(json[1].email);
                 cy.get('#password').type(json[1].password)
@@ -47,7 +45,7 @@ describe('Login Tests using Alias', () =>{
         })
     
         it(' can Login as a Trainer Manager',() =>{
-    
+            cy.get('#menu1').contains('Login').click()
             cy.get('@loginData').then(json=>{
                 cy.get('#email').clear().type(json[2].email);
                 cy.get('#password').type(json[2].password)
@@ -73,7 +71,7 @@ describe('Login Tests using Alias', () =>{
         })
      
         it.only('can Logout successfully',()=>{
-    
+            cy.get('#menu1').contains('Login').click()
             cy.get('@loginData').then(json=>{
                 cy.get('#email').clear().type(json[2].email);
                 cy.get('#password').type(json[2].password)

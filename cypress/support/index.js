@@ -18,3 +18,16 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+//enable window.gc() for chrome
+module.exports = (on, config) => {
+	on('before:browser:launch', (browser, launchOptions) => {
+		if (browser.name === 'chrome') {
+			// exposes window.gc() function that will manually force garbage collection
+			launchOptions.args.push('--js-flags=--expose-gc');
+		}
+
+		return launchOptions;
+	});
+};
+

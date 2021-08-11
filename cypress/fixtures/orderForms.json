@@ -2,7 +2,7 @@
     {
         "id":"00",
         "offer":"Custom Training and Diet Plan - 8 Weeks and FREE Bonuses",
-        "url":"https://testing-2.vshred.com/order-form/custom-training-and-diet-plan-8-week/?ref=programs%2Fcustom-training-and-diet-plan-8-week",
+        "url":"/order-form/custom-training-and-diet-plan-8-week/?ref=programs%2Fcustom-training-and-diet-plan-8-week",
         "lname":"otpCdpHim",
         "gender":"male",
         "orderItem1":"Custom Training and Diet Plan - 8 Weeks and FREE Bonuses",
@@ -12,7 +12,7 @@
     {
         "id":"01",
         "offer":"Custom Training and Diet Plan - 8 Weeks and FREE Bonuses",
-        "url":"https://testing-2.vshred.com/order-form/custom-training-and-diet-plan-8-week-f/?ref=sp%2Fcustom-training-and-diet-plan-8-week-f%2Fsku_BQR5AzD0pv4obg",
+        "url":"/order-form/custom-training-and-diet-plan-8-week-f/?ref=sp%2Fcustom-training-and-diet-plan-8-week-f%2Fsku_BQR5AzD0pv4obg",
         "lname":"otpCdpHer",
         "gender":"female",
         "orderItem1":"Custom Training and Diet Plan - 8 Weeks and FREE Bonuses",
@@ -21,7 +21,7 @@
     {
         "id":"02",
         "offer":"Fat Loss Extreme for Him and FREE Bonuses",
-        "url":"https://testing-2.vshred.com/order-form/fat-loss-extreme/?ref=programs%2Ffat-loss-extreme",
+        "url":"/order-form/fat-loss-extreme/?ref=programs%2Ffat-loss-extreme",
         "lname":"otpFatLosHim",
         "gender":"male",
         "orderItem1":"Fat Loss Extreme for Him",
@@ -34,7 +34,7 @@
     {
         "id":"03",
         "offer":"Fat Loss Extreme for Her and FREE Bonuses",
-        "url":"https://testing-2.vshred.com/order-form/fat-loss-extreme-f/?ref=sp%2Ffat-loss-extreme-f%2Fsku_CKcwR4TEg54IeG",
+        "url":"/order-form/fat-loss-extreme-f/?ref=sp%2Ffat-loss-extreme-f%2Fsku_CKcwR4TEg54IeG",
         "lname":"otpFatLosHer",
         "gender":"male",
         "orderItem1":"Fat Loss Extreme for Her",
@@ -47,7 +47,7 @@
     {
         "id":"04",
         "offer":"Ripped In 90 Days and FREE Bonuses",
-        "url":"https://testing-2.vshred.com/order-form/ripped-in-90-days/?ref=sp%2Fripped-in-90-days%2Fsku_AR6nTj3PTK3uu9",
+        "url":"/order-form/ripped-in-90-days/?ref=sp%2Fripped-in-90-days%2Fsku_AR6nTj3PTK3uu9",
         "lname":"otpRipped",
         "gender":"male",
         "orderItem1":"Ripped In 90 Days",
@@ -60,7 +60,7 @@
     {
         "id":"05",
         "offer":"Clean Bulk $87 Bundle and FREE Bonuses",
-        "url":"https://testing-2.vshred.com/order-form/clean-bulk-program-bundle-cdp-bump?ref=programs%2Fclean-bulk-program",
+        "url":"/order-form/clean-bulk-program-bundle-cdp-bump?ref=programs%2Fclean-bulk-program",
         "lname":"otpCleanBulk",
         "gender":"male",
         "orderItem1":"Clean Bulk",
@@ -74,7 +74,7 @@
     {
         "id":"06",
         "offer":"Toned In 90 Days $57 Bundle and FREE Bonuses",
-        "url":"https://testing-2.vshred.com/order-form/toned-in-90-days-bundle-2792?ref=sp%2Ftoned-in-90-days%2Fv1%2F",
+        "url":"/order-form/toned-in-90-days-bundle-2792?ref=sp%2Ftoned-in-90-days%2Fv1%2F",
         "lname":"otpToned90Days",
         "gender":"female",
         "orderItem1":"Toned",
@@ -87,7 +87,7 @@
     {
         "id":"07",
         "offer":"Six-Pack Shred and FREE Bonuses",
-        "url":"https://testing-2.vshred.com/order-form/six-pack-shred/?ref=sp%2Fsix-pack-shred%2Fv1%2F",
+        "url":"/order-form/six-pack-shred/?ref=sp%2Fsix-pack-shred%2Fv1%2F",
         "lname":"otp6PackShred",
         "gender":"male",
         "orderItem1":"Six-Pack Shred",
@@ -100,7 +100,7 @@
     {
         "id":"08",
         "offer":"Big Arms Program and FREE Bonuses",
-        "url":"https://testing-2.vshred.com/order-form/big-arms-program/?ref=sp%2Fbig-arms-program%2Fv1",
+        "url":"/order-form/big-arms-program/?ref=sp%2Fbig-arms-program%2Fv1",
         "lname":"otpBigArms",
         "gender":"male",
         "orderItem1":"Big Arms Program",
@@ -109,6 +109,25 @@
         "confirmOrder2":"Custom Diet Plan",
         "confirmOrder3":"VSU - Monthly - 9.95 (30 Days Free)",
         "confirmOrder4":"Greens"
+    },
+    {
+        "id":"09",
+        "offer":"Custom Diet Plan Monthly and FREE Bonuses",
+        "url":"/order-form/custom-diet-plan-monthly",
+        "lname":"subsCDP",
+        "gender":"male",
+        "purchaseNote":"You’ll automatically renew at the member price",
+        "orderItem1":"Custom Diet Plan Monthly",
+        "confirmOrder1":"Custom Diet Plan Monthly"
+    },
+    {
+        "id":"10",
+        "offer":"Gold Diet Plan Subscription and FREE Bonuses",
+        "url":"/order-form/gold-diet-plan-monthly",
+        "lname":"subsGoldDiet",
+        "gender":"female",
+        "orderItem1":"Gold Diet Plan Subscription",
+        "confirmOrder1":"Gold Diet Plan Subscription"
     }
 
 ]

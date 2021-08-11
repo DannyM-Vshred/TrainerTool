@@ -6,7 +6,7 @@ import { waitForDebugger } from 'inspector';
 describe('Trainer Manager Tasks', () => {
     beforeEach(() => {
         cy.fixture('loginData').as('loginData');
-        cy.visit('https://testing-2.vshred.com/login?ref=home')
+        cy.visit('/')
     })
 
     Cypress.on('uncaught:exception', (err, runnable) => {
@@ -15,7 +15,7 @@ describe('Trainer Manager Tasks', () => {
         return false
     })
 
-    const cEmail = '0803@example.net'
+    const cEmail = 'cytest05otp6PackShred0808@example.net'
     const searchMail = '0803@example.net'
     const assignTrainer = 'cyTrainer OTP'
 
@@ -129,5 +129,7 @@ describe('Trainer Manager Tasks', () => {
             })
 
     })
+
+    
 })
 
