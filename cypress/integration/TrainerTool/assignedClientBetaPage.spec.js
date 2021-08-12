@@ -205,6 +205,23 @@ describe('Assigned Clients Beta Page Regression Tests', () => {
         cy.wait(2000)
     })
 
+    it.only('can filter by Trainer2', () => {
+        cy.get('span.multiselect__placeholder')
+            .type('Trainer Two' + '{enter}')
+        cy.wait(2000)
+
+        cy.get('.vuetable-body tr').eq(2).find('td.vuetable-td-trainer_name')
+        
+        cy.get('.vuetable-body tr')
+            .each(($td,index,$list)=>{
+                $td.find('td.vuetable-td-trainer_name')
+                    .should('have.text','Trainer Two')
+            })
+            
+        
+    })
+
+
 })
 
 
