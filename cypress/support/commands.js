@@ -85,20 +85,26 @@ Cypress.Commands.add('completeWebProfile',()=>{
         if ($body.text().includes('Height')) {
           //found it
           cy.get('#profile-birthday').type('1995-01-05')
-          cy.get('#height_1').type('5', { force: true, waitForAnimations: false })
-          cy.get('#height_2').type('10', { force: true, waitForAnimations: false  })
-          cy.get('#profile-weight').type('245')
-          cy.get('input[name=activity][id=light]').click({waitForAnimations: false})
-          cy.get('input[name=condition_goal][id=fat-loss]').click({waitForAnimations: false})
+          cy.get('#height_1').clear({force:true}).type('5', { force: true, waitForAnimations: false })
+          cy.get('#height_2').clear({force:true}).type('10', { force: true, waitForAnimations: false })
+          cy.get('#profile-weight').clear().type('245')
+          cy.get('input[name=activity][id=light]').click({waitForAnimations: false, force:true})
+          cy.get('input[name=condition_goal][id=fat-loss]').click({waitForAnimations: false, force:true})
           cy.contains('Save Profile').click()
-          cy.contains('Logout', { timeout: 4000 }).click()
-
-        } else {
+          cy.url().then(($url)=>{
+            if($url.includes('/member/profile')){
+              cy.contains('Logout', { timeout: 4000 }).click()
+                    } else{
+                        cy.contains('Edit Profile').click()
+                        cy.contains('Logout', { timeout: 4000 }).click()
+                    }
+                })
+            } else {
           // nope not here
           cy.contains('Save Profile').click()
           cy.contains('Logout', { timeout: 4000 }).click()
         }
-      })
+    })
 })
 
 Cypress.Commands.add('filloutQuestionnaire', () => {
@@ -436,7 +442,7 @@ Cypress.Commands.add('verifyAssignedClientOTP',(record)=>{
 
     cy.get('#__BVID__17').select('One-Time Plans')      //filter as Order
     cy.wait(2000)
-    cy.get('#__BVID__16').select('Not Sent')        //filte Not Sent
+    cy.get('#__BVID__19').select('Not Sent')        //filte Not Sent
     cy.wait(2000)
     cy.get('#__BVID__16')
         .clear()
