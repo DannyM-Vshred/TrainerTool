@@ -49,9 +49,9 @@ describe('Assigned Clients Beta Page Regression Tests', () => {
         return false
     })
 
-    const cEmail = '1908weber.katrina@example.org'
+    const cEmail = '578meda.welch@example.net'
     const searchMail = '0803@example.net'
-    const assignTrainer = 'cyTrainer OTP'
+    const assignTrainer = 'Trainer Two'
 
     it('loads the Assigned Clients Beta page', () => {
         // //Login as Trainer Manager
@@ -192,20 +192,25 @@ describe('Assigned Clients Beta Page Regression Tests', () => {
 
     })
 
-    it('can filter by Trainer', () => {
-        cy.get('span.multiselect__placeholder')
-            .type('Trainer Two' + '{enter}')
+    it.only('can filter by Trainer', () => {
+
+        cy.get('input[placeholder="Select trainer"]')
+            .type(assignTrainer+'{enter}',{force:true})
         cy.wait(2000)
-        cy.get('.vuetable-body')
-            .children()
-            .within($td => {
-                cy.get('.vuetable-td-trainer_name')
-                    .should('contain.text', 'Trainer Two')
+
+        cy.get('.vuetable-body tr')
+            .should('have.length.at.least', 5)
+            .then(($row)=>{
+                cy.wrap($row).get('td.vuetable-td-trainer_name')
+                    .each(($e1,index,$list)=>{
+                       const clientEmail = $e1.text()
+                       expect(clientEmail).to.include(assignTrainer)
+                       // cy.log(clientEmail)
+                })
             })
-        cy.wait(2000)
     })
 
-    it.only('can filter by Trainer2', () => {
+    it('can filter by Trainer2', () => {
         cy.get('span.multiselect__placeholder')
             .type('Trainer Two' + '{enter}')
         cy.wait(2000)
@@ -217,10 +222,41 @@ describe('Assigned Clients Beta Page Regression Tests', () => {
                 $td.find('td.vuetable-td-trainer_name')
                     .should('have.text','Trainer Two')
             })
-            
-        
     })
 
+    it('can Unassign a trainer', () => {
+        cy.get('#__BVID__16')
+        .type(cEmail + '{enter}');
+        cy.wait(2000)
+
+    cy.contains('.vuetable-body td', cEmail)
+        .should('exist')
+        .parent()
+        .within($tr => {
+            cy.get('td.vuetable-td-trainer_name')
+                .should('have.text', assignTrainer)  
+            cy.get('td.vuetable-td-status')
+                .should('have.text', 'active')
+            //unassign
+            cy.get('td.vuetable-slot')
+                .contains('Unassign')
+                .click()
+            cy.wait(1000)
+
+        })
+    cy.contains("Remove trainer's access to this customer?")
+        .should('exist')    //confirmation message
+    cy.get('.btn-danger')
+        .click()
+    cy.get('p.toast-text')
+        .should('contain.text', 'Successfully removed trainer access to client')  //successfully unassigned
+
+    //Record should revert in Unassigned Plans
+    cy.contains('Trainer Tool').click();
+    cy.contains('Unassigned Plans').click();
+    cy.get('#__BVID__21', { timeout: 3000 }).type(cEmail + '{enter}');
+    cy.contains('.vuetable-body td', cEmail).should('exist')
+    })
 
 })
 
