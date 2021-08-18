@@ -22,6 +22,7 @@ describe('VEh-190: Pre-prod Assigned Clients Beta reflects the User Profile upda
 
             // Search Test Users
 
+
             const userEmail = '3887toy43@example.com';
             const newName = 'UpdatedName cyTestCdpHim'
 
@@ -65,7 +66,6 @@ describe('VEh-190: Pre-prod Assigned Clients Beta reflects the User Profile upda
                     cy.get('#name').clear().type(newName)
                     cy.get('#profile-gender').select('Male')
                     cy.contains('Save Profile').click()
-
                     cy.get('.toast-message')                              //confirmation message
                         .should('contain.text', 'Profile updated')
                     cy.get('#name').should('have.value', newName)
@@ -81,6 +81,7 @@ describe('VEh-190: Pre-prod Assigned Clients Beta reflects the User Profile upda
             cy.contains(newName).should('exist')
 
             //check updates are displayed in Assigned Clients Beta
+
             cy.contains('Trainer Tool').click();
             cy.contains('Assigned Clients Beta').click();
             cy.wait(5000);
