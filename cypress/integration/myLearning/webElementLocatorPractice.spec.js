@@ -98,7 +98,7 @@ describe('web element locator', () => {
 
     })
 
-    it.only('can access web tables',()=>{
+    it('can access web tables',()=>{
         // cy.get('#product td').contains('Python')
         //next() moves the locator to the next row element
         cy.get('#product td').contains('Python')
@@ -116,6 +116,19 @@ describe('web element locator', () => {
                 })
             }            
         })
+
+    })
+
+    it.only('can handle mouseover',()=>{
+        cy.get('div.mouse-hover-content').invoke('show')
+        cy.contains('Top').click()
+        cy.url().should('include', '#top')
+
+        cy.wait(2000)
+        cy.get('div.mouse-hover-content').invoke('show')
+        cy.contains('Reload').click()
+        cy.url().should('not.include', '#top')
+
 
     })
 

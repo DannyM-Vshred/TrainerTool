@@ -15,9 +15,11 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
         // failing the test
         return false
     })
-    const myCtr = '01';
-    const dateS = '0812';
-    const assignTrainer = 'cyTrainer OTP'
+    const myCtr = '7';
+    const dateS = '0823';
+    const assignTrainer = 'BetaTrainer OTP'
+    const clName = 'BetaTest'
+    const filePath = 'uploadFile/sample-pdf-file.pdf'
 
     it.only('can purchase Custom CDP 8-Weeks for Him OTP from web', () => {
         cy.get('@orderForms').then(json => {
@@ -25,7 +27,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[0].offer)
 
-            const fName = 'cytest' + myCtr
+            const fName = clName + myCtr
             const lName = json[0].lname + dateS
             const cEmail = fName + lName + '@example.net'
 
@@ -84,25 +86,29 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('p.toast-text').should('contain.text', 'Successfully assigned trainer to client')
 
             //check assignment
-            //check assignment
             cy.verifyAssignedClientOTP(
                 {
                     email: cEmail,
                     trainer: assignTrainer
                 })
+            
+            //Upload PDF Plan
+            cy.uploadPlan(
+                {
+                email: cEmail
+                })
+            
 
-                //VEH-4
-            // cy.get('circle[fill=none]').click({ force: true })
         })
     })
 
-    it.only('can purchase Custom CDP 8-Weeks for Her OTP from web', () => {
+    it('can purchase Custom CDP 8-Weeks for Her OTP from web', () => {
         cy.get('@orderForms').then(json => {
             cy.visit('/' + json[1].url)
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[1].offer)
 
-            const fName = 'cytest' + myCtr
+            const fName = clName + myCtr
             const lName = json[1].lname + dateS
             const cEmail = fName + lName + '@example.net'
 
@@ -169,13 +175,13 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
         })
     })
 
-    it.only('can purchase Extreme Fat Loss for Him OTP from web', () => {
+    it('can purchase Extreme Fat Loss for Him OTP from web', () => {
         cy.get('@orderForms').then(json => {
             cy.visit('/' + json[2].url)
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[2].offer)
 
-            const fName = 'cytest' + myCtr
+            const fName = clName + myCtr
             const lName = json[2].lname + dateS
             const cEmail = fName + lName + '@example.net'
 
@@ -270,7 +276,13 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-            // cy.get('circle[fill=none]').click({ force: true })
+            
+            //Upload PDF Plan
+            cy.uploadPlan(
+                {
+                email: cEmail
+                })
+            
         })
     })
 
@@ -280,7 +292,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[3].offer)
 
-            const fName = 'cytest' + myCtr
+            const fName = clName + myCtr
             const lName = json[3].lname + dateS
             const cEmail = fName + lName + '@example.net'
 
@@ -391,7 +403,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[4].offer)
 
-            const fName = 'cytest' + myCtr
+            const fName = clName + myCtr
             const lName = json[4].lname + dateS
             const cEmail = fName + lName + '@example.net'
 
@@ -503,7 +515,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[5].offer)
 
-            const fName = 'cytest' + myCtr
+            const fName = clName + myCtr
             const lName = json[5].lname + dateS
             const cEmail = fName + lName + '@example.net'
 
@@ -599,7 +611,13 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-            // cy.get('circle[fill=none]').click({ force: true })
+            
+            //Upload PDF Plan
+            cy.uploadPlan(
+                {
+                email: cEmail
+                })
+            
         })
     })
 
@@ -609,7 +627,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[6].offer)
 
-            const fName = 'cytest' + myCtr
+            const fName = clName + myCtr
             const lName = json[6].lname + dateS
             const cEmail = fName + lName + '@example.net'
 
@@ -720,7 +738,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[7].offer)
 
-            const fName = 'cytest' + myCtr
+            const fName = clName + myCtr
             const lName = json[7].lname + dateS
             const cEmail = fName + lName + '@example.net'
 
@@ -821,7 +839,14 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-            // cy.get('circle[fill=none]').click({ force: true })
+            
+            //Upload PDF Plan
+            cy.uploadPlan(
+                {
+                    email: cEmail
+                })
+
+
         })
     })
 
@@ -831,7 +856,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[8].offer)
 
-            const fName = 'cytest' + myCtr
+            const fName = clName + myCtr
             const lName = json[8].lname + dateS
             const cEmail = fName + lName + '@example.net'
 
@@ -928,17 +953,17 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-            // cy.get('circle[fill=none]').click({ force: true })
+          
         })
     })
 
-    it.only('can UNSELECT CDP SP from order form - Toned', () => {
+    it.skip('can UNSELECT CDP SP from order form - Toned', () => {
         cy.get('@orderForms').then(json => {
             cy.visit('/' + json[11].url)
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[11].offer)
 
-            const fName = 'cytest' + myCtr
+            const fName = clName + myCtr
             const lName = json[11].lname + dateS
             const cEmail = fName + lName + '@example.net'
 
