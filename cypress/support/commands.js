@@ -482,3 +482,49 @@ Cypress.Commands.add('verifyAssignedClientSubs',(record)=>{
                 .should('have.text', 'active')
         })
 })
+
+Cypress.Commands.add('uploadPlan', (record) => {
+    const filepath = 'uploadFile/sample-pdf-file.pdf'
+    cy.contains('Trainer Tool').click();
+    cy.contains('Assigned Clients Beta').click();       //assigned clients beta page
+    cy.wait(2000);
+
+    cy.get('#__BVID__17').select('All')      //filter as Order
+    cy.wait(2000)
+    cy.get('#__BVID__19').select('Not Sent')        //filte Not Sent
+    cy.wait(2000)
+    cy.get('#__BVID__16')
+        .clear()
+        .type(record.email + '{enter}');
+    cy.wait(5000)
+
+    cy.contains('.vuetable-body td', record.email)
+        .should('exist')
+        .parent()
+        .within($tr => {
+            cy.get('button.btn').contains('Upload').click()
+        })
+        cy.get('input[type="file"]').attachFile(filepath)
+        cy.get('div.drop-zone__inner').should('contain', 'sample-pdf-file.pdf')
+        cy.get('button').contains('Upload & Send').click()
+        cy.wait(2000)
+
+    cy.get('p.toast-text')
+        .should('contain.text', 'Uploaded custom plan and notified client')
+    cy.get('p.toast-text').contains('Uploaded and sent plan PDF')
+        .should('be.visible')
+
+    cy.get('#__BVID__19').select('Sent')
+    cy.wait(2000)
+    cy.contains('.vuetable-body td', record.email)
+        .should('exist')
+        .parent()
+        .within($tr => {
+            cy.get('i.fas.fa-check.checkmark').should('be.visible')
+        })
+
+    cy.get('#__BVID__19').select('Not Sent')
+    cy.wait(2000)
+    cy.contains('.vuetable-body td', record.email)
+        .should('not.exist')
+})

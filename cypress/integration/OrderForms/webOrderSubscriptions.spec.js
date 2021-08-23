@@ -15,18 +15,19 @@ describe('Custom Diet and Training Subscriptions', () => {
         // failing the test
         return false
     })
-    const myCtr = '01';
-    const dateS = '0811';
-    const assignTrainer = 'cyTrainer Subs'
+    const myCtr = '25';
+    const dateS = '0823';
+    const assignTrainer = 'BetaTrainer Subs'
+    const clName = 'BetaTest'
 
-    it('can purchase Custom Diet Plan Monthly Subscription', () => {
+    it.only('can purchase Custom Diet Plan Monthly Subscription', () => {
         cy.get('@orderForms').then(json => {
             cy.visit('/'+json[9].url)
             // cy.visit(json[9].url)
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[9].offer)
 
-            const fName = 'cytest' + myCtr
+            const fName = clName + myCtr
             const lName = json[9].lname + dateS
             const cEmail = fName + lName + '@example.com'
 
@@ -92,7 +93,13 @@ describe('Custom Diet and Training Subscriptions', () => {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-        cy.get('circle[fill=none]').click({force:true})
+        
+            //Upload PDF Plan
+            cy.uploadPlan(
+                {
+                    email: cEmail
+                })
+
         })
     })
 
@@ -102,7 +109,7 @@ describe('Custom Diet and Training Subscriptions', () => {
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[10].offer)
 
-            const fName = 'cytest' + myCtr
+            const fName = clName + myCtr
             const lName = json[10].lname + dateS
             const cEmail = fName + lName + '@example.com'
 
