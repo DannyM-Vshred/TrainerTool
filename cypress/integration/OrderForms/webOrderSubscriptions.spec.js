@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
-import { mapLimit } from 'async';
 import 'cypress-iframe';
-import { waitForDebugger } from 'inspector';
 
 describe('Custom Diet and Training Subscriptions', () => {
     beforeEach(() => {
@@ -15,10 +13,11 @@ describe('Custom Diet and Training Subscriptions', () => {
         // failing the test
         return false
     })
-    const myCtr = '25';
-    const dateS = '0823';
-    const assignTrainer = 'BetaTrainer Subs'
-    const clName = 'BetaTest'
+    const myCtr = '19';
+    const dateS = '0825';
+    const assignTrainer = 'cyTrainer Subs'
+    const clName = 'cyTest'
+
 
     it.only('can purchase Custom Diet Plan Monthly Subscription', () => {
         cy.get('@orderForms').then(json => {
@@ -66,28 +65,17 @@ describe('Custom Diet and Training Subscriptions', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
-
-            // cy.get('#__BVID__21').type(cEmail + '{enter}');
-            // cy.get('.vuetable-td-email').contains(cEmail).should('exist')
-            cy.wait(2000)       
-            cy.contains('.vuetable-body td', cEmail) //search within the record row
-                .should('exist')
-                .parent()
-                .within($tr => {
-                    cy.get('.vuetable-td-purchase_type')
-                        .should('contain.text','Recurring')         //recurring
-                    cy.get('.vuetable-slot .multiselect__placeholder')
-                        .click()
-                        .get('.multiselect__input')
-                        .type(assignTrainer + '{enter}')        //assign trainer selected
+            cy.verifySubInUnassignedPlansPage(
+                {
+                    email : cEmail
                 })
-            cy.get('p.toast-text')                              //confirmation message
-                .should('contain.text', 'Successfully assigned trainer to client')
 
-            //record under test is in Assigne Clients page
+            cy.assignTrainer(
+                {
+                    email : cEmail,
+                    trainer : assignTrainer
+                })    
+
             cy.verifyAssignedClientSubs(
                 {
                     email: cEmail,
@@ -149,34 +137,28 @@ describe('Custom Diet and Training Subscriptions', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
-
-            // cy.get('#__BVID__21').type(cEmail + '{enter}');
-            // cy.get('.vuetable-td-email').contains(cEmail).should('exist')
-            cy.wait(2000)       
-            cy.contains('.vuetable-body td', cEmail) //search within the record row
-                .should('exist')
-                .parent()
-                .within($tr => {
-                    cy.get('.vuetable-td-purchase_type')
-                        .should('contain.text','Recurring')         //recurring
-                    cy.get('.vuetable-slot .multiselect__placeholder')
-                        .click()
-                        .get('.multiselect__input')
-                        .type(assignTrainer + '{enter}')        //assign trainer selected
+            cy.verifySubInUnassignedPlansPage(
+                {
+                    email : cEmail
                 })
-            cy.get('p.toast-text')                              //confirmation message
-                .should('contain.text', 'Successfully assigned trainer to client')
 
-            //record under test is in Assigne Clients page
+            cy.assignTrainer(
+                {
+                    email : cEmail,
+                    trainer : assignTrainer
+                })    
+
             cy.verifyAssignedClientSubs(
                 {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-        // cy.get('circle[fill=none]').click({force:true})
+        
+            //Upload PDF Plan
+            cy.uploadPlan(
+                {
+                    email: cEmail
+                })
         })
     })
 

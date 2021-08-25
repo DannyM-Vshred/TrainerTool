@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
-import { mapLimit } from 'async';
 import 'cypress-iframe';
-import { waitForDebugger } from 'inspector';
 
 describe('OTP Custom Diet and Training Web Purchases', () => {
     beforeEach(() => {
@@ -16,14 +14,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
         return false
     })
 
-    const myCtr = '7';
-    const dateS = '0823';
-    const assignTrainer = 'BetaTrainer OTP'
-    const clName = 'BetaTest'
+    const myCtr = '11';
+    const dateS = '0825';
+    const assignTrainer = 'cyTrainer OTP'
+    const clName = 'cyTest'
 
-
-
-    it.only('can purchase Custom CDP 8-Weeks for Him OTP from web', () => {
+    it('can purchase Custom CDP 8-Weeks for Him OTP from web', () => {
         cy.get('@orderForms').then(json => {
             cy.visit('/' + json[0].url)
             cy.get('.product-details-content p', { timeout: 2000 })
@@ -67,25 +63,17 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
-
-            cy.get('#__BVID__21').type(cEmail + '{enter}');
-            cy.get('.vuetable-td-email').contains(cEmail).should('exist')
-
-            cy.contains('.vuetable-body td', cEmail)
-                .should('exist')
-                .parent()
-                .within($tr => {
-                    cy.get('.vuetable-td-purchase_type')
-                        .should('contain.text', 'Single')         //single
-                    cy.get('.vuetable-slot .multiselect__placeholder')
-                        .click()
-                        .get('.multiselect__input')
-                        .type(assignTrainer + '{enter}')
+            cy.verifyOTPInUnassignedPlansPage(
+                {
+                    email : cEmail
                 })
-            cy.get('p.toast-text').should('contain.text', 'Successfully assigned trainer to client')
+
+            //assign trainer
+            cy.assignTrainer({
+                email : cEmail,
+                trainer :assignTrainer
+            })
+
 
             //check assignment
             cy.verifyAssignedClientOTP(
@@ -98,14 +86,11 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.uploadPlan(
                 {
                 email: cEmail
-                })
-            
-
-
+                })         
         })
     })
 
-    it.only('can purchase Custom CDP 8-Weeks for Her OTP from web', () => {
+    it('can purchase Custom CDP 8-Weeks for Her OTP from web', () => {
         cy.get('@orderForms').then(json => {
             cy.visit('/' + json[1].url)
             cy.get('.product-details-content p', { timeout: 2000 })
@@ -149,24 +134,16 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
-
-            cy.get('#__BVID__21').type(cEmail + '{enter}');
-            cy.get('.vuetable-td-email').contains(cEmail).should('exist')
-            cy.contains('.vuetable-body td', cEmail)
-                .should('exist')
-                .parent()
-                .within($tr => {
-                    cy.get('.vuetable-td-purchase_type')
-                        .should('contain.text', 'Single')         //single
-                    cy.get('.vuetable-slot .multiselect__placeholder')
-                        .click()
-                        .get('.multiselect__input')
-                        .type(assignTrainer + '{enter}')
+            cy.verifyOTPInUnassignedPlansPage(
+                {
+                    email : cEmail
                 })
-            cy.get('p.toast-text').should('contain.text', 'Successfully assigned trainer to client')
+
+            //assign trainer
+            cy.assignTrainer({
+                email : cEmail,
+                trainer :assignTrainer
+            })
 
             //check assignment
             cy.verifyAssignedClientOTP(
@@ -174,11 +151,16 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-            // cy.get('circle[fill=none]').click({ force: true })
+            
+            //Upload PDF Plan
+            cy.uploadPlan(
+                {
+                email: cEmail
+                })    
         })
     })
 
-    it.only('can purchase Extreme Fat Loss for Him OTP from web', () => {
+    it('can purchase Extreme Fat Loss for Him OTP from web', () => {
         cy.get('@orderForms').then(json => {
             cy.visit('/' + json[2].url)
             cy.get('.product-details-content p', { timeout: 2000 })
@@ -215,7 +197,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(20000)
+            cy.wait(2000)
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             //fillout shipping details        
             cy.filloutShippingDetails(
@@ -253,25 +235,16 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
-
-            cy.get('#__BVID__21').type(cEmail + '{enter}');
-            cy.get('.vuetable-td-email').contains(cEmail).should('exist')
-
-            cy.contains('.vuetable-body td', cEmail)
-                .should('exist')
-                .parent()
-                .within($tr => {
-                    cy.get('.vuetable-td-purchase_type')
-                        .should('contain.text', 'Single')         //single
-                    cy.get('.vuetable-slot .multiselect__placeholder')
-                        .click()
-                        .get('.multiselect__input')
-                        .type(assignTrainer + '{enter}')
+            cy.verifyOTPInUnassignedPlansPage(
+                {
+                    email : cEmail
                 })
-            cy.get('p.toast-text').should('contain.text', 'Successfully assigned trainer to client')
+
+            //assign trainer
+            cy.assignTrainer({
+                email : cEmail,
+                trainer :assignTrainer
+            })
 
             //check assignment
             cy.verifyAssignedClientOTP(
@@ -279,15 +252,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-
             
             //Upload PDF Plan
             cy.uploadPlan(
                 {
                 email: cEmail
-                })
-            
-
+                })    
         })
     })
 
@@ -328,7 +298,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(20000)
+            cy.wait(2000)
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
 
             //fillout shipping details 
@@ -351,11 +321,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains(json[3].confirmOrder3).should('exist')
             cy.contains(json[3].confirmOrder4).should('exist')
 
-            // cy.contains('Fat Loss Extreme for Her').should('exist')
-            // cy.contains('Custom Diet Plan').should('exist')
-            // cy.contains('VSU - Monthly - 9.95 (30 Days Free)').should('exist')
-            // cy.contains('Greens').should('exist')
-
             //fillout questionnaire
             cy.get('#questionnaire', { timeout: 5000 }).click()
             cy.contains(cEmail).should('be.visible')
@@ -364,9 +329,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             //complete profile
             cy.get('#profile-gender').select(json[3].gender)
             cy.completeWebProfile()
-
-            //Login to check order is in Trainer Tool
-            cy.get('.btn__text').contains('Login').click()
 
             //Login as Trainer Manager to check order is in Trainer Tool
             cy.get('.btn__text').contains('Login').click()
@@ -377,20 +339,16 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains('Unassigned Plans').click();
             cy.wait(5000);
 
-            cy.get('#__BVID__21').type(cEmail + '{enter}');
-            cy.get('.vuetable-td-email').contains(cEmail).should('exist')
-            cy.contains('.vuetable-body td', cEmail)
-                .should('exist')
-                .parent()
-                .within($tr => {
-                    cy.get('.vuetable-td-purchase_type')
-                        .should('contain.text', 'Single')         //single
-                    cy.get('.vuetable-slot .multiselect__placeholder')
-                        .click()
-                        .get('.multiselect__input')
-                        .type(assignTrainer + '{enter}')
+            cy.verifyOTPInUnassignedPlansPage(
+                {
+                    email : cEmail
                 })
-            cy.get('p.toast-text').should('contain.text', 'Successfully assigned trainer to client')
+
+            //assign trainer
+            cy.assignTrainer({
+                email : cEmail,
+                trainer :assignTrainer
+            })
 
             //check assignment
             cy.verifyAssignedClientOTP(
@@ -398,7 +356,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-            // cy.get('circle[fill=none]').click({ force: true })
+
         })
     })
 
@@ -432,15 +390,15 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             //Submit Order
             cy.get('#submit-order', { timeout: 2000 }).click()
 
-            cy.wait(15000)
+            cy.wait(10000)
             cy.get('.paused-overlay__text', { timeout: 10000 }).click()
 
-            cy.wait(20000)                              //add vsu
+            cy.wait(25000)                              //add vsu
             cy.get('label', { timeout: 10000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(10000)
+            cy.wait(2000)
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             //fillout shipping details        
 
@@ -476,33 +434,21 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('#profile-gender').select(json[4].gender)
             cy.completeWebProfile()
 
-            //Login to check order is in Trainer Tool
-            cy.get('.btn__text').contains('Login').click()
-
             //Login as Trainer Manager to check order is in Trainer Tool
             cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
-
-            cy.get('#__BVID__21').type(cEmail + '{enter}');
-            cy.get('.vuetable-td-email').contains(cEmail).should('exist')
-
-            cy.contains('.vuetable-body td', cEmail)
-                .should('exist')
-                .parent()
-                .within($tr => {
-                    cy.get('.vuetable-td-purchase_type')
-                        .should('contain.text', 'Single')         //single
-                    cy.get('.vuetable-slot .multiselect__placeholder')
-                        .click()
-                        .get('.multiselect__input')
-                        .type(assignTrainer + '{enter}')
+            cy.verifyOTPInUnassignedPlansPage(
+                {
+                    email : cEmail
                 })
-            cy.get('p.toast-text').should('contain.text', 'Successfully assigned trainer to client')
+
+            //assign trainer
+            cy.assignTrainer({
+                email : cEmail,
+                trainer :assignTrainer
+            })
 
             //check assignment
             cy.verifyAssignedClientOTP(
@@ -510,7 +456,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-            // cy.get('circle[fill=none]').click({ force: true })
+            
+            //Upload PDF Plan
+            cy.uploadPlan(
+                {
+                email: cEmail
+                })    
         })
     })
 
@@ -543,15 +494,15 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             //Submit Order
             cy.get('#submit-order', { timeout: 5000 }).click()
 
-            cy.wait(15000)
+            cy.wait(10000)
             cy.get('.paused-overlay__text', { timeout: 8000 }).click()
 
-            cy.wait(15000)                              //add vsu
+            cy.wait(25000)                              //add vsu
             cy.get('label', { timeout: 5000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(10000)
+            cy.wait(2000)
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             //fillout shipping details        
 
@@ -565,7 +516,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             // cy.contains('No thanks,').click()
 
             //Verify Order confirmation page is displayed
-            cy.wait(15000);
+            cy.wait(10000);
             cy.contains('Thank you', { timeout: 8000 })
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.contains(json[5].confirmOrder1).should('exist')
@@ -582,33 +533,21 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('#profile-gender').select(json[5].gender)
             cy.completeWebProfile()
 
-            //Login to check order is in Trainer Tool
-            cy.get('.btn__text').contains('Login').click()
-
             //Login as Trainer Manager to check order is in Trainer Tool
             cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
-
-            cy.get('#__BVID__21').type(cEmail + '{enter}');
-            cy.get('.vuetable-td-email').contains(cEmail).should('exist')
-
-            cy.contains('.vuetable-body td', cEmail)
-                .should('exist')
-                .parent()
-                .within($tr => {
-                    cy.get('.vuetable-td-purchase_type')
-                        .should('contain.text', 'Single')         //single
-                    cy.get('.vuetable-slot .multiselect__placeholder')
-                        .click()
-                        .get('.multiselect__input')
-                        .type(assignTrainer + '{enter}')
+            cy.verifyOTPInUnassignedPlansPage(
+                {
+                    email : cEmail
                 })
-            cy.get('p.toast-text').should('contain.text', 'Successfully assigned trainer to client')
+
+            //assign trainer
+            cy.assignTrainer({
+                email : cEmail,
+                trainer :assignTrainer
+            })
 
             //check assignment
             cy.verifyAssignedClientOTP(
@@ -621,8 +560,8 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.uploadPlan(
                 {
                 email: cEmail
-                })
 
+                })   
         })
     })
 
@@ -658,12 +597,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.wait(10000)
             cy.get('.paused-overlay__text', { timeout: 10000 }).click()
 
-            cy.wait(15000)                              //add vsu
+            cy.wait(25000)                              //add vsu
             cy.get('label', { timeout: 10000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(8000)
+            cy.wait(2000)
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             //fillout shipping details        
 
@@ -685,11 +624,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains(json[6].confirmOrder3).should('exist')
             cy.contains(json[6].confirmOrder4).should('exist')
 
-            // cy.contains('Toned In 90 Days').should('exist')
-            // cy.contains('Custom Diet Plan').should('exist')
-            // cy.contains('VSU - Monthly - 9.95 (30 Days Free)').should('exist')
-            // cy.contains('Greens').should('exist')
-
             //fillout questionnaire
             cy.get('#questionnaire', { timeout: 5000 }).click()
             cy.contains(cEmail).should('be.visible')
@@ -699,33 +633,21 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('#profile-gender').select(json[6].gender)
             cy.completeWebProfile()
 
-            //Login to check order is in Trainer Tool
-            cy.get('.btn__text').contains('Login').click()
-
             //Login as Trainer Manager to check order is in Trainer Tool
             cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
-
-            cy.get('#__BVID__21').type(cEmail + '{enter}');
-            cy.get('.vuetable-td-email').contains(cEmail).should('exist')
-
-            cy.contains('.vuetable-body td', cEmail)
-                .should('exist')
-                .parent()
-                .within($tr => {
-                    cy.get('.vuetable-td-purchase_type')
-                        .should('contain.text', 'Single')         //single
-                    cy.get('.vuetable-slot .multiselect__placeholder')
-                        .click()
-                        .get('.multiselect__input')
-                        .type(assignTrainer + '{enter}')
+            cy.verifyOTPInUnassignedPlansPage(
+                {
+                    email : cEmail
                 })
-            cy.get('p.toast-text').should('contain.text', 'Successfully assigned trainer to client')
+
+            //assign trainer
+            cy.assignTrainer({
+                email : cEmail,
+                trainer :assignTrainer
+            })
 
             //check assignment
             cy.verifyAssignedClientOTP(
@@ -733,7 +655,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-            // cy.get('circle[fill=none]').click({ force: true })
+            
+            //Upload PDF Plan
+            cy.uploadPlan(
+                {
+                email: cEmail
+                })    
         })
     })
 
@@ -769,12 +696,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.wait(10000)
             cy.get('.paused-overlay__text', { timeout: 10000 }).click()
 
-            cy.wait(15000)                              //add vsu
+            cy.wait(25000)                              //add vsu
             cy.get('label', { timeout: 10000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(8000)
+            cy.wait(2000)
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             //fillout shipping details        
 
@@ -796,11 +723,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains(json[7].confirmOrder3).should('exist')
             cy.contains(json[7].confirmOrder4).should('exist')
 
-            // cy.contains('Six-Pack Shred').should('exist')
-            // cy.contains('Custom Diet Plan').should('exist')
-            // cy.contains('VSU - Monthly - 9.95 (30 Days Free)').should('exist')
-            // cy.contains('Greens').should('exist')
-
             //fillout questionnaire
             cy.get('#questionnaire', { timeout: 5000 }).click()
             cy.contains(cEmail).should('be.visible')
@@ -810,33 +732,21 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('#profile-gender').select(json[7].gender)
             cy.completeWebProfile()
 
-            //Login to check order is in Trainer Tool
-            cy.get('.btn__text').contains('Login').click()
-
             //Login as Trainer Manager to check order is in Trainer Tool
             cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
-
-            cy.get('#__BVID__21').type(cEmail + '{enter}');
-            cy.get('.vuetable-td-email').contains(cEmail).should('exist')
-
-            cy.contains('.vuetable-body td', cEmail)
-                .should('exist')
-                .parent()
-                .within($tr => {
-                    cy.get('.vuetable-td-purchase_type')
-                        .should('contain.text', 'Single')         //single
-                    cy.get('.vuetable-slot .multiselect__placeholder')
-                        .click()
-                        .get('.multiselect__input')
-                        .type(assignTrainer + '{enter}')
+            cy.verifyOTPInUnassignedPlansPage(
+                {
+                    email : cEmail
                 })
-            cy.get('p.toast-text').should('contain.text', 'Successfully assigned trainer to client')
+
+            //assign trainer
+            cy.assignTrainer({
+                email : cEmail,
+                trainer :assignTrainer
+            })
 
             //check assignment
             cy.verifyAssignedClientOTP(
@@ -844,13 +754,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-
             
             //Upload PDF Plan
             cy.uploadPlan(
                 {
-                    email: cEmail
-                })
+                email: cEmail
+                })    
 
         })
     })
@@ -887,12 +796,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.wait(10000)
             cy.get('.paused-overlay__text', { timeout: 10000 }).click()
 
-            cy.wait(20000)                              //add vsu
+            cy.wait(25000)                              //add vsu
             cy.get('label', { timeout: 10000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(8000)
+            cy.wait(2000)
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             //fillout shipping details        
 
@@ -923,34 +832,21 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('#profile-gender').select(json[8].gender)
             cy.completeWebProfile()
 
-            //Login to check order is in Trainer Tool
-            cy.get('.btn__text').contains('Login').click()
-
             //Login as Trainer Manager to check order is in Trainer Tool
             cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
-
-            cy.get('#__BVID__21').type(cEmail + '{enter}');
-
-            cy.get('.vuetable-td-email').contains(cEmail).should('exist')
-
-            cy.contains('.vuetable-body td', cEmail)
-                .should('exist')
-                .parent()
-                .within($tr => {
-                    cy.get('.vuetable-td-purchase_type')
-                        .should('contain.text', 'Single')         //single
-                    cy.get('.vuetable-slot .multiselect__placeholder')
-                        .click()
-                        .get('.multiselect__input')
-                        .type(assignTrainer + '{enter}')
+            cy.verifyOTPInUnassignedPlansPage(
+                {
+                    email : cEmail
                 })
-            cy.get('p.toast-text').should('contain.text', 'Successfully assigned trainer to client')
+
+            //assign trainer
+            cy.assignTrainer({
+                email : cEmail,
+                trainer :assignTrainer
+            })
 
             //check assignment
             cy.verifyAssignedClientOTP(
@@ -958,120 +854,10 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                     email: cEmail,
                     trainer: assignTrainer
                 })
-
-          
         })
     })
 
-    it.skip('can UNSELECT CDP SP from order form - Toned', () => {
-        cy.get('@orderForms').then(json => {
-            cy.visit('/' + json[11].url)
-            cy.get('.product-details-content p', { timeout: 2000 })
-                .should('contain.text', json[11].offer)
-
-            const fName = clName + myCtr
-            const lName = json[11].lname + dateS
-            const cEmail = fName + lName + '@example.net'
-
-            cy.typeUserInfo(
-                {
-                    name: fName + " " + lName,
-                    email: cEmail
-                })
-            cy.typePaymentInfo()
-
-            //add CDP initially
-            cy.get('.checkbox-area > label', { timeout: 6000 }).click()
-
-            //Verify Order details
-            cy.get('#order-summary tr:nth-child(1) > td:nth-child(1)')
-                .should('contain.text', json[11].orderItem1)
-            cy.get('#order-summary tr:nth-child(2) > td:nth-child(1)')
-                .should('contain.text', json[11].orderItem2)
-
-            //vs-2871 - unselect a previously selected cdp    
-            cy.wait(4000)
-            cy.get('.checkbox-area > label', { timeout: 6000 }).click() //unselect the checkbox
-            
-            //verify cdp is no longer displayed
-            cy.get('#order-summary tr:nth-child(1) > td:nth-child(1)')
-                .should('contain.text', json[11].orderItem1)
-            cy.get('#order-summary tr:nth-child(2) > td:nth-child(1)')
-                .should('not.be.visible')
-
-
-            //Submit Order
-            cy.get('#submit-order', { timeout: 5000 }).click()
-
-            cy.wait(15000)
-            cy.get('.paused-overlay__text', { timeout: 5000 }).click()
-
-            cy.wait(20000)                              //add vsu
-            cy.get('label', { timeout: 10000 }).click()
-            cy.get('button[type=submit]').should('be.enabled')
-                .click()
-
-            cy.wait(2000)
-            cy.get('.paused-overlay__text', { timeout: 10000 }).click()
-
-            cy.wait(25000)
-
-            cy.get('a[test-id=decline-cdp-button]').contains('No thanks').click()
-
-            cy.contains('No thanks, I’d rather take my chances with sub-optimal fat burning and immune defense support').click()
-
-            //Verify Order confirmation page is displayed
-            cy.wait(10000);
-            cy.contains('Thank you', { timeout: 15000 })
-            cy.get('[test-id="email"]').should('contain.text', cEmail)
-            cy.contains(json[11].confirmOrder1).should('exist')
-            cy.contains(json[11].confirmOrder2).should('not.exist')  //for VS-2871
-            cy.contains(json[11].confirmOrder3).should('exist')
-            cy.contains(json[11].confirmOrder4).should('not.exist')   //Greens
-
-             //verify no Questionnaire button   
-            cy.contains('Questionnaire').should('not.exist')
-            cy.contains('HERE').click()
-            cy.get('div:nth-child(1) > div > div.modal-close.modal-close-cross').click({ multiple: true })
-
-            //complete profile
-            cy.get('#profile-gender').select(json[6].gender)
-            cy.completeWebProfile()
-
-            //Login as Trainer Manager to check order is in Trainer Tool
-            cy.get('.btn__text').contains('Login').click()
-            cy.loginTrainerManager()
-
-            //check record is NOT in Unassigned Plans page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
-
-            cy.get('#__BVID__21').type(cEmail + '{enter}');
-            cy.get('.vuetable-td-email').contains(cEmail).should('not.exist')
-
-            cy.contains('.vuetable-body td', cEmail)
-                .should('not.exist')
-
-            //check record is NOT in Assigned Clients page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Assigned Clients Beta').click();
-            cy.wait(5000);
-
-            cy.get('#__BVID__16').type(cEmail + '{enter}');
-            cy.get('.vuetable-td-email').contains(cEmail).should('not.exist')
-
-            cy.contains('.vuetable-body td', cEmail)
-                .should('not.exist')
-                
-        })
-    })
-
-
-        })
-    })
-
-    it.only('can UNSELECT CDP SP from order form - Toned', () => {
+    it('can UNSELECT CDP SP from order form - Toned', () => {
         cy.get('@orderForms').then(json => {
             cy.visit('/' + json[11].url)
             cy.get('.product-details-content p', { timeout: 2000 })
@@ -1107,7 +893,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('#order-summary tr:nth-child(2) > td:nth-child(1)')
                 .should('not.be.visible')
 
-
             //Submit Order
             cy.get('#submit-order', { timeout: 5000 }).click()
 
@@ -1123,7 +908,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('.paused-overlay__text', { timeout: 10000 }).click()
 
             cy.wait(25000)
-
             cy.get('a[test-id=decline-cdp-button]').contains('No thanks').click()
 
             cy.contains('No thanks, I’d rather take my chances with sub-optimal fat burning and immune defense support').click()
@@ -1149,29 +933,17 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             //Login as Trainer Manager to check order is in Trainer Tool
             cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
-
-            //check record is NOT in Unassigned Plans page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
-
-            cy.get('#__BVID__21').type(cEmail + '{enter}');
-            cy.get('.vuetable-td-email').contains(cEmail).should('not.exist')
-
-            cy.contains('.vuetable-body td', cEmail)
-                .should('not.exist')
-
-            //check record is NOT in Assigned Clients page
-            cy.contains('Trainer Tool').click();
-            cy.contains('Assigned Clients Beta').click();
-            cy.wait(5000);
-
-            cy.get('#__BVID__16').type(cEmail + '{enter}');
-            cy.get('.vuetable-td-email').contains(cEmail).should('not.exist')
-
-            cy.contains('.vuetable-body td', cEmail)
-                .should('not.exist')
-                
+            
+            //verify record is not in Unassigned Plans page
+            cy.verifyRecordNotInUnassignedPlansPage(
+                {
+                    email : cEmail
+                })
+            //verify record is not in Assigned Clients page
+            cy.verifyRecordNotInAssignedClientPage(
+                {
+                    email : cEmail
+                })                
         })
     })
 
