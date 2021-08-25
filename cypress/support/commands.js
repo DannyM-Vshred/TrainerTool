@@ -539,6 +539,118 @@ Cypress.Commands.add('verifyAssignedClientSubs',(record)=>{
         })
 })
 
+Cypress.Commands.add('verifyRecordNotInAssignedClientPage',(record)=>{
+    cy.contains('Trainer Tool').click();
+    cy.contains('Assigned Clients Beta').click();       //assigned clients beta page
+    cy.wait(2000);
+
+    cy.get('#__BVID__17').select('All')       //filter as subscription
+    cy.wait(2000)
+    cy.get('#__BVID__19').select('All')
+    cy.wait(2000)
+    cy.get('#__BVID__16')
+        .clear()
+        .type(record.email + '{enter}');
+    cy.wait(5000)
+
+    cy.contains('.vuetable-body td', record.email)
+        .should('not.exist')
+})
+
+Cypress.Commands.add('verifyRecordNotInUnassignedPlansPage',(record)=>{
+    cy.contains('Trainer Tool').click();
+    cy.contains('Unassigned Plans').click();       //assigned clients beta page
+    cy.wait(2000);
+
+    cy.get('#__BVID__24').select('All')       //filter as subscription
+    cy.wait(1000)
+    cy.get('#__BVID__25').select('All')
+    cy.wait(1000)
+    cy.get('#__BVID__20').clear('{enter}')
+    cy.wait(1000)
+    cy.get('#__BVID__23').clear('{enter}')
+    cy.wait(1000)
+    cy.get('#__BVID__21')
+        .clear()
+        .type(record.email + '{enter}');
+    cy.wait(5000)
+
+    cy.contains('.vuetable-body td', record.email)
+        .should('not.exist')
+})
+
+Cypress.Commands.add('verifyOTPInUnassignedPlansPage',(record)=>{
+    cy.contains('Trainer Tool').click();
+    cy.contains('Unassigned Plans').click();       //assigned clients beta page
+    cy.wait(2000);
+
+    cy.get('#__BVID__24').select('All')       //filter as subscription
+    cy.wait(1000)
+    cy.get('#__BVID__25').select('All')
+    cy.wait(1000)
+    cy.get('#__BVID__20').clear('{enter}')
+    cy.wait(1000)
+    cy.get('#__BVID__23').clear('{enter}')
+    cy.wait(1000)
+    cy.get('#__BVID__21')
+        .clear()
+        .type(record.email + '{enter}');
+    cy.wait(5000)
+
+    cy.contains('.vuetable-body td', record.email)
+        .should('exist')
+        .parent()
+        .within($tr => {
+            cy.get('td.vuetable-td-purchase_type')
+                .should('have.text', 'Single')
+            cy.get('td.vuetable-td-status')
+                .should('have.text', 'Active')
+    })
+})
+
+Cypress.Commands.add('verifySubInUnassignedPlansPage',(record)=>{
+    cy.contains('Trainer Tool').click();
+    cy.contains('Unassigned Plans').click();       //assigned Unassigned Plans
+    cy.wait(2000);
+
+    cy.get('#__BVID__24').select('All')       
+    cy.wait(1000)
+    cy.get('#__BVID__25').select('All')
+    cy.wait(1000)
+    cy.get('#__BVID__20').clear('{enter}')
+    cy.wait(1000)
+    cy.get('#__BVID__23').clear('{enter}')
+    cy.wait(1000)
+    cy.get('#__BVID__21')
+        .clear()
+        .type(record.email + '{enter}');
+    cy.wait(5000)
+
+    cy.contains('.vuetable-body td', record.email)
+        .should('exist')
+        .parent()
+        .within($tr => {
+            cy.get('td.vuetable-td-purchase_type')
+                .should('have.text', 'Recurring')
+            cy.get('td.vuetable-td-status')
+                .should('have.text', 'Active')
+    })
+})
+
+Cypress.Commands.add('assignTrainer',(record)=> {
+    cy.contains('.vuetable-body td', record.email)
+    .should('exist')
+    .parent()
+    .within($tr => {
+        cy.get('.vuetable-slot .multiselect__placeholder')
+            .click()
+            .get('.multiselect__input')
+            .type(record.trainer + '{enter}')
+    })
+    cy.get('p.toast-text').should('contain.text', 'Successfully assigned trainer to client')
+
+})
+
 Cypress.Commands.add('uploadPlan', (record) => {
     const filepath = 'uploadFile/sample-pdf-file.pdf'
     cy.contains('Trainer Tool').click();
@@ -547,7 +659,7 @@ Cypress.Commands.add('uploadPlan', (record) => {
 
     cy.get('#__BVID__17').select('All')      //filter as Order
     cy.wait(2000)
-    cy.get('#__BVID__19').select('Not Sent')        //filte Not Sent
+    cy.get('#__BVID__19').select('All')        //filte Not Sent
     cy.wait(2000)
     cy.get('#__BVID__16')
         .clear()

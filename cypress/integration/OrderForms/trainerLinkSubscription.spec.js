@@ -23,8 +23,13 @@ describe('Trainer Link Purchaes', () => {
     const trainerName = 'cyTrainerLink'
     const trainerId = '113969'
     const trainerLink = "https://staging-tt.vshred.com/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + trainerName + "&utm_term=" + trainerId
-    const myCtr = '35';
-    const dateS = '0824';
+    
+    const nonTrainer = 'cyTestNonTrainer'
+    const nonTrainerID = '114119'
+    const nonTrainerLink = "https://staging-tt.vshred.com/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + nonTrainer + "&utm_term=" + nonTrainerID
+    
+    const myCtr = '45';
+    const dateS = '0820';
     const assignTrainer = 'cyTrainer TrainerLink'
     const clName = 'cyTest'
 
@@ -88,7 +93,13 @@ describe('Trainer Link Purchaes', () => {
             cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
-            //record under test is in Assigned Clients page
+            //verify record is not in Unassigned Plans page
+            cy.verifyRecordNotInUnassignedPlansPage(
+                {
+                email: cEmail
+                })
+
+            //record under test is automatically assigned to a Trainer and in Assigned Clients page
             cy.verifyAssignedClientSubs(
                 {
                     email: cEmail,
@@ -162,7 +173,13 @@ describe('Trainer Link Purchaes', () => {
             cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
-            //record under test is in Assigne Clients page
+            //verify record is not in Unassigned Plans page
+            cy.verifyRecordNotInUnassignedPlansPage(
+                {
+                email: cEmail
+                })
+
+            //record under test is automatically assigned to a Trainer and in Assigned Clients page
             cy.verifyAssignedClientSubs(
                 {
                     email: cEmail,
@@ -229,14 +246,20 @@ describe('Trainer Link Purchaes', () => {
             cy.filloutGoldQuestionnaire();
 
             //complete profile
-            cy.get('#profile-gender').select(json[1].gender)
+            cy.get('#profile-gender').select(json[2].gender)
             cy.completeWebProfile()
 
             //Login as Trainer Manager to check order is in Trainer Tool
             cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
-            //record under test is in Assigne Clients page
+            //verify record is not in Unassigned Plans page
+            cy.verifyRecordNotInUnassignedPlansPage(
+                {
+                    email: cEmail
+                })
+            
+            //record under test is automatically assigned to a Trainer and in Assigned Clients page
             cy.verifyAssignedClientSubs(
                 {
                     email: cEmail,
@@ -310,7 +333,13 @@ describe('Trainer Link Purchaes', () => {
             cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
-            //record under test is in Assigne Clients page
+            //verify record is not in Unassigned Plans page
+            cy.verifyRecordNotInUnassignedPlansPage(
+                {
+                email: cEmail
+                })
+
+            //record under test is automatically assigned to a Trainer and in Assigned Clients page
             cy.verifyAssignedClientSubs(
                 {
                     email: cEmail,
@@ -322,6 +351,84 @@ describe('Trainer Link Purchaes', () => {
                 {
                     email: cEmail
                 })
+        })
+    })
+
+    it('can purchase Silver Monthly CDP through Trainer Link - non TrainerUser', () => {
+        cy.visit(nonTrainerLink)
+        cy.url().should('include', 'utm_content=' + nonTrainer + '&utm_term=' + nonTrainerID)
+
+        cy.get('.column-title').contains('DIET ONLY PLANS')
+            .should('be.visible')
+            .parent()
+            .within(($plans)=>{
+                cy.wrap($plans).get('.col-md-6 .product-class.silver').then(($title)=>{
+                    cy.wrap($title)
+                        .parent()
+                        .within(($str) => {
+                        cy.wrap($str).contains('MONTHLY CUSTOM DIET PLAN').should('be.visible')
+                        cy.wrap($str).get('a').contains('Subscribe Now!').click()
+                        })
+            })
+        })
+
+        //order Form page
+        cy.url().should('include', '/custom-diet-plan-monthly-reup')
+        cy.get('@trainerLink').then(json => {
+            cy.get('.product-details-content p', { timeout: 2000 })
+                .should('contain.text', json[4].offer)
+
+            const fName = clName + myCtr
+            const lName = json[4].lname + dateS
+            const cEmail = fName + lName + '@example.com'
+
+            cy.typeUserInfo(
+                {
+                    name: fName + " " + lName,
+                    email: cEmail
+                })
+            cy.typePaymentInfo()
+
+            //Verify Order details
+            cy.get('.ifNotTAKEN.checkout-confirmation > :nth-child(1) > :nth-child(1)')
+                .should('contain.text', json[4].purchaseNote)
+            cy.get('#order-summary').contains(json[1].orderItem1).should('exist')
+
+            //Submit Order
+            cy.get('#submit-order', { timeout: 2000 }).click()
+
+            //Verify Order confirmation page is displayed
+            cy.wait(10000);
+            cy.contains('Thank you', { timeout: 8000 })
+            cy.get('[test-id="email"]').should('contain.text', cEmail)
+            cy.get('.h5').should('contain.text', json[1].confirmOrder1);
+
+            //fillout questionnaire
+            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.contains(cEmail).should('be.visible')
+            cy.filloutQuestionnaire();
+
+            //complete profile
+            cy.get('#profile-gender').select(json[4].gender)
+            cy.completeWebProfile()
+
+            //Login as Trainer Manager to check order is in Trainer Tool
+            cy.get('.btn__text').contains('Login').click()
+            cy.loginTrainerManager()
+
+            //record under test is NOT automatically assigned to a Trainer and in Assigned Clients page
+            cy.verifyRecordNotInAssignedClientPage(
+                {
+                    email: cEmail,
+                    trainer: assignTrainer
+                })
+            
+            //purchase through trainer link with invalid Trainer name/ID are sent to Unassigned Plans
+            cy.verifySubInUnassignedPlansPage(
+                {
+                    email: cEmail
+                })
+
         })
     })
 
