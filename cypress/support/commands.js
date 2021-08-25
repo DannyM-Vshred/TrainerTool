@@ -255,6 +255,7 @@ Cypress.Commands.add('filloutQuestionnaire', () => {
     //list of injuries
     cy.get('input[name=injuries_list]').clear().type('Secret')
 
+
     //health condition
     cy.get('textarea[name=health_conditions]').clear().type('Eat, Work, Sleep, Play and repeat')
 
@@ -696,3 +697,4 @@ Cypress.Commands.add('uploadPlan', (record) => {
     cy.contains('.vuetable-body td', record.email)
         .should('not.exist')
 })
+

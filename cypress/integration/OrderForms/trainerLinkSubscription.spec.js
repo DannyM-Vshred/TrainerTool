@@ -30,6 +30,7 @@ describe('Trainer Link Purchaes', () => {
     
     const myCtr = '45';
     const dateS = '0820';
+
     const assignTrainer = 'cyTrainer TrainerLink'
     const clName = 'cyTest'
 
@@ -100,6 +101,7 @@ describe('Trainer Link Purchaes', () => {
                 })
 
             //record under test is automatically assigned to a Trainer and in Assigned Clients page
+
             cy.verifyAssignedClientSubs(
                 {
                     email: cEmail,
@@ -180,6 +182,7 @@ describe('Trainer Link Purchaes', () => {
                 })
 
             //record under test is automatically assigned to a Trainer and in Assigned Clients page
+
             cy.verifyAssignedClientSubs(
                 {
                     email: cEmail,
@@ -246,7 +249,9 @@ describe('Trainer Link Purchaes', () => {
             cy.filloutGoldQuestionnaire();
 
             //complete profile
+
             cy.get('#profile-gender').select(json[2].gender)
+
             cy.completeWebProfile()
 
             //Login as Trainer Manager to check order is in Trainer Tool
@@ -431,5 +436,4 @@ describe('Trainer Link Purchaes', () => {
 
         })
     })
-
 })
