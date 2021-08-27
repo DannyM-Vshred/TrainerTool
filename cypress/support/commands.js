@@ -58,25 +58,65 @@ Cypress.Commands.add('typePaymentInfo', () => {
                 .type('4242424242424242')
         });
     // expiration date
-    cy.get('#braintree-hosted-field-expirationDate').then(function ($iframe) {
-        var iExpDate = $iframe.contents().find('#expiration')
-        cy.wrap(iExpDate)
-            .type('1225')
+    cy.get('#braintree-hosted-field-expirationDate')
+        .then(function ($iframe) {
+            var iExpDate = $iframe.contents().find('#expiration')
+            cy.wrap(iExpDate)
+                .type('1225')
     })
     // CVV
-    cy.get('#braintree-hosted-field-cvv').then(function ($iframe) {
-        var iCvv = $iframe.contents().find('#cvv')
-        cy.wrap(iCvv)
-            .type('644')
+    cy.get('#braintree-hosted-field-cvv')
+        .then(function ($iframe) {
+            var iCvv = $iframe.contents().find('#cvv')
+            cy.wrap(iCvv)
+                .type('644')
     })
     // Postal Code
-    cy.get('#braintree-hosted-field-postalCode').then(function ($iframe) {
-        var iPostalCode = $iframe.contents().find('#postal-code')
-        cy.wrap(iPostalCode)
-            .type('90210')
+    cy.get('#braintree-hosted-field-postalCode')
+        .then(function ($iframe) {
+            var iPostalCode = $iframe.contents().find('#postal-code')
+            cy.wrap(iPostalCode)
+                .type('90210')
     })
     cy.get('.expand-area-2 > .expand-inputs > .next-step').click()
     cy.wait(5000)
+})
+
+Cypress.Commands.add('enterPaymentInfoAdmin', () => {
+    // Enter Payment Information in Admin Dashboard
+    cy.get('#braintree-hosted-field-number')
+            .then(($iframe) => {
+                const $body = $iframe.contents().find('body')
+                cy.wrap($body)
+                    .find('#credit-card-number')
+                    .type('4242424242424242')
+            })
+        //expiration date
+        cy.get('#braintree-hosted-field-expirationDate')
+            .then(function ($iframe) {
+                var iExpDate = $iframe.contents().find('#expiration')
+                cy.wrap(iExpDate)
+                    .type('1225')
+        })
+        // CVV
+        cy.get('#braintree-hosted-field-cvv')
+            .then(function ($iframe) {
+                var iCvv = $iframe.contents().find('#cvv')
+                cy.wrap(iCvv)
+                    .type('644')
+        })
+        // Postal Code
+        cy.get('#braintree-hosted-field-postalCode')
+            .then(function ($iframe) {
+                var iPostalCode = $iframe.contents().find('#postal-code')
+                cy.wrap(iPostalCode)
+                    .type('90210')
+        })
+        cy.get('#submitTransaction').click()
+
+        cy.wait(1500)
+        cy.get('.toast-success .toast-message').should('contain.text', 'Payment successful')
+
 })
 
 Cypress.Commands.add('completeWebProfile',()=>{
@@ -695,4 +735,41 @@ Cypress.Commands.add('uploadPlan', (record) => {
     cy.wait(2000)
     cy.contains('.vuetable-body td', record.email)
         .should('not.exist')
+})
+
+Cypress.Commands.add('createNewMemberUser', (record) => {
+    cy.get('button[title="Create user"]').click()
+    cy.get('#createFormModal___BV_modal_header_')
+        .should('contain.text', 'Create User')
+    cy.get('#user-name').clear().type(record.name)
+    cy.get('#user-email').clear().type(record.email)
+    cy.get('#user-password').clear().type('Vshred99')
+    cy.get('#user-confirm').clear().type('Vshred99')
+    cy.get('#user-status').select('Member')
+    cy.get('button').contains('Save').click()
+    cy.get('.ibox-content > h2').should('contain.text',record.name)
+})
+
+Cypress.Commands.add('addNewShipBillAddress',(record) =>{
+    // add new Shipping address
+    cy.get('button').contains('Add Shipping Address').click()
+    cy.get('button').contains('New Address').click()
+    cy.get('#input_name').clear().type(record.shipname)
+    cy.get('#input_phone').clear().type(7158545222)
+    cy.get('#input_address_line_1').clear().type('1001 Driveway Street')
+    cy.get('#input_address_line_2').clear().type('Pure Lane Avenue')
+    cy.get('#input_city').clear().type('New BornCity')
+    cy.get('#input_state').clear().type('New CityState')
+    cy.get('#input_zip').clear().type('78541')
+    cy.get('footer[id=addAddressModal___BV_modal_footer_] .btn.btn-primary').contains('OK').click()
+    cy.get('[aria-colindex="11"] > .btn').click()
+
+    cy.get('tbody[role=rowgroup]').within(($tr)=>{
+        cy.get('button').contains('Use Address').click()
+    })
+    cy.wait(2000)
+
+    // use shipping address as billing address
+    cy.get('button').contains('Add Billing Address').click()
+    cy.get('button').contains('Use Address').click()
 })
