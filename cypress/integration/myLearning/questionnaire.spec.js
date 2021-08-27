@@ -22,16 +22,17 @@ describe('Impersonate Client', () =>{
     
             // Search Test Users
             
-            const userEmail = 'cytestnotCDP05otpToned90Days0812@example.net	';
+            const userEmail = 'cytest05otpFatLosHim0808@example.net';
 
 
             cy.contains('Users').click();
-            cy.get('#__BVID__16').type(userEmail+'{enter}');
-            cy.get('.vuetable-td-email').contains(userEmail).click();
-            
-                      
-            cy.get('[item-index="0"] > .vuetable-td-id');               //userid
-            cy.get('.vuetable-slot > .no-wrap :nth-child(2)').click();   //impersonate button
+            cy.get('#__BVID__16').clear().type(userEmail +'{enter}')
+            cy.contains('.vuetable-body td', userEmail)
+                .should('exist')
+                .parent()
+                .within($tr => {
+                    cy.get('button[title=Impersonate]').click()
+                })
 
             //already in impersonate page
             cy.contains('Edit Profile').click();
@@ -40,11 +41,9 @@ describe('Impersonate Client', () =>{
             
             //verify corrent client questionnaire is displayed
             cy.get('.cdp-form',{timeout:2000});
-            cy.get('input[name=email]').should('contain.text', userEmail)
-            // cy.get(':nth-child(27) > div > div > input').should('contain.value', userEmail);
+            cy.get('input[name=email]').should('contain.value', userEmail)
             cy.filloutQuestionnaire();
-
-            // //questionnaire details
+            //cy.filloutGoldQuestionnaire();
         
             })    
          })
