@@ -18,7 +18,8 @@ describe('Custom Diet and Training Subscriptions', () => {
     const assignTrainer = 'cyTrainer Subs'
     const clName = 'cyTest'
 
-    it('can purchase Custom Diet Plan Monthly Subscription', () => {
+
+    it.only('can purchase Custom Diet Plan Monthly Subscription', () => {
         cy.get('@orderForms').then(json => {
             cy.visit('/'+json[9].url)
             // cy.visit(json[9].url)

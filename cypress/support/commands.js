@@ -295,6 +295,7 @@ Cypress.Commands.add('filloutQuestionnaire', () => {
     //list of injuries
     cy.get('input[name=injuries_list]').clear().type('Secret')
 
+
     //health condition
     cy.get('textarea[name=health_conditions]').clear().type('Eat, Work, Sleep, Play and repeat')
 

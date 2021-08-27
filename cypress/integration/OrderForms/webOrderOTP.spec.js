@@ -74,6 +74,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 trainer :assignTrainer
             })
 
+
             //check assignment
             cy.verifyAssignedClientOTP(
                 {
@@ -559,8 +560,8 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.uploadPlan(
                 {
                 email: cEmail
-                })    
 
+                })   
         })
     })
 
@@ -759,6 +760,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 {
                 email: cEmail
                 })    
+
         })
     })
 
