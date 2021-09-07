@@ -394,11 +394,11 @@ Cypress.Commands.add('filloutGoldQuestionnaire', () => {
     cy.get('input[name=terms_conditions]').next().click()
 
     //Diet Preference
-    cy.get(':nth-child(21) > div > div > div:nth-child(2) .checkmark').click() //Keto
-    cy.get(':nth-child(21) > div > div > div:nth-child(3) .checkmark').click() //Carb Cycling
-    cy.get(':nth-child(21) > div > div > div:nth-child(4) .checkmark').click() //Balance Diet
-    cy.get(':nth-child(21) > div > div > div:nth-child(5) .checkmark').click() //Intermittend Fasting
-    cy.get(':nth-child(21) > div > div > div:nth-child(6) .checkmark').click() //Trainer Recommended
+    // cy.get('input[name=diet_style_preferences][value="Keto"]').next().click()
+    // cy.get('input[name=diet_style_preferences][value="Carb Cycling"]').next().click()
+    // cy.get('input[name=diet_style_preferences][value="Balanced Diet"]').next().click()
+    cy.get('input[name=diet_style_preferences][value="Intermittent Fasting"]').next().click()
+    // cy.get('input[name=diet_style_preferences][value="Trainer Recommendation"]').next().click()
 
     //Recipe
     // cy.get('input[name=simple_or_complex_recipe][value=simple]').next().click()
@@ -463,6 +463,7 @@ Cypress.Commands.add('filloutGoldQuestionnaire', () => {
     cy.get('textarea[name=favorite_foods]').clear().type('Burgers, Fries, Salmon, Pasta, Huge Steak')
 
     //has food allergies
+    // cy.get('#has_food_allergies\\[\\] input[value=yes]').click({waitForAnimations:false})
     cy.get('#has_food_allergies\\[\\]-checkbox-field > div:nth-child(2) .checkmark').click({waitForAnimations:false})   //no
     // cy.get('#has_food_allergies\\[\\]-checkbox-field > div:nth-child(2) .checkmark').click({waitForAnimations:false})   //yes
     // cy.get('#has_food_allergies\\[\\]-checkbox-field > div:nth-child(2) > label > span.checkmark')
