@@ -1,0 +1,34 @@
+[
+    {
+        "name" : "betaTrainer OTP",
+        "email" : "betaTrainerOTP@example.net",
+        "password": "1234567",
+        "confirmPass" : "1234567",
+        "role":"Trainer",
+        "gender": "male"
+    },
+    {
+        "name" : "betaTrainer Subs",
+        "email" : "betaTrainerSubs@example.net",
+        "password": "1234567",
+        "confirmPass" : "1234567",
+        "role":"Trainer",
+        "gender": "female"
+    },
+    {
+        "name" : "betaTrainer Bundle",
+        "email" : "betaTrainerBundle@example.net",
+        "password": "1234567",
+        "confirmPass" : "1234567",
+        "role":"Trainer",
+        "gender": "female"
+    },
+    {
+        "name" : "betaTrainer TrainerLink",
+        "email" : "betaTrainerTrainerLink@example.net",
+        "password": "1234567",
+        "confirmPass" : "1234567",
+        "role":"Trainer",
+        "gender": "female"
+    }
+]
