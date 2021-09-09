@@ -1,0 +1,34 @@
+[
+    {
+        "name" : "cyTrainer OTP",
+        "email" : "cyOTP@example.net",
+        "password": "1234567",
+        "confirmPass" : "1234567",
+        "role":"Trainer",
+        "gender": "male"
+    },
+    {
+        "name" : "cyTrainer Subs",
+        "email" : "cySubs@example.net",
+        "password": "1234567",
+        "confirmPass" : "1234567",
+        "role":"Trainer",
+        "gender": "male"
+    },
+    {
+        "name" : "cyTrainer Bundle",
+        "email" : "cyTrainerBundle@example.net",
+        "password": "1234567",
+        "confirmPass" : "1234567",
+        "role":"Trainer",
+        "gender": "female"
+    },
+    {
+        "name" : "cyTrainer TrainerLink",
+        "email" : "cyTrainerTrainerLink@example.net",
+        "password": "1234567",
+        "confirmPass" : "1234567",
+        "role":"Trainer",
+        "gender": "male"
+    }
+]

@@ -42,6 +42,12 @@ Cypress.Commands.add('typeUserInfo', (user) => {
     cy.contains('Next Step').click();
 })
 
+Cypress.Commands.add('typeUserInfoSupp', (user) => {
+    cy.get('#name', { timeout: 2000 }).clear().type(user.name)
+    cy.get('#email').clear().type(user.email)
+    cy.contains('Next Step').click();
+})
+
 Cypress.Commands.add('typeGoldUserInfo', (user) => {
     cy.get('#name', { timeout: 2000 }).clear().type(user.name)
     cy.get('#email').clear().type(user.email)
@@ -82,6 +88,40 @@ Cypress.Commands.add('typePaymentInfo', () => {
     cy.wait(5000)
 })
 
+Cypress.Commands.add('typePaymentInfoSupplement', () => {
+    // Enter Payment Information
+    cy.get('#braintree-hosted-field-number')
+        .then(($iframe) => {
+            const $body = $iframe.contents().find('body')
+            cy.wrap($body)
+                .find('#credit-card-number')
+                .type('4242424242424242')
+        });
+    // expiration date
+    cy.get('#braintree-hosted-field-expirationDate')
+        .then(function ($iframe) {
+            var iExpDate = $iframe.contents().find('#expiration')
+            cy.wrap(iExpDate)
+                .type('1225')
+    })
+    // CVV
+    cy.get('#braintree-hosted-field-cvv')
+        .then(function ($iframe) {
+            var iCvv = $iframe.contents().find('#cvv')
+            cy.wrap(iCvv)
+                .type('644')
+    })
+    // Postal Code
+    cy.get('#braintree-hosted-field-postalCode')
+        .then(function ($iframe) {
+            var iPostalCode = $iframe.contents().find('#postal-code')
+            cy.wrap(iPostalCode)
+                .type('90210')
+    })
+    cy.get('span[test-id=next-step-button-two]').contains('Next Step').click()
+    cy.wait(3000)
+})
+
 Cypress.Commands.add('enterPaymentInfoAdmin', () => {
     // Enter Payment Information in Admin Dashboard
     cy.get('#braintree-hosted-field-number')
@@ -120,7 +160,6 @@ Cypress.Commands.add('enterPaymentInfoAdmin', () => {
 })
 
 Cypress.Commands.add('completeWebProfile',()=>{
-    
     cy.get('#account-profile > form > div').then(($body) => {
         if ($body.text().includes('Height')) {
           //found it
@@ -142,7 +181,15 @@ Cypress.Commands.add('completeWebProfile',()=>{
             } else {
           // nope not here
           cy.contains('Save Profile').click()
-          cy.contains('Logout', { timeout: 4000 }).click()
+          cy.url().then(($url)=>{
+            if($url.includes('/member/profile')){
+              cy.contains('Logout', { timeout: 4000 }).click()
+                    } else{
+                        cy.contains('Edit Profile').click()
+                        cy.contains('Logout', { timeout: 4000 }).click()
+                    }
+                })
+        //   cy.contains('Logout', { timeout: 4000 }).click()
         }
     })
 })
@@ -394,11 +441,11 @@ Cypress.Commands.add('filloutGoldQuestionnaire', () => {
     cy.get('input[name=terms_conditions]').next().click()
 
     //Diet Preference
-    cy.get(':nth-child(21) > div > div > div:nth-child(2) .checkmark').click() //Keto
-    cy.get(':nth-child(21) > div > div > div:nth-child(3) .checkmark').click() //Carb Cycling
-    cy.get(':nth-child(21) > div > div > div:nth-child(4) .checkmark').click() //Balance Diet
-    cy.get(':nth-child(21) > div > div > div:nth-child(5) .checkmark').click() //Intermittend Fasting
-    cy.get(':nth-child(21) > div > div > div:nth-child(6) .checkmark').click() //Trainer Recommended
+    // cy.get('input[name=diet_style_preferences][value="Keto"]').next().click()
+    // cy.get('input[name=diet_style_preferences][value="Carb Cycling"]').next().click()
+    // cy.get('input[name=diet_style_preferences][value="Balanced Diet"]').next().click()
+    cy.get('input[name=diet_style_preferences][value="Intermittent Fasting"]').next().click()
+    // cy.get('input[name=diet_style_preferences][value="Trainer Recommendation"]').next().click()
 
     //Recipe
     // cy.get('input[name=simple_or_complex_recipe][value=simple]').next().click()
@@ -463,6 +510,7 @@ Cypress.Commands.add('filloutGoldQuestionnaire', () => {
     cy.get('textarea[name=favorite_foods]').clear().type('Burgers, Fries, Salmon, Pasta, Huge Steak')
 
     //has food allergies
+    // cy.get('#has_food_allergies\\[\\] input[value=yes]').click({waitForAnimations:false})
     cy.get('#has_food_allergies\\[\\]-checkbox-field > div:nth-child(2) .checkmark').click({waitForAnimations:false})   //no
     // cy.get('#has_food_allergies\\[\\]-checkbox-field > div:nth-child(2) .checkmark').click({waitForAnimations:false})   //yes
     // cy.get('#has_food_allergies\\[\\]-checkbox-field > div:nth-child(2) > label > span.checkmark')
@@ -503,13 +551,25 @@ Cypress.Commands.add('filloutGoldQuestionnaire', () => {
 
 Cypress.Commands.add('filloutShippingDetails',(user)=>{
     cy.get('#shipping_name').type(user.name)
-    cy.get('#shipping_street1').type('51251 New Address')
-    cy.get('#shipping_city').type('new city')
-    cy.get('#shipping_state_us').select(user.state)
-    cy.get('#shipping_postal_code').type('42012')
+    cy.get('#shipping_street1').type('Test 4639 Rockford Road')
+    cy.get('#shipping_city').type('Reno')
+    cy.get('#shipping_state_us').select('Nevada')
+    cy.get('#shipping_postal_code').type('89501')
     cy.get('#shipping_country').select('United States')
     cy.get('#shipping_phone').type(user.phone)
     cy.contains('Save address').click()
+    cy.wait(2000)
+})
+
+Cypress.Commands.add('filloutSupplementShippinginfo',(user)=>{
+    cy.get('#shipping_name').type(user.name)
+    cy.get('#shipping_street1').type('Test 478 Eagle Lake Rd')
+    cy.get('#shipping_city').type('Susanville')
+    cy.get('#shipping_state_us').select("California")
+    cy.get('#shipping_postal_code').type('96130')
+    cy.get('#shipping_country').select('United States')
+    cy.get('#shipping_phone').type("530-257-0914")
+    cy.get('.next-step.button-two').contains('Next Step').click()
 })
 
 Cypress.Commands.add('verifyAssignedClient',(record)=>{
@@ -773,4 +833,11 @@ Cypress.Commands.add('addNewShipBillAddress',(record) =>{
     // use shipping address as billing address
     cy.get('button').contains('Add Billing Address').click()
     cy.get('button').contains('Use Address').click()
+})
+
+Cypress.Commands.add('skipPromoVideos',()=>{
+    cy.window().then((win) => {
+        win.eval("javascript:(function(){document.querySelectorAll('.page-contents-lazy').forEach(el => el.style.display = 'block');document.querySelectorAll('.after-banner').forEach(el => el.style.display = 'block');})();")
+       });
+    cy.wait(2000)
 })

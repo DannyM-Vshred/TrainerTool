@@ -14,10 +14,10 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
         return false
     })
 
-    const myCtr = '11';
-    const dateS = '0825';
-    const assignTrainer = 'cyTrainer OTP'
-    const clName = 'cyTest'
+    const myCtr = '65';
+    const dateS = '0909';
+    const assignTrainer = 'betaTrainer OTP'
+    const clName = 'betaTest'
 
     it('can purchase Custom CDP 8-Weeks for Him OTP from web', () => {
         cy.get('@orderForms').then(json => {
@@ -188,11 +188,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //Submit Order
             cy.get('#submit-order', { timeout: 2000 }).click()
-
             cy.wait(10000)
-            cy.get('.paused-overlay__text', { timeout: 10000 }).click()
 
-            cy.wait(20000)                              //add vsu
+            //skip video
+            cy.skipPromoVideos()
+
+            cy.wait(2000)                              //add vsu
             cy.get('label', { timeout: 10000 }).click({ force: true })
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
@@ -203,7 +204,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
-                    state: 'Hawaii',
                     phone: '8153211010'
                 })
 
@@ -289,11 +289,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //Submit Order
             cy.get('#submit-order', { timeout: 2000 }).click()
-
             cy.wait(10000)
-            cy.get('.paused-overlay__text', { timeout: 10000 }).click()
 
-            cy.wait(20000)                              //add vsu
+            // skip video
+            cy.skipPromoVideos()
+
+            cy.wait(2000)                              //add vsu
             cy.get('label', { timeout: 10000 }).click({ force: true })
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
@@ -305,8 +306,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
-                    state: 'Colorado',
-                    phone: '5126523256'
+                    phone: '775-233-3661'
                 })
 
 
@@ -389,23 +389,22 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //Submit Order
             cy.get('#submit-order', { timeout: 2000 }).click()
-
             cy.wait(10000)
-            cy.get('.paused-overlay__text', { timeout: 10000 }).click()
 
-            cy.wait(25000)                              //add vsu
+            //skip video
+            cy.skipPromoVideos()
+            cy.wait(2000)                              //add vsu
             cy.get('label', { timeout: 10000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(2000)
+            cy.wait(3000)
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             //fillout shipping details        
 
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
-                    state: 'Florida',
                     phone: '7052151250'
                 })
 
@@ -419,11 +418,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains(json[4].confirmOrder2).should('exist')
             cy.contains(json[4].confirmOrder3).should('exist')
             cy.contains(json[4].confirmOrder4).should('exist')
-
-            // cy.contains('Ripped In 90 Days').should('exist')
-            // cy.contains('Custom Diet Plan').should('exist')
-            // cy.contains('VSU - Monthly - 9.95 (30 Days Free)').should('exist')
-            // cy.contains('Greens').should('exist')
 
             //fillout questionnaire
             cy.get('#questionnaire', { timeout: 5000 }).click()
@@ -493,11 +487,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //Submit Order
             cy.get('#submit-order', { timeout: 5000 }).click()
-
             cy.wait(10000)
-            cy.get('.paused-overlay__text', { timeout: 8000 }).click()
 
-            cy.wait(25000)                              //add vsu
+            //skip order
+            cy.skipPromoVideos()
+
+            cy.wait(2000)                              //add vsu
             cy.get('label', { timeout: 5000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
@@ -509,7 +504,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
-                    state: 'Vermont',
                     phone: '9562121000'
                 })
 
@@ -593,11 +587,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //Submit Order
             cy.get('#submit-order', { timeout: 5000 }).click()
-
             cy.wait(10000)
-            cy.get('.paused-overlay__text', { timeout: 10000 }).click()
 
-            cy.wait(25000)                              //add vsu
+            // cy.get('.paused-overlay__text', { timeout: 10000 }).click()
+            //skip video
+            cy.skipPromoVideos()
+            cy.wait(2000)                              //add vsu
             cy.get('label', { timeout: 10000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
@@ -609,7 +604,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
-                    state: 'Washington',
                     phone: '8185204545'
                 })
 
@@ -692,11 +686,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //Submit Order
             cy.get('#submit-order', { timeout: 5000 }).click()
-
             cy.wait(10000)
-            cy.get('.paused-overlay__text', { timeout: 10000 }).click()
 
-            cy.wait(25000)                              //add vsu
+            //skip video
+            cy.skipPromoVideos()
+
+            cy.wait(2000)                              //add vsu
             cy.get('label', { timeout: 10000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
@@ -708,7 +703,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
-                    state: 'South Dakota',
+                    // state: 'South Dakota',
                     phone: '8153211010'
                 })
 
@@ -792,11 +787,12 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //Submit Order
             cy.get('#submit-order', { timeout: 5000 }).click()
-
             cy.wait(10000)
-            cy.get('.paused-overlay__text', { timeout: 10000 }).click()
 
-            cy.wait(25000)                              //add vsu
+            //skip video
+            cy.skipPromoVideos()
+
+            cy.wait(2000)                              //add vsu
             cy.get('label', { timeout: 10000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
@@ -808,7 +804,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
-                    state: 'Nevada',
+                    // state: 'Nevada',
                     phone: '9153251012'
                 })
 
@@ -895,21 +891,22 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //Submit Order
             cy.get('#submit-order', { timeout: 5000 }).click()
+            cy.wait(10000)
 
-            cy.wait(15000)
-            cy.get('.paused-overlay__text', { timeout: 5000 }).click()
-
-            cy.wait(20000)                              //add vsu
+            //skip video
+            cy.skipPromoVideos()
+            cy.wait(2000)                              //add vsu
             cy.get('label', { timeout: 10000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
             cy.wait(2000)
-            cy.get('.paused-overlay__text', { timeout: 10000 }).click()
-
-            cy.wait(25000)
+            // cy.get('.paused-overlay__text', { timeout: 10000 }).click()
+            cy.skipPromoVideos()
+            cy.wait(2000)
             cy.get('a[test-id=decline-cdp-button]').contains('No thanks').click()
-
+            
+            cy.wait(2000)
             cy.contains('No thanks, I’d rather take my chances with sub-optimal fat burning and immune defense support').click()
 
             //Verify Order confirmation page is displayed
