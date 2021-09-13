@@ -21,7 +21,12 @@ describe('Repurchase Bundle through Sales Admin',()=>{
     // const searchMail = 'tests+gi+1592159600422@vshred.com'
     const order_id = 'c35a4593-5962-4711-b887-8908101853ca'
 
+<<<<<<< HEAD
     it.only('can Cancel Orders',()=>{    
+=======
+    it('can Cancel Orders',()=>{    
+
+>>>>>>> 9ee3676e3725d8799ed65c72a2da2a58b2f4a4be
         //login as SalesAgent
         cy.get('#menu1').contains('Login').click()
         cy.get('@loginData').then(login=>{

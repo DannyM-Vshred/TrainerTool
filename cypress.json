@@ -1,4 +1,4 @@
 {
-    "baseUrl" : "https://staging-tt.vshred.com/",
+    "baseUrl" : "https://testing-2.vshred.com/",
     "chromeWebSecurity" : false
 }
