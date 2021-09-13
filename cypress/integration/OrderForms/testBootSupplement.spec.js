@@ -19,6 +19,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
     const clName = 'cyTest'
 
     it.only('can purchase Test Boost monthly subscription', () => {
+
         cy.get('@testBoost').then(json => {
             cy.visit('/' + json[0].url)
             cy.get('.product-details-content p', { timeout: 2000 })
@@ -122,4 +123,3 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
     })
 
 })
-
