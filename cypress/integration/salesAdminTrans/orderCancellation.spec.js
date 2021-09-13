@@ -15,14 +15,13 @@ describe('Repurchase Bundle through Sales Admin',()=>{
         return false
         });
 
-    const searchMail = 'betaTest01otpCdpHim0901@example.net'
+    const searchMail = 'cyTest55subSilverTlink0913@example.com'
     // const searchMail = 'test04newmember06012021@mailinator.com' // multiple orders
     // const searchMail = 'cyTest20otpCdpHim0827@example.net'      //'cyTest11otp6PackShred0825@example.net'
     // const searchMail = 'tests+gi+1592159600422@vshred.com'
     const order_id = 'c35a4593-5962-4711-b887-8908101853ca'
 
-    it('can Cancel Orders',()=>{    
-
+    it.only('can Cancel Orders',()=>{    
         //login as SalesAgent
         cy.get('#menu1').contains('Login').click()
         cy.get('@loginData').then(login=>{
@@ -142,7 +141,7 @@ describe('Repurchase Bundle through Sales Admin',()=>{
         })
     })
 
-    it.only('can Refund Orders',()=>{    
+    it.skip('can Refund Orders',()=>{    
         //login as SalesAgent
         cy.get('#menu1').contains('Login').click()
         cy.get('@loginData').then(login=>{
