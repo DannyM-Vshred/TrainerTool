@@ -7,8 +7,8 @@ describe('Trainer Link Purchaes', () => {
     })
 
     beforeEach(() => {
-        cy.visit(trainerLink)
-        cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
+        // cy.visit(trainerLink)
+        // cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
 
         cy.fixture('loginData').as('loginData');
         cy.fixture('trainerLink').as('trainerLink')
@@ -20,22 +20,24 @@ describe('Trainer Link Purchaes', () => {
         // failing the test
         return false
     })
-    const trainerName = 'cyTrainerLink'
-    const trainerId = '113969'
-    const trainerLink = "https://staging-tt.vshred.com/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + trainerName + "&utm_term=" + trainerId
+    const trainerName = 'betaTrainerLink'
+    const trainerId = '64598'
+    const trainerLink = "https://testing-2.vshred.com/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + trainerName + "&utm_term=" + trainerId
     
     const nonTrainer = 'cyTestNonTrainer'
     const nonTrainerID = '114119'
-    const nonTrainerLink = "https://staging-tt.vshred.com/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + nonTrainer + "&utm_term=" + nonTrainerID
+    const nonTrainerLink = "https://testing-2.vshred.com/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + nonTrainer + "&utm_term=" + nonTrainerID
     
-    const myCtr = '45';
-    const dateS = '0820';
+    const myCtr = '57';
+    const dateS = '0915';
 
-    const assignTrainer = 'cyTrainer TrainerLink'
+    const assignTrainer = 'beta TrainerLink'
     const clName = 'cyTest'
 
 
     it('can purchase Silver Plus Monthly CDTP through Trainer Link', () => {
+        cy.visit(trainerLink)
+        cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET & TRAINING PLANS')
             .should('be.visible')
             .parent()
@@ -109,14 +111,16 @@ describe('Trainer Link Purchaes', () => {
                 })
 
             //Upload PDF Plan
-            cy.uploadPlan(
-                {
-                    email: cEmail
-                })
+            // cy.uploadPlan(
+            //     {
+            //         email: cEmail
+            //     })
         })
     })
 
-    it('can purchase Silver Monthly CDP through Trainer Link', () => {
+    it.only('can purchase Silver Monthly CDP through Trainer Link', () => {
+        cy.visit(trainerLink)
+        cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET ONLY PLANS')
             .should('be.visible')
             .parent()
@@ -190,15 +194,16 @@ describe('Trainer Link Purchaes', () => {
                 })
 
             //Upload PDF Plan
-            cy.uploadPlan(
-                {
-                    email: cEmail
-                })
+            // cy.uploadPlan(
+            //     {
+            //         email: cEmail
+            //     })
         })
     })
 
     it('can purchase Gold Plus Monthly CDTP through Trainer Link', () => {
-
+        cy.visit(trainerLink)
+        cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET & TRAINING PLANS')
             .should('be.visible')
             .parent()
@@ -272,14 +277,16 @@ describe('Trainer Link Purchaes', () => {
                 })
 
             //Upload PDF Plan
-            cy.uploadPlan(
-                {
-                    email: cEmail
-                })
+            // cy.uploadPlan(
+            //     {
+            //         email: cEmail
+            //     })
         })
     })
 
-    it('can purchase Gold Monthly CDP through Trainer Link', () => {
+    it.only('can purchase Gold Monthly CDP through Trainer Link', () => {
+        cy.visit(trainerLink)
+        cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET ONLY PLANS')
             .should('be.visible')
             .parent()
