@@ -1,4 +1,6 @@
 {
     "baseUrl" : "https://testing-2.vshred.com/",
-    "chromeWebSecurity" : false
+    "chromeWebSecurity" : false,
+    "viewportWidth": 1920,
+    "viewportHeight": 1080
 }
