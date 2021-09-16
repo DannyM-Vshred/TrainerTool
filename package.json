@@ -1,0 +1,21 @@
+{
+    "name": "trainertool_regression",
+    "version": "1.0.0",
+    "description": "Trainer Tool Regression using Cypress",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/DannyM-Vshred/TrainerTool.git"
+    },
+    "author": "Danny",
+    "license": "ISC",
+    "devDependencies": {
+      "cypress-file-upload": "^5.0.8",
+      "cypress-iframe": "^1.0.1"
+      
+    }
+  }
+  
