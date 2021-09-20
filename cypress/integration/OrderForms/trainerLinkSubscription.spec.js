@@ -9,7 +9,7 @@ describe('Trainer Link Purchaes', () => {
     })
 
     beforeEach(() => {
-        const testEnv = cy.envUnderTest(""+Cypress.env('TESTING2_URL')+"")  
+        const testEnv = cy.envUnderTest(""+Cypress.env('STAGING-TT_URL')+"")  
         cy.fixture('trainerLink').as('trainerLink')
     })
 
@@ -18,8 +18,8 @@ describe('Trainer Link Purchaes', () => {
         // failing the test
         return false
     })
-    const trainerName = 'betaTrainerLink'
-    const trainerId = '64598'
+    const trainerName = 'cyTrainerLink'
+    const trainerId = '2387' //'64598'
     const trainerLink = "/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + trainerName + "&utm_term=" + trainerId
     // const trainerLink = testEnv+"/sp/custom-diet-plan/reup/?utm_source=trainers&utm_medium=zendesk&utm_campaign=referral&utm_content=" +  trainerName + "&utm_term=" + trainerId
     
@@ -28,11 +28,11 @@ describe('Trainer Link Purchaes', () => {
     const nonTrainerLink = "/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + nonTrainer + "&utm_term=" + nonTrainerID
     
     const myCtr = '50';
-    const dateS = '0917';
+    const dateS = '0920';
 
-    const assignTrainer = 'beta TrainerLink'
+    const assignTrainer = 'cyTrainer TrainerLink'
     const clName = 'cyTest'
-    const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL                      
+    const testEnv = 'STAGING-TT_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL
 
 
     it('can purchase Silver Plus Monthly CDTP through Trainer Link', () => {
@@ -119,7 +119,7 @@ describe('Trainer Link Purchaes', () => {
         })
     })
 
-    it('can purchase Silver Monthly CDP through Trainer Link', () => {
+    it.only('can purchase Silver Monthly CDP through Trainer Link', () => {
         // cy.visit(trainerLink)
         cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
         cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
@@ -158,10 +158,11 @@ describe('Trainer Link Purchaes', () => {
             cy.get('.ifNotTAKEN.checkout-confirmation > :nth-child(1) > :nth-child(1)')
                 .should('contain.text', json[1].purchaseNote)
             cy.get('#order-summary').contains(json[1].orderItem1).should('exist')
-
+            
             //Submit Order
             cy.get('#submit-order', { timeout: 2000 }).click()
 
+            cy.wait(8000)
             //Verify Order confirmation page is displayed
             cy.wait(10000);
             cy.contains('Thank you', { timeout: 8000 })
@@ -369,7 +370,7 @@ describe('Trainer Link Purchaes', () => {
 
     it('can purchase Silver Monthly CDP through Trainer Link - non TrainerUser', () => {
         // cy.visit(nonTrainerLink)
-        cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
+        cy.envUnderTest(""+Cypress.env(testEnv)+nonTrainerLink+"")
         cy.url().should('include', 'utm_content=' + nonTrainer + '&utm_term=' + nonTrainerID)
 
         cy.get('.column-title').contains('DIET ONLY PLANS')
