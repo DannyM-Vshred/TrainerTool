@@ -15,6 +15,7 @@ describe('new Bundle purchase through sales Admin', () => {
         return false
     });
 
+
     const ctr = '36'
     const dateS = '0917';
     const cName = 'cyBundle'
@@ -24,11 +25,13 @@ describe('new Bundle purchase through sales Admin', () => {
     it('can create Bundle with Custom Plans via Sales Agent', function() {                                                                                                                              
         const customBundle = this.bundle
 
+
         cy.get(customBundle).each((searchBundle) => {
             const fName = cName + ctr
             const lName = searchBundle.customBundleOrder + dateS
             const cEmail = fName + lName + '@example.net'
             
+
             cy.envUnderTest(""+Cypress.env(testEnv)+"")
 
             //login as SalesAgent
@@ -154,12 +157,14 @@ describe('new Bundle purchase through sales Admin', () => {
                             cy.log('OrderId: ' + orderStatus)
                         })
                 })
+
             cy.wait(2000)
             
             //logout as Sales Agent
             cy.logoutAdminTool()
 
             //login as Trainer Manager
+
             cy.loginTrainerManager()
 
             cy.contains('Users').click()
@@ -180,6 +185,7 @@ describe('new Bundle purchase through sales Admin', () => {
             cy.contains('Save Profile').click()
 
             // cy.completeWebProfile()
+
             cy.contains('Edit Profile').click()
             cy.get('button').contains('Questionnaire').click()
 
@@ -207,6 +213,7 @@ describe('new Bundle purchase through sales Admin', () => {
             //logout
             cy.logoutAdminTool()
             cy.log("Custom Bundle: "+searchBundle.cartSummary+ " >> Passed")
+
 
         })
     })

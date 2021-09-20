@@ -10,6 +10,7 @@ describe('Trainer Link Purchaes', () => {
 
     beforeEach(() => {
         const testEnv = cy.envUnderTest(""+Cypress.env('TESTING2_URL')+"")  
+
         cy.fixture('trainerLink').as('trainerLink')
     })
 
@@ -30,15 +31,15 @@ describe('Trainer Link Purchaes', () => {
     const myCtr = '50';
     const dateS = '0917';
 
+
     const assignTrainer = 'beta TrainerLink'
     const clName = 'cyTest'
     const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL                      
 
 
     it('can purchase Silver Plus Monthly CDTP through Trainer Link', () => {
-        // cy.visit(trainerLink)
+      
         cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
-
         cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET & TRAINING PLANS')
             .should('be.visible')
@@ -119,9 +120,11 @@ describe('Trainer Link Purchaes', () => {
         })
     })
 
+
     it('can purchase Silver Monthly CDP through Trainer Link', () => {
         // cy.visit(trainerLink)
         cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
+
         cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET ONLY PLANS')
             .should('be.visible')
@@ -203,8 +206,10 @@ describe('Trainer Link Purchaes', () => {
     })
 
     it('can purchase Gold Plus Monthly CDTP through Trainer Link', () => {
+
         // cy.visit(trainerLink)
         cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
+
         cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET & TRAINING PLANS')
             .should('be.visible')
@@ -285,9 +290,11 @@ describe('Trainer Link Purchaes', () => {
         })
     })
 
+
     it('can purchase Gold Monthly CDP through Trainer Link', () => {
         // cy.visit(trainerLink)
         cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
+
         cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET ONLY PLANS')
             .should('be.visible')
