@@ -3,16 +3,14 @@ import 'cypress-iframe';
 
 describe('Trainer Link Purchaes', () => {
     before(() => {
-        cy.visit('/')
+        
+        // const testEnv = cy.envUnderTest(""+Cypress.env('STAGING-TT_URL')+"")  
+        // const testEnv = cy.envUnderTest(""+Cypress.env('STAGING_URL')+"")  
     })
 
     beforeEach(() => {
-        // cy.visit(trainerLink)
-        // cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
-
-        cy.fixture('loginData').as('loginData');
+        const testEnv = cy.envUnderTest(""+Cypress.env('TESTING2_URL')+"")  
         cy.fixture('trainerLink').as('trainerLink')
-
     })
 
     Cypress.on('uncaught:exception', (err, runnable) => {
@@ -22,21 +20,25 @@ describe('Trainer Link Purchaes', () => {
     })
     const trainerName = 'betaTrainerLink'
     const trainerId = '64598'
-    const trainerLink = "https://testing-2.vshred.com/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + trainerName + "&utm_term=" + trainerId
+    const trainerLink = "/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + trainerName + "&utm_term=" + trainerId
+    // const trainerLink = testEnv+"/sp/custom-diet-plan/reup/?utm_source=trainers&utm_medium=zendesk&utm_campaign=referral&utm_content=" +  trainerName + "&utm_term=" + trainerId
     
     const nonTrainer = 'cyTestNonTrainer'
     const nonTrainerID = '114119'
-    const nonTrainerLink = "https://testing-2.vshred.com/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + nonTrainer + "&utm_term=" + nonTrainerID
+    const nonTrainerLink = "/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + nonTrainer + "&utm_term=" + nonTrainerID
     
-    const myCtr = '57';
-    const dateS = '0915';
+    const myCtr = '50';
+    const dateS = '0917';
 
     const assignTrainer = 'beta TrainerLink'
     const clName = 'cyTest'
+    const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL                      
 
 
     it('can purchase Silver Plus Monthly CDTP through Trainer Link', () => {
-        cy.visit(trainerLink)
+        // cy.visit(trainerLink)
+        cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
+
         cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET & TRAINING PLANS')
             .should('be.visible')
@@ -93,7 +95,6 @@ describe('Trainer Link Purchaes', () => {
             cy.completeWebProfile()
 
             //Login as Trainer Manager to check order is in Trainer Tool
-            cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
             //verify record is not in Unassigned Plans page
@@ -118,8 +119,9 @@ describe('Trainer Link Purchaes', () => {
         })
     })
 
-    it.only('can purchase Silver Monthly CDP through Trainer Link', () => {
-        cy.visit(trainerLink)
+    it('can purchase Silver Monthly CDP through Trainer Link', () => {
+        // cy.visit(trainerLink)
+        cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
         cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET ONLY PLANS')
             .should('be.visible')
@@ -176,7 +178,6 @@ describe('Trainer Link Purchaes', () => {
             cy.completeWebProfile()
 
             //Login as Trainer Manager to check order is in Trainer Tool
-            cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
             //verify record is not in Unassigned Plans page
@@ -202,7 +203,8 @@ describe('Trainer Link Purchaes', () => {
     })
 
     it('can purchase Gold Plus Monthly CDTP through Trainer Link', () => {
-        cy.visit(trainerLink)
+        // cy.visit(trainerLink)
+        cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
         cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET & TRAINING PLANS')
             .should('be.visible')
@@ -260,7 +262,6 @@ describe('Trainer Link Purchaes', () => {
             cy.completeWebProfile()
 
             //Login as Trainer Manager to check order is in Trainer Tool
-            cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
             //verify record is not in Unassigned Plans page
@@ -284,8 +285,9 @@ describe('Trainer Link Purchaes', () => {
         })
     })
 
-    it.only('can purchase Gold Monthly CDP through Trainer Link', () => {
-        cy.visit(trainerLink)
+    it('can purchase Gold Monthly CDP through Trainer Link', () => {
+        // cy.visit(trainerLink)
+        cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
         cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET ONLY PLANS')
             .should('be.visible')
@@ -342,7 +344,6 @@ describe('Trainer Link Purchaes', () => {
             cy.completeWebProfile()
 
             //Login as Trainer Manager to check order is in Trainer Tool
-            cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
             //verify record is not in Unassigned Plans page
@@ -367,7 +368,8 @@ describe('Trainer Link Purchaes', () => {
     })
 
     it('can purchase Silver Monthly CDP through Trainer Link - non TrainerUser', () => {
-        cy.visit(nonTrainerLink)
+        // cy.visit(nonTrainerLink)
+        cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
         cy.url().should('include', 'utm_content=' + nonTrainer + '&utm_term=' + nonTrainerID)
 
         cy.get('.column-title').contains('DIET ONLY PLANS')
@@ -425,7 +427,6 @@ describe('Trainer Link Purchaes', () => {
             cy.completeWebProfile()
 
             //Login as Trainer Manager to check order is in Trainer Tool
-            cy.get('.btn__text').contains('Login').click()
             cy.loginTrainerManager()
 
             //record under test is NOT automatically assigned to a Trainer and in Assigned Clients page

@@ -3,8 +3,6 @@ import 'cypress-iframe';
 
 describe('OTP Custom Diet and Training Web Purchases', () => {
     beforeEach(() => {
-        // cy.fixture('newClientRecord').as('clientData');
-        cy.fixture('loginData').as('loginData');
         cy.fixture('orderForms').as('orderForms')
     })
 
@@ -14,16 +12,18 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
         return false
     })
 
-    const myCtr = '65';
-    const dateS = '0909';
-    const assignTrainer = 'betaTrainer OTP'
-    const clName = 'betaTest'
+    const myCtr = '77';  
+    const dateS = '0917';
+    const assignTrainer = 'cyTrainer OTP'
+    const clName = 'Test'
+    const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL
 
     it('can purchase Custom CDP 8-Weeks for Him OTP from web', () => {
         cy.get('@orderForms').then(json => {
-            cy.visit('/' + json[0].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+json[0].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
+
             cy.get('.product-details-content p', { timeout: 2000 })
-                .should('contain.text', json[0].offer)
+                .should('contain.text', json[0].offer) 
 
             const fName = clName + myCtr
             const lName = json[0].lname + dateS
@@ -63,36 +63,27 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.verifyOTPInUnassignedPlansPage(
-                {
-                    email : cEmail
-                })
+            cy.verifyOTPInUnassignedPlansPage({ email : cEmail })
 
             //assign trainer
-            cy.assignTrainer({
-                email : cEmail,
-                trainer :assignTrainer
-            })
-
+            cy.assignTrainer({ email : cEmail, trainer :assignTrainer })
 
             //check assignment
-            cy.verifyAssignedClientOTP(
-                {
-                    email: cEmail,
-                    trainer: assignTrainer
-                })
+            cy.verifyAssignedClientOTP({ email: cEmail, trainer: assignTrainer })
             
             //Upload PDF Plan
-            cy.uploadPlan(
-                {
-                email: cEmail
-                })         
+            cy.uploadPlan({ email: cEmail })         
+            
+            //impersonate user and view file uploaded
+            cy.viewWebPlanSent({ email: cEmail })
+            
+            cy.stopImpersonating()
         })
     })
 
     it('can purchase Custom CDP 8-Weeks for Her OTP from web', () => {
         cy.get('@orderForms').then(json => {
-            cy.visit('/' + json[1].url)
+        cy.envUnderTest(""+Cypress.env(testEnv)+json[1].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[1].offer)
 
@@ -134,35 +125,26 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.verifyOTPInUnassignedPlansPage(
-                {
-                    email : cEmail
-                })
+            cy.verifyOTPInUnassignedPlansPage({ email : cEmail })
 
             //assign trainer
-            cy.assignTrainer({
-                email : cEmail,
-                trainer :assignTrainer
-            })
+            cy.assignTrainer({ email : cEmail, trainer :assignTrainer })
 
             //check assignment
-            cy.verifyAssignedClientOTP(
-                {
-                    email: cEmail,
-                    trainer: assignTrainer
-                })
+            cy.verifyAssignedClientOTP({ email: cEmail, trainer: assignTrainer })
             
             //Upload PDF Plan
-            cy.uploadPlan(
-                {
-                email: cEmail
-                })    
+            cy.uploadPlan({ email: cEmail })    
+            
+            //impersonate user and view file uploaded
+            cy.viewWebPlanSent({ email: cEmail })
+            cy.stopImpersonating()
         })
     })
 
-    it('can purchase Extreme Fat Loss for Him OTP from web', () => {
+    it.only('can purchase Extreme Fat Loss for Him OTP from web', () => {
         cy.get('@orderForms').then(json => {
-            cy.visit('/' + json[2].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+json[2].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[2].offer)
 
@@ -188,7 +170,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //Submit Order
             cy.get('#submit-order', { timeout: 2000 }).click()
-            cy.wait(10000)
+            cy.wait(5000)    
 
             //skip video
             cy.skipPromoVideos()
@@ -235,35 +217,26 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.verifyOTPInUnassignedPlansPage(
-                {
-                    email : cEmail
-                })
+            cy.verifyOTPInUnassignedPlansPage({ email : cEmail })
 
             //assign trainer
-            cy.assignTrainer({
-                email : cEmail,
-                trainer :assignTrainer
-            })
+            cy.assignTrainer({ email : cEmail, trainer :assignTrainer })
 
             //check assignment
-            cy.verifyAssignedClientOTP(
-                {
-                    email: cEmail,
-                    trainer: assignTrainer
-                })
+            cy.verifyAssignedClientOTP({ email: cEmail, trainer: assignTrainer })
             
             //Upload PDF Plan
-            cy.uploadPlan(
-                {
-                email: cEmail
-                })    
+            cy.uploadPlan({ email: cEmail })   
+                
+            //impersonate user and view file uploaded
+            cy.viewWebPlanSent({ email: cEmail })
+            cy.stopImpersonating()
         })
     })
 
     it('can purchase Extreme Fat Loss for Her OTP from web', () => {
         cy.get('@orderForms').then(json => {
-            cy.visit('/' + json[3].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+json[3].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[3].offer)
 
@@ -271,11 +244,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             const lName = json[3].lname + dateS
             const cEmail = fName + lName + '@example.net'
 
-            cy.typeUserInfo(
-                {
-                    name: fName + " " + lName,
-                    email: cEmail
-                })
+            cy.typeUserInfo({ name: fName + " " + lName, email: cEmail })
             cy.typePaymentInfo()
 
             //add CDP
@@ -288,26 +257,24 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[3].orderItem2)
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 2000 }).click()
+            cy.get('#submit-order', { timeout: 1000 }).click()
             cy.wait(10000)
 
             // skip video
             cy.skipPromoVideos()
 
             cy.wait(2000)                              //add vsu
-            cy.get('label', { timeout: 10000 }).click({ force: true })
+            cy.get('label', { timeout: 1000 }).click({ force: true })
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
             cy.wait(2000)
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
+            cy.wait(1500)    
 
             //fillout shipping details 
-            cy.filloutShippingDetails(
-                {
-                    name: fName + " " + lName,
-                    phone: '775-233-3661'
-                })
+            cy.wait(1000)
+            cy.filloutShippingDetails({ name: fName + " " + lName, phone: '775-233-3661' })
 
 
             // cy.contains('No thanks,').click()
@@ -337,32 +304,29 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             //check record in Unassigned Plans page
             cy.contains('Trainer Tool').click();
             cy.contains('Unassigned Plans').click();
-            cy.wait(5000);
+            cy.wait(3000);
 
-            cy.verifyOTPInUnassignedPlansPage(
-                {
-                    email : cEmail
-                })
+            cy.verifyOTPInUnassignedPlansPage({ email : cEmail })
 
             //assign trainer
-            cy.assignTrainer({
-                email : cEmail,
-                trainer :assignTrainer
-            })
+            cy.assignTrainer({ email : cEmail, trainer :assignTrainer })
 
             //check assignment
-            cy.verifyAssignedClientOTP(
-                {
-                    email: cEmail,
-                    trainer: assignTrainer
-                })
+            cy.verifyAssignedClientOTP({ email: cEmail, trainer: assignTrainer })
+
+            //Upload PDF Plan
+            cy.uploadPlan({ email: cEmail })   
+            //impersonate user and view file uploaded
+
+            cy.viewWebPlanSent({ email: cEmail })
+            cy.stopImpersonating()
 
         })
     })
 
-    it('can purchase Ripped in 90 Days OTP from web', () => {
+    it.only('can purchase Ripped in 90 Days OTP from web', () => {
         cy.get('@orderForms').then(json => {
-            cy.visit('/' + json[4].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+json[4].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[4].offer)
 
@@ -394,14 +358,16 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             //skip video
             cy.skipPromoVideos()
             cy.wait(2000)                              //add vsu
-            cy.get('label', { timeout: 10000 }).click()
+            cy.get('label', { timeout: 1000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(3000)
+            cy.wait(2000)
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
-            //fillout shipping details        
-
+            cy.wait(1500)    
+            
+            //fillout shipping details
+            cy.wait(1000)        
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
@@ -433,35 +399,25 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.verifyOTPInUnassignedPlansPage(
-                {
-                    email : cEmail
-                })
+            cy.verifyOTPInUnassignedPlansPage({ email : cEmail })
 
             //assign trainer
-            cy.assignTrainer({
-                email : cEmail,
-                trainer :assignTrainer
-            })
+            cy.assignTrainer({ email : cEmail, trainer :assignTrainer })
 
             //check assignment
-            cy.verifyAssignedClientOTP(
-                {
-                    email: cEmail,
-                    trainer: assignTrainer
-                })
+            cy.verifyAssignedClientOTP({ email: cEmail, trainer: assignTrainer })
             
             //Upload PDF Plan
-            cy.uploadPlan(
-                {
-                email: cEmail
-                })    
+            cy.uploadPlan({ email: cEmail })
+            //impersonate user and view file uploaded
+            cy.viewWebPlanSent({ email: cEmail })
+            cy.stopImpersonating()
         })
     })
 
     it('can purchase Clean Bulk Bundles OTP from web', () => {
         cy.get('@orderForms').then(json => {
-            cy.visit('/' + json[5].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+json[5].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[5].offer)
 
@@ -486,7 +442,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[5].orderItem2)
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 5000 }).click()
+            cy.get('#submit-order', { timeout: 1000 }).click()
             cy.wait(10000)
 
             //skip order
@@ -497,7 +453,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(2000)
+            cy.wait(1500)    
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             //fillout shipping details        
 
@@ -532,36 +488,25 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.verifyOTPInUnassignedPlansPage(
-                {
-                    email : cEmail
-                })
+            cy.verifyOTPInUnassignedPlansPage({ email : cEmail })
 
             //assign trainer
-            cy.assignTrainer({
-                email : cEmail,
-                trainer :assignTrainer
-            })
+            cy.assignTrainer({ email : cEmail, trainer :assignTrainer })
 
             //check assignment
-            cy.verifyAssignedClientOTP(
-                {
-                    email: cEmail,
-                    trainer: assignTrainer
-                })
+            cy.verifyAssignedClientOTP({ email: cEmail, trainer: assignTrainer })
             
             //Upload PDF Plan
-            cy.uploadPlan(
-                {
-                email: cEmail
-
-                })   
+            cy.uploadPlan({ email: cEmail })
+            //impersonate user and view file uploaded
+            cy.viewWebPlanSent({ email: cEmail })
+            cy.stopImpersonating()
         })
     })
 
-    it('can purchase Toned in 90 Days OTP from web', () => {
+    it.only('can purchase Toned in 90 Days OTP from web', () => {
         cy.get('@orderForms').then(json => {
-            cy.visit('/' + json[6].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+json[6].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[6].offer)
 
@@ -586,10 +531,9 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[6].orderItem2)
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 5000 }).click()
+            cy.get('#submit-order', { timeout: 1000 }).click()
             cy.wait(10000)
 
-            // cy.get('.paused-overlay__text', { timeout: 10000 }).click()
             //skip video
             cy.skipPromoVideos()
             cy.wait(2000)                              //add vsu
@@ -597,7 +541,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(2000)
+            cy.wait(1500)    
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             //fillout shipping details        
 
@@ -632,35 +576,26 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.verifyOTPInUnassignedPlansPage(
-                {
-                    email : cEmail
-                })
+            cy.verifyOTPInUnassignedPlansPage({  email : cEmail })
 
             //assign trainer
-            cy.assignTrainer({
-                email : cEmail,
-                trainer :assignTrainer
-            })
+            cy.assignTrainer({ email : cEmail, trainer :assignTrainer })
 
             //check assignment
-            cy.verifyAssignedClientOTP(
-                {
-                    email: cEmail,
-                    trainer: assignTrainer
-                })
+            cy.verifyAssignedClientOTP({ email: cEmail, trainer: assignTrainer })
             
             //Upload PDF Plan
-            cy.uploadPlan(
-                {
-                email: cEmail
-                })    
+            cy.uploadPlan({ email: cEmail })    
+
+            //impersonate user and view file uploaded
+            cy.viewWebPlanSent({ email: cEmail })
+            cy.stopImpersonating()
         })
     })
 
     it('can purchase Six-Pack Shred from web', () => {
         cy.get('@orderForms').then(json => {
-            cy.visit('/' + json[7].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+json[7].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[7].offer)
 
@@ -685,7 +620,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[7].orderItem2)
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 5000 }).click()
+            cy.get('#submit-order', { timeout: 1000 }).click()
             cy.wait(10000)
 
             //skip video
@@ -696,7 +631,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(2000)
+            cy.wait(1500)    
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             //fillout shipping details        
 
@@ -732,36 +667,27 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.verifyOTPInUnassignedPlansPage(
-                {
-                    email : cEmail
-                })
+            cy.verifyOTPInUnassignedPlansPage({ email : cEmail })
 
             //assign trainer
-            cy.assignTrainer({
-                email : cEmail,
-                trainer :assignTrainer
-            })
+            cy.assignTrainer({ email : cEmail, trainer :assignTrainer })
 
             //check assignment
-            cy.verifyAssignedClientOTP(
-                {
-                    email: cEmail,
-                    trainer: assignTrainer
-                })
+            cy.verifyAssignedClientOTP({ email: cEmail, trainer: assignTrainer })
             
             //Upload PDF Plan
-            cy.uploadPlan(
-                {
-                email: cEmail
-                })    
+            cy.uploadPlan({ email: cEmail })    
+
+            //impersonate user and view file uploaded
+            cy.viewWebPlanSent({ email: cEmail })
+            cy.stopImpersonating()
 
         })
     })
 
     it('can purchase Big Arms from web', () => {
         cy.get('@orderForms').then(json => {
-            cy.visit('/' + json[8].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+json[8].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[8].offer)
 
@@ -793,14 +719,14 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.skipPromoVideos()
 
             cy.wait(2000)                              //add vsu
-            cy.get('label', { timeout: 10000 }).click()
+            cy.get('label', { timeout: 1000 }).click()
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
             cy.wait(2000)
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
+            
             //fillout shipping details        
-
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
@@ -833,29 +759,27 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.verifyOTPInUnassignedPlansPage(
-                {
-                    email : cEmail
-                })
+            cy.verifyOTPInUnassignedPlansPage({ email : cEmail })
 
             //assign trainer
-            cy.assignTrainer({
-                email : cEmail,
-                trainer :assignTrainer
-            })
+            cy.assignTrainer({ email : cEmail, trainer :assignTrainer })
 
             //check assignment
-            cy.verifyAssignedClientOTP(
-                {
-                    email: cEmail,
-                    trainer: assignTrainer
-                })
+            cy.verifyAssignedClientOTP({ email: cEmail, trainer: assignTrainer })
+
+            //Upload PDF Plan
+            cy.uploadPlan({ email: cEmail })    
+
+            //impersonate user and view file uploaded
+            cy.viewWebPlanSent({ email: cEmail })
+            cy.stopImpersonating()
+
         })
     })
 
-    it('can UNSELECT CDP SP from order form - Toned', () => {
+    it.only('can UNSELECT CDP SP from order form - Toned', () => {
         cy.get('@orderForms').then(json => {
-            cy.visit('/' + json[11].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+json[11].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[11].offer)
 
@@ -932,15 +856,9 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.loginTrainerManager()
             
             //verify record is not in Unassigned Plans page
-            cy.verifyRecordNotInUnassignedPlansPage(
-                {
-                    email : cEmail
-                })
+            cy.verifyRecordNotInUnassignedPlansPage({ email : cEmail })
             //verify record is not in Assigned Clients page
-            cy.verifyRecordNotInAssignedClientPage(
-                {
-                    email : cEmail
-                })                
+            cy.verifyRecordNotInAssignedClientPage({ email : cEmail })                
         })
     })
 
