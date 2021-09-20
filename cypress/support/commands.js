@@ -26,10 +26,18 @@
 import 'cypress-file-upload';
 
 Cypress.Commands.add('loginTrainerManager', () => {
-    cy.viewport(1920, 1080);
     cy.get('#menu1').contains('Login').click()
     cy.get('#email').clear().type('trainer-one@example.com');
     cy.get('#password').type('123456');
+    cy.get('[type="submit"]').click();
+
+    cy.contains('Welcome to the admin dashboard').should('be.visible');
+})
+
+Cypress.Commands.add('loginSalesAgent', () => {
+    cy.get('#menu1').contains('Login').click()
+    cy.get('#email').clear().type('testSalesAgent@vshred.com');
+    cy.get('#password').type('1234567');
     cy.get('[type="submit"]').click();
 
     cy.contains('Welcome to the admin dashboard').should('be.visible');
@@ -599,7 +607,8 @@ Cypress.Commands.add('verifyAssignedClientOTP',(record)=>{
 
     cy.get('#__BVID__17').select('One-Time Plans')      //filter as Order
     cy.wait(2000)
-    cy.get('#__BVID__19').select('Not Sent')        //filte Not Sent
+    cy.get('#__BVID__19').select('Not Sent')        //filter Not Sent
+    // cy.get('#__BVID__19').select('Sent')        //filter Not Sent
     cy.wait(2000)
     cy.get('#__BVID__16')
         .clear()
@@ -754,6 +763,7 @@ Cypress.Commands.add('assignTrainer',(record)=> {
 
 Cypress.Commands.add('uploadPlan', (record) => {
     const filepath = 'uploadFile/sample-pdf-file.pdf'
+
     cy.contains('Trainer Tool').click();
     cy.contains('Assigned Clients Beta').click();       //assigned clients beta page
     cy.wait(2000);
@@ -789,13 +799,19 @@ Cypress.Commands.add('uploadPlan', (record) => {
         .should('exist')
         .parent()
         .within($tr => {
-            cy.get('i.fas.fa-check.checkmark').should('be.visible')
+            cy.get('i.fas.fa-check.checkmark').should('be.visible').click({force:true})
         })
+    cy.contains("Files sent to ").should('be.visible')
+    cy.get('.list-group-item h3').then(($filename) => {
+        const filename = $filename.text()
+        expect(filename).to.match(/sample-pdf-file.pdf/)
+    })
+    cy.get('.btn.btn-block').contains('Close').click()
 
-    cy.get('#__BVID__19').select('Not Sent')
-    cy.wait(2000)
-    cy.contains('.vuetable-body td', record.email)
-        .should('not.exist')
+    // cy.get('#__BVID__19').select('Not Sent')
+    // cy.wait(2000)
+    // cy.contains('.vuetable-body td', record.email)
+    //     .should('not.exist')
 })
 
 Cypress.Commands.add('createNewMemberUser', (record) => {
@@ -838,6 +854,45 @@ Cypress.Commands.add('addNewShipBillAddress',(record) =>{
 Cypress.Commands.add('skipPromoVideos',()=>{
     cy.window().then((win) => {
         win.eval("javascript:(function(){document.querySelectorAll('.page-contents-lazy').forEach(el => el.style.display = 'block');document.querySelectorAll('.after-banner').forEach(el => el.style.display = 'block');})();")
+
        });
     cy.wait(2000)
 })
+
+Cypress.Commands.add('viewWebPlanSent',(record)=>{       
+    cy.get('#side-menu').contains('Users').click()
+    cy.url().should('contain', '/admin/users')
+    cy.get('#__BVID__16').clear().type( record.email+'{enter}')
+
+    // cy.get('#__BVID__16').clear().type(searchMail + '{enter}')
+    cy.contains('.vuetable-body td', record.email)
+        .should('exist')
+        .parent()
+        .within($tr => {
+            cy.get('button[title=Impersonate]').click()
+            cy.url().should('include', '/member')
+        })
+
+        cy.contains('VIEW MY CUSTOM PLAN').should('be.visible').click()
+        cy.contains('sample-pdf-file.pdf').should('be.visible')
+        // cy.get('button[id=view-custom-plan-362]').should('be.visible').then(($filename)=>{          ///possible check user ID 367
+        //     const webPlanfile = $filename.text()
+        //     expect(webPlanfile).to.include('sample-pdf-file.pdf')
+        // })
+})
+
+Cypress.Commands.add('stopImpersonating',()=>{
+    cy.get('#menu1').contains('Admin').click()
+    cy.get('.dropdown--active').contains('Stop impersonating').click({force:true})
+})
+
+Cypress.Commands.add('logoutAdminTool',()=>{
+    cy.contains('Logout').click({multiple:true, force:true})
+    
+})
+
+///URL under test
+Cypress.Commands.add("envUnderTest", (urlUnderTest) => {
+    cy.visit(urlUnderTest)
+});
+
