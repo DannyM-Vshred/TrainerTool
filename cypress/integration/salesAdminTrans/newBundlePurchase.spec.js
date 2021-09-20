@@ -5,9 +5,7 @@ describe('new Bundle purchase through sales Admin', () => {
 
     before(() => {
         cy.fixture('supplements/customBundle').as('bundle');
-        cy.fixture('loginData').as('loginData');
         cy.viewport(1920, 1080)
-        cy.visit('/')
 
     })
 
@@ -17,30 +15,27 @@ describe('new Bundle purchase through sales Admin', () => {
         return false
     });
 
-    const ctr = '32'
-    const dateS = '0615';
+
+    const ctr = '36'
+    const dateS = '0917';
     const cName = 'cyBundle'
     const assignTrainer = 'beta TrainerBundle'
+    const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL
 
     it('can create Bundle with Custom Plans via Sales Agent', function() {                                                                                                                              
         const customBundle = this.bundle
-        const salesAgentlogin = this.loginData
+
 
         cy.get(customBundle).each((searchBundle) => {
             const fName = cName + ctr
             const lName = searchBundle.customBundleOrder + dateS
             const cEmail = fName + lName + '@example.net'
             
-            cy.visit('/')
+
+            cy.envUnderTest(""+Cypress.env(testEnv)+"")
 
             //login as SalesAgent
-            cy.get('#menu1').contains('Login').click()
-            cy.get(salesAgentlogin).then(login => {
-                cy.get('#email').clear().type(login[3].email);
-                cy.get('#password').type(login[3].password)
-                cy.get('[type="submit"]').click()
-                cy.contains('Welcome to the admin dashboard').should('be.visible');
-            })
+            cy.loginSalesAgent()
 
             cy.contains('Users').click()
             cy.url().should('include', '/admin/users')
@@ -164,11 +159,12 @@ describe('new Bundle purchase through sales Admin', () => {
                 })
 
             cy.wait(2000)
+            
             //logout as Sales Agent
-            cy.get('.navbar-top-links a').contains('Logout').click()
+            cy.logoutAdminTool()
 
             //login as Trainer Manager
-            cy.get('.btn__text').contains('Login').click()
+
             cy.loginTrainerManager()
 
             cy.contains('Users').click()
@@ -193,12 +189,11 @@ describe('new Bundle purchase through sales Admin', () => {
             cy.contains('Edit Profile').click()
             cy.get('button').contains('Questionnaire').click()
 
+            //fillout Questionnaire
             cy.filloutQuestionnaire();
 
-            cy.get('#menu1').contains('Admin').click()
-
-            cy.get('.dropdown--active .menu-vertical').contains('Stop impersonating').click()        //Stop impersonating
-
+            cy.stopImpersonating()
+            
             //back in Admin dashboard
             cy.url().should('include', 'admin/users')
             cy.contains(cEmail).should('exist')
@@ -216,9 +211,9 @@ describe('new Bundle purchase through sales Admin', () => {
             cy.uploadPlan({ email: cEmail })
 
             //logout
-            cy.get('a[href="https://testing-2.vshred.com/logout"]').click({multiple:true, force:true})
-
+            cy.logoutAdminTool()
             cy.log("Custom Bundle: "+searchBundle.cartSummary+ " >> Passed")
+
 
         })
     })

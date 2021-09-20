@@ -3,7 +3,6 @@ import 'cypress-iframe';
 
 describe('Custom Diet and Training Subscriptions', () => {
     beforeEach(() => {
-        // cy.fixture('newClientRecord').as('clientData');
         cy.fixture('loginData').as('loginData');
         cy.fixture('orderForms').as('orderForms')
     })
@@ -17,12 +16,11 @@ describe('Custom Diet and Training Subscriptions', () => {
     const dateS = '0825';
     const assignTrainer = 'cyTrainer Subs'
     const clName = 'cyTest'
-
+    const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL
 
     it.only('can purchase Custom Diet Plan Monthly Subscription', () => {
         cy.get('@orderForms').then(json => {
-            cy.visit('/'+json[9].url)
-            // cy.visit(json[9].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+json[9].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[9].offer)
 
@@ -65,35 +63,26 @@ describe('Custom Diet and Training Subscriptions', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.verifySubInUnassignedPlansPage(
-                {
-                    email : cEmail
-                })
+            cy.verifySubInUnassignedPlansPage({ email : cEmail })
 
-            cy.assignTrainer(
-                {
-                    email : cEmail,
-                    trainer : assignTrainer
-                })    
+            cy.assignTrainer({ email : cEmail, trainer : assignTrainer })    
 
-            cy.verifyAssignedClientSubs(
-                {
-                    email: cEmail,
-                    trainer: assignTrainer
-                })
+            cy.verifyAssignedClientSubs({ email: cEmail, trainer: assignTrainer })
         
             //Upload PDF Plan
-            cy.uploadPlan(
-                {
-                    email: cEmail
-                })
+            cy.uploadPlan({ email: cEmail })
+
+            //View plan sent in Web profile
+            cy.viewWebPlanSent({ email: cEmail })
+
+            cy.stopImpersonating()
 
         })
     })
 
     it('can purchase Gold Diet Plan Subscription', () => {
         cy.get('@orderForms').then(json => {
-            cy.visit('/'+json[10].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+json[10].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', json[10].offer)
 
@@ -137,28 +126,20 @@ describe('Custom Diet and Training Subscriptions', () => {
             cy.loginTrainerManager()
 
             //check record in Unassigned Plans page
-            cy.verifySubInUnassignedPlansPage(
-                {
-                    email : cEmail
-                })
+            cy.verifySubInUnassignedPlansPage({ email : cEmail })
 
-            cy.assignTrainer(
-                {
-                    email : cEmail,
-                    trainer : assignTrainer
-                })    
+            cy.assignTrainer({ email : cEmail, trainer : assignTrainer })    
 
-            cy.verifyAssignedClientSubs(
-                {
-                    email: cEmail,
-                    trainer: assignTrainer
-                })
+            cy.verifyAssignedClientSubs({ email: cEmail, trainer: assignTrainer })
         
             //Upload PDF Plan
-            cy.uploadPlan(
-                {
-                    email: cEmail
-                })
+            cy.uploadPlan({ email: cEmail })
+
+            //View plan sent in Web profile
+            cy.viewWebPlanSent({ email: cEmail })
+
+            cy.stopImpersonating()
+
         })
     })
 
