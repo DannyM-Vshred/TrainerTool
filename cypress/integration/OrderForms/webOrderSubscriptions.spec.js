@@ -16,9 +16,11 @@ describe('Custom Diet and Training Subscriptions', () => {
     const dateS = '0921';
     const assignTrainer = 'cyTrainer Subs'
     const clName = 'cyTest'
+
     const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL
 
     it('can purchase Custom Diet Plan Monthly Subscription', () => {
+
         cy.get('@orderForms').then(json => {
             cy.envUnderTest(""+Cypress.env(testEnv)+json[9].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })

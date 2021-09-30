@@ -4,14 +4,9 @@ import 'cypress-iframe';
 
 
 describe('Trainer Link Purchaes', () => {
-
     beforeEach(() => {
-<<<<<<< Updated upstream
         const testEnv = cy.envUnderTest(""+Cypress.env('TESTING2_URL')+"")  
-
-=======
-        // const testEnv = cy.envUnderTest(""+Cypress.env('STAGING_URL')+"")  
->>>>>>> Stashed changes
+    })
         cy.fixture('trainerLink').as('trainerLink')
     })
 
@@ -21,9 +16,11 @@ describe('Trainer Link Purchaes', () => {
         return false
     })
     const trainerName = 'betaTrainerLink'
+
     const trainerId =  '64598' //'2387' '1320''64598'
     // const trainerLink = "/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + trainerName + "&utm_term=" + trainerId
     // const trainerLink = "/sp/custom-diet-plan/reup/?utm_source=trainers&utm_medium=zendesk&utm_campaign=referral&utm_content=" +  trainerName + "&utm_term=" + trainerId
+
     
     const nonTrainer = 'cyTestNonTrainer'
     const nonTrainerID = '114119'
@@ -36,12 +33,6 @@ describe('Trainer Link Purchaes', () => {
     const clName = 'cyTest'
     const testEnv = 'STAGING-TT_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL
 
-
-<<<<<<< Updated upstream
-    it('can purchase Silver Plus Monthly CDTP through Trainer Link', () => {
-      
-        cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
-=======
     it.only('can purchase Silver Plus Monthly CDTP through Trainer Link', () => {
         // cy.visit(trainerLink)
         // cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
@@ -52,7 +43,7 @@ describe('Trainer Link Purchaes', () => {
             id : trainerId
         })
 
->>>>>>> Stashed changes
+
         cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET & TRAINING PLANS')
             .should('be.visible')
@@ -389,6 +380,7 @@ describe('Trainer Link Purchaes', () => {
 
     it('can purchase Silver Monthly CDP through Trainer Link - non TrainerUser', () => {
         // cy.visit(nonTrainerLink)
+
         cy.envUnderTest(""+Cypress.env(testEnv)+nonTrainerLink+"")
         cy.url().should('include', 'utm_content=' + nonTrainer + '&utm_term=' + nonTrainerID)
 

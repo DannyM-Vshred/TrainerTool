@@ -12,6 +12,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
         return false
     })
 
+
     const myCtr = '23';  
     const dateS = '2409';
     const assignTrainer = 'beta TrainerBundle'
@@ -21,6 +22,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
     it.only('can purchase Custom CDP 8-Weeks for Him OTP from web', () => {
         cy.get('@orderForms').then(json => {
             cy.envUnderTest(""+Cypress.env(testEnv)+json[0].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
+
 
             // cy.get('.product-details-content p', { timeout: 2000 })
             cy.get('.product-details-content p')
@@ -143,7 +145,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
         })
     })
 
-    it('can purchase Extreme Fat Loss for Him OTP from web', () => {
+    it.only('can purchase Extreme Fat Loss for Him OTP from web', () => {
         cy.get('@orderForms').then(json => {
             cy.envUnderTest(""+Cypress.env(testEnv)+json[2].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
@@ -172,6 +174,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             //Submit Order
             cy.get('#submit-order').click()
             cy.wait(10000)    
+
 
             //skip video
             cy.skipPromoVideos()
@@ -264,13 +267,13 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
             cy.get('button[type=submit]').should('be.enabled').click()
 
+
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
                
             //fillout shipping details 
             cy.wait(1500)
+
             cy.filloutShippingDetails({ name: fName + " " + lName, phone: '775-233-3661' })
-
-
             // cy.contains('No thanks,').click()
 
             //Verify Order confirmation page is displayed
@@ -307,6 +310,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             //check assignment
             cy.verifyAssignedClientOTP({ email: cEmail, trainer: assignTrainer })
 
+
             // //Upload PDF Plan
             // cy.uploadPlan({ email: cEmail })   
             // //impersonate user and view file uploaded
@@ -314,12 +318,14 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             // cy.viewWebPlanSent({ email: cEmail })
             // cy.stopImpersonating()
 
+
         })
     })
 
-    it('can purchase Ripped in 90 Days OTP from web', () => {
+    it.only('can purchase Ripped in 90 Days OTP from web', () => {
         cy.get('@orderForms').then(json => {
             cy.envUnderTest(""+Cypress.env(testEnv)+json[4].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
+
             // cy.get('.product-details-content p', { timeout: 2000 })
             cy.get('.product-details-content p')
                 .should('contain.text', json[4].offer)
@@ -351,6 +357,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //skip video
             cy.skipPromoVideos()
+
             cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
             cy.get('button[type=submit]').should('be.enabled').click()
 
@@ -359,6 +366,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.wait(1500)    
             
             //fillout shipping details
+
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
@@ -492,7 +500,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
         })
     })
 
-    it('can purchase Toned in 90 Days OTP from web', () => {
+    it.only('can purchase Toned in 90 Days OTP from web', () => {
         cy.get('@orderForms').then(json => {
             cy.envUnderTest(""+Cypress.env(testEnv)+json[6].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
@@ -519,16 +527,17 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[6].orderItem2)
 
             //Submit Order
+
             cy.get('#submit-order').click()
             cy.wait(10000)
 
             //skip order
+
             cy.skipPromoVideos()
             cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             cy.wait(1500)    
 
@@ -607,6 +616,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[7].orderItem2)
 
             //Submit Order
+
             cy.get('#submit-order').click()
             cy.wait(10000)
 
@@ -614,6 +624,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.skipPromoVideos()
             cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
             cy.get('button[type=submit]').should('be.enabled')
+
                   .click()
   
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
@@ -700,6 +711,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //skip video
             cy.skipPromoVideos()
+
             cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
             cy.get('button[type=submit]').should('be.enabled')
                   .click()
@@ -757,7 +769,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
         })
     })
 
-    it('can UNSELECT CDP SP from order form - Toned', () => {
+    it.only('can UNSELECT CDP SP from order form - Toned', () => {
         cy.get('@orderForms').then(json => {
             cy.envUnderTest(""+Cypress.env(testEnv)+json[11].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })

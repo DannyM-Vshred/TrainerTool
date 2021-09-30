@@ -604,8 +604,10 @@ Cypress.Commands.add('verifyAssignedClientOTP',(record)=>{
     cy.wait(500);
 
     cy.get('#__BVID__17').select('One-Time Plans')      //filter as Order
+
     cy.get('#__BVID__19').select('Not Sent')        //filter Not Sent
     // cy.get('#__BVID__19').select('Sent')        //filter Not Sent
+
     cy.get('#__BVID__16')
         .clear()
         .type(record.email + '{enter}');
@@ -876,6 +878,7 @@ Cypress.Commands.add('logoutAdminTool',()=>{
 Cypress.Commands.add("envUnderTest", (urlUnderTest) => {
     cy.visit(urlUnderTest)
 });
+
 
 Cypress.Commands.add('getTrainerLink',function (record){
     let trainerLink = "/sp/custom-diet-plan/reup/?utm_source=trainers&utm_medium=zendesk&utm_campaign=referral&utm_content=" +  record.trainer + "&utm_term=" + record.id

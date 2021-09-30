@@ -13,14 +13,10 @@ describe('new Bundle purchase through sales Admin', () => {
         return false
     });
 
-<<<<<<< Updated upstream
 
-    const ctr = '36'
-    const dateS = '0917';
-=======
     const ctr = '61'
     const dateS = '2409';
->>>>>>> Stashed changes
+
     const cName = 'cyBundle'
     const assignTrainer = 'beta TrainerBundle'
     const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL
