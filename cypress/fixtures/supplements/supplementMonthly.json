@@ -7,8 +7,10 @@
         "gender": "Male",
         "orderItem1":"Test Boost Max - 1 Bottle Monthly",
         "orderQty" : "1",
-        "confirmOrder1":"Test Boost Max - 1 Bottle Monthly"
-
+        "confirmOrder1":"Test Boost Max",
+        "webPurchase":"Test Boost Max", 
+        "subscription": "bt_test-boost-max-monthly",
+        "purchases":"Test Boost Max"
     },
     {
         "id":"01",
@@ -18,7 +20,10 @@
         "gender": "Female",
         "orderItem1":"TURMERIC BLACK - 1 Bottle Monthly",
         "orderQty" : "1",
-        "confirmOrder1":"TURMERIC BLACK - 1 Bottle Monthly"
+        "confirmOrder1":"TURMERIC BLACK - 1 Bottle Monthly",
+        "webPurchase":"Turmeric Black",
+        "subscription": "bt_turmeric-black-monthly",
+        "purchases":"Turmeric Black"
     },
     {
         "id":"02",
@@ -28,6 +33,10 @@
         "orderItem1":"BURN - 1 Bottle Monthly",
         "orderQty" : "1",
         "gender": "Male",
-        "confirmOrder1":"BURN - 1 Bottle Monthly"
+        "confirmOrder1":"BURN - 1 Bottle Monthly",
+        "webPurchase":"Burn Evolved",
+        "subscription": "bt_burn-monthly",
+        "purchases":"Burn Evolved"
     }
+
 ]

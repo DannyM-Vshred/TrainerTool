@@ -14,15 +14,17 @@ describe('Purchase Supplement Subscriptions', () => {
         return false
     })
 
-    const myCtr = '11';
-    const dateS = '0515';
+    const myCtr = '15';
+    const dateS = '0922';
     const clName = 'cyBottle'
+    const testEnv = 'STAGING-TT_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL
 
-    it.only('can purchase monthly supplement subscriptions', function() {
+    it('can purchase monthly supplement subscriptions', function() {
         const supplement = this.suppMonthly
         
         cy.get(supplement).each((monthlySupp)=>{
-            cy.visit('/'+monthlySupp.url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+monthlySupp.url+"")
+
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', monthlySupp.offer)
             
@@ -94,7 +96,7 @@ describe('Purchase Supplement Subscriptions', () => {
             cy.contains('Purchases').click()
 
            //  cy.contains('#orders-table td', 'Turmeric Black').should('exist')
-            cy.contains('#orders-table td', monthlySupp.confirmOrder1).should('exist')
+            cy.contains('#orders-table td', monthlySupp.webPurchase).should('exist')
             
             cy.get('#menu1').contains('Admin').click()
             cy.get('.dropdown--active').contains('Stop impersonating').click()
@@ -106,8 +108,7 @@ describe('Purchase Supplement Subscriptions', () => {
                 .and('include', 'true')
             cy.wait(2000)
     
-            cy.contains('#tab-subscriptions td', 'bt_test-boost-max-monthly')
-           //  cy.contains('#tab-subscriptions td', 'bt_turmeric-black-monthly')
+            cy.contains('#tab-subscriptions td', monthlySupp.subscription)
                 .should('exist')
                 .next().should('contain.text', 'active')
     
@@ -118,7 +119,7 @@ describe('Purchase Supplement Subscriptions', () => {
             .and('include', 'true')
             cy.wait(2000)
     
-            cy.contains('#orders-table td.th-name', monthlySupp.confirmOrder1).should('exist')
+            cy.contains('#orders-table td.th-name', monthlySupp.purchases).should('exist')
 
             //verify record is not in Unassigned Plans page
             cy.verifyRecordNotInUnassignedPlansPage({email: cEmail})

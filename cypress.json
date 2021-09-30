@@ -2,12 +2,14 @@
   "viewportWidth": 1920,
   "viewportHeight": 1080,
   "chromeWebSecurity": false,
+  "defaultCommandTimeout":10000,
   "projectId": "a52i17",
 
   "env": {
     "TESTING2_URL": "https://testing-2.vshred.com/",
     "STAGING-TT_URL": "https://staging-tt.vshred.com/",
-    "STAGING_URL": "https://staging.vshred.com/"
+    "STAGING_URL": "https://staging.vshred.com/",
+    "STAGING-APP_URL": "https://staging-app.vshred.com/"
 
   }
 

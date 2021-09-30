@@ -2,10 +2,7 @@
 import 'cypress-iframe';
 
 describe('upSell Boost Test Max Supplement', () => {
-    // before(() => {
-    //     cy.fixture('loginData').as('loginData');
-    //     cy.fixture('supplements/boostUpsell').as('upBoost')
-    // })
+
     beforeEach(()=>{
         cy.fixture('loginData').as('loginData');
         cy.fixture('supplements/boostUpsell').as('upBoost')
@@ -17,14 +14,17 @@ describe('upSell Boost Test Max Supplement', () => {
         return false
     })
     const myCtr = '19';
-    const dateS = '0720';
+    const dateS = '0820';
     const clName = 'test'
+    const testEnv = 'STAGING_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL
+
 
     it('can complete upsell purchase with 1 bottle each', function () {
         // const supplement = this.upSell
 
         cy.get('@upBoost').then((upSellSupp) => {
-            cy.visit('/' + upSellSupp[0].url)
+            // cy.visit('/' + upSellSupp[0].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+upSellSupp[0].url+"")
 
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', upSellSupp[0].offer)
@@ -101,9 +101,9 @@ describe('upSell Boost Test Max Supplement', () => {
     it('can complete upsell purchase with 3 bottles each', function () {
         // const supplement = this.upSell
 
-        // cy.get(supplement).then((upSellSupp) => {
         cy.get('@upBoost').then((upSellSupp) => {
-            cy.visit('/' + upSellSupp[1].url)
+            // cy.visit('/' + upSellSupp[1].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+upSellSupp[1].url+"")
 
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', upSellSupp[1].offer)
@@ -185,7 +185,8 @@ describe('upSell Boost Test Max Supplement', () => {
 
         // cy.get(supplement).then((upSellSupp) => {
         cy.get('@upBoost').then((upSellSupp) => {
-            cy.visit('/' + upSellSupp[2].url)
+            // cy.visit('/' + upSellSupp[2].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+upSellSupp[2].url+"")
 
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', upSellSupp[2].offer)
@@ -262,12 +263,13 @@ describe('upSell Boost Test Max Supplement', () => {
         })
     })
 
-    it     ('can purchase testboost subs and upsell 3bottles HGH and Burn PM', function () {
+    it('can purchase testboost subs and upsell 3bottles HGH and Burn PM', function () {
         // const supplement = this.upSell
 
         // cy.get(supplement).then((upSellSupp) => {
         cy.get('@upBoost').then((upSellSupp) => {
-            cy.visit('/' + upSellSupp[3].url)
+            // cy.visit('/' + upSellSupp[3].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+upSellSupp[3].url+"")
 
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', upSellSupp[3].offer)
@@ -340,7 +342,8 @@ describe('upSell Boost Test Max Supplement', () => {
 
         // cy.get(supplement).then((upSellSupp) => {
         cy.get('@upBoost').then((upSellSupp) => {
-            cy.visit('/' + upSellSupp[4].url)
+            // cy.visit('/' + upSellSupp[4].url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+upSellSupp[4].url+"")
 
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', upSellSupp[4].offer)

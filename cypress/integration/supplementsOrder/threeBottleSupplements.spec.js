@@ -14,15 +14,17 @@ describe('Purchase a single Bottle Supplement Only', () => {
         return false
     })
 
-    const myCtr = '17';
-    const dateS = '0515';
+    const myCtr = '18';
+    const dateS = '0920';
     const clName = 'cyBottle'
+    const testEnv = 'STAGING_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL
 
     it.only('can purchase monthly supplement subscriptions', function() {
         const supplement = this.threeBottle
         
         cy.get(supplement).each((threeBottleSupp)=>{
-            cy.visit('/'+threeBottleSupp.url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+threeBottleSupp.url+"")
+
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', threeBottleSupp.offer)
             

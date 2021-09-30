@@ -12,13 +12,13 @@ describe('Custom Diet and Training Subscriptions', () => {
         // failing the test
         return false
     })
-    const myCtr = '19';
-    const dateS = '0825';
+    const myCtr = '41';
+    const dateS = '0921';
     const assignTrainer = 'cyTrainer Subs'
     const clName = 'cyTest'
-    const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL
+    const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL
 
-    it.only('can purchase Custom Diet Plan Monthly Subscription', () => {
+    it('can purchase Custom Diet Plan Monthly Subscription', () => {
         cy.get('@orderForms').then(json => {
             cy.envUnderTest(""+Cypress.env(testEnv)+json[9].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
@@ -80,7 +80,7 @@ describe('Custom Diet and Training Subscriptions', () => {
         })
     })
 
-    it('can purchase Gold Diet Plan Subscription', () => {
+    it.only('can purchase Gold Diet Plan Subscription', () => {
         cy.get('@orderForms').then(json => {
             cy.envUnderTest(""+Cypress.env(testEnv)+json[10].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
             cy.get('.product-details-content p', { timeout: 2000 })
