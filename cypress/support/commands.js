@@ -93,7 +93,7 @@ Cypress.Commands.add('typePaymentInfo', () => {
                 .type('90210')
     })
     cy.get('.expand-area-2 > .expand-inputs > .next-step').click()
-    cy.wait(5000)
+    
 })
 
 Cypress.Commands.add('typePaymentInfoSupplement', () => {
@@ -206,7 +206,6 @@ Cypress.Commands.add('filloutQuestionnaire', () => {
     //questionnaire details       
     //birthday
     cy.get('input[name=birthday]').clear().type('1995-05-15');
-    // cy.get("input[type='date']").type('1995-01-05');
 
     //country
     cy.get("input[name='Country']").clear().type('US')
@@ -588,7 +587,6 @@ Cypress.Commands.add('verifyAssignedClient',(record)=>{
     cy.get('#__BVID__16')
         .clear()
         .type(record.email + '{enter}');
-    cy.wait(5000)
 
     cy.contains('.vuetable-body td', record.email)
         .parent()
@@ -603,17 +601,17 @@ Cypress.Commands.add('verifyAssignedClient',(record)=>{
 Cypress.Commands.add('verifyAssignedClientOTP',(record)=>{
     cy.contains('Trainer Tool').click();
     cy.contains('Assigned Clients Beta').click();       //assigned clients beta page
-    cy.wait(2000);
+    cy.wait(500);
 
     cy.get('#__BVID__17').select('One-Time Plans')      //filter as Order
-    cy.wait(2000)
+
     cy.get('#__BVID__19').select('Not Sent')        //filter Not Sent
     // cy.get('#__BVID__19').select('Sent')        //filter Not Sent
-    cy.wait(2000)
+
     cy.get('#__BVID__16')
         .clear()
         .type(record.email + '{enter}');
-    cy.wait(5000)
+    cy.wait(500)
 
     cy.contains('.vuetable-body td', record.email)
         .parent()
@@ -628,16 +626,14 @@ Cypress.Commands.add('verifyAssignedClientOTP',(record)=>{
 Cypress.Commands.add('verifyAssignedClientSubs',(record)=>{
     cy.contains('Trainer Tool').click();
     cy.contains('Assigned Clients Beta').click();       //assigned clients beta page
-    cy.wait(2000);
+    cy.wait(500);
 
     cy.get('#__BVID__17').select('Subscriptions')       //filter as subscription
-    cy.wait(2000)
     cy.get('#__BVID__19').select('Not Sent')
-    cy.wait(2000)
     cy.get('#__BVID__16')
         .clear()
         .type(record.email + '{enter}');
-    cy.wait(5000)
+    cy.wait(500)
 
     cy.contains('.vuetable-body td', record.email)
         .parent()
@@ -652,16 +648,14 @@ Cypress.Commands.add('verifyAssignedClientSubs',(record)=>{
 Cypress.Commands.add('verifyRecordNotInAssignedClientPage',(record)=>{
     cy.contains('Trainer Tool').click();
     cy.contains('Assigned Clients Beta').click();       //assigned clients beta page
-    cy.wait(2000);
+    cy.wait(500);
 
     cy.get('#__BVID__17').select('All')       //filter as subscription
-    cy.wait(2000)
     cy.get('#__BVID__19').select('All')
-    cy.wait(2000)
     cy.get('#__BVID__16')
         .clear()
         .type(record.email + '{enter}');
-    cy.wait(5000)
+    cy.wait(500)
 
     cy.contains('.vuetable-body td', record.email)
         .should('not.exist')
@@ -670,20 +664,18 @@ Cypress.Commands.add('verifyRecordNotInAssignedClientPage',(record)=>{
 Cypress.Commands.add('verifyRecordNotInUnassignedPlansPage',(record)=>{
     cy.contains('Trainer Tool').click();
     cy.contains('Unassigned Plans').click();       //assigned clients beta page
-    cy.wait(2000);
+    cy.wait(500);
 
     cy.get('#__BVID__24').select('All')       //filter as subscription
-    cy.wait(1000)
     cy.get('#__BVID__25').select('All')
-    cy.wait(1000)
     cy.get('#__BVID__20').clear('{enter}')
-    cy.wait(1000)
+    cy.wait(500)
     cy.get('#__BVID__23').clear('{enter}')
-    cy.wait(1000)
+    cy.wait(500)
     cy.get('#__BVID__21')
         .clear()
         .type(record.email + '{enter}');
-    cy.wait(5000)
+    cy.wait(500)
 
     cy.contains('.vuetable-body td', record.email)
         .should('not.exist')
@@ -695,17 +687,13 @@ Cypress.Commands.add('verifyOTPInUnassignedPlansPage',(record)=>{
     cy.wait(2000);
 
     cy.get('#__BVID__24').select('All')       //filter as subscription
-    cy.wait(1000)
     cy.get('#__BVID__25').select('All')
-    cy.wait(1000)
     cy.get('#__BVID__20').clear('{enter}')
-    cy.wait(1000)
     cy.get('#__BVID__23').clear('{enter}')
     cy.wait(1000)
     cy.get('#__BVID__21')
         .clear()
         .type(record.email + '{enter}');
-    cy.wait(5000)
 
     cy.contains('.vuetable-body td', record.email)
         .should('exist')
@@ -724,17 +712,15 @@ Cypress.Commands.add('verifySubInUnassignedPlansPage',(record)=>{
     cy.wait(2000);
 
     cy.get('#__BVID__24').select('All')       
-    cy.wait(1000)
     cy.get('#__BVID__25').select('All')
-    cy.wait(1000)
     cy.get('#__BVID__20').clear('{enter}')
-    cy.wait(1000)
+    cy.wait(500)
     cy.get('#__BVID__23').clear('{enter}')
-    cy.wait(1000)
+    cy.wait(500)
     cy.get('#__BVID__21')
         .clear()
         .type(record.email + '{enter}');
-    cy.wait(5000)
+    cy.wait(500)
 
     cy.contains('.vuetable-body td', record.email)
         .should('exist')
@@ -769,13 +755,10 @@ Cypress.Commands.add('uploadPlan', (record) => {
     cy.wait(2000);
 
     cy.get('#__BVID__17').select('All')      //filter as Order
-    cy.wait(2000)
     cy.get('#__BVID__19').select('All')        //filte Not Sent
-    cy.wait(2000)
     cy.get('#__BVID__16')
         .clear()
         .type(record.email + '{enter}');
-    cy.wait(5000)
 
     cy.contains('.vuetable-body td', record.email)
         .should('exist')
@@ -896,3 +879,9 @@ Cypress.Commands.add("envUnderTest", (urlUnderTest) => {
     cy.visit(urlUnderTest)
 });
 
+
+Cypress.Commands.add('getTrainerLink',function (record){
+    let trainerLink = "/sp/custom-diet-plan/reup/?utm_source=trainers&utm_medium=zendesk&utm_campaign=referral&utm_content=" +  record.trainer + "&utm_term=" + record.id
+    cy.envUnderTest(""+Cypress.env(record.envi)+trainerLink+"")
+
+})

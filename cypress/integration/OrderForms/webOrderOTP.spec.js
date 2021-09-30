@@ -12,17 +12,20 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
         return false
     })
 
-    const myCtr = '77';  
-    const dateS = '0917';
-    const assignTrainer = 'cyTrainer OTP'
-    const clName = 'Test'
-    const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL
 
-    it('can purchase Custom CDP 8-Weeks for Him OTP from web', () => {
+    const myCtr = '23';  
+    const dateS = '2409';
+    const assignTrainer = 'beta TrainerBundle'
+    const clName = 'Test'
+    const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL, STAGING-APP_URL
+
+    it.only('can purchase Custom CDP 8-Weeks for Him OTP from web', () => {
         cy.get('@orderForms').then(json => {
             cy.envUnderTest(""+Cypress.env(testEnv)+json[0].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
 
-            cy.get('.product-details-content p', { timeout: 2000 })
+
+            // cy.get('.product-details-content p', { timeout: 2000 })
+            cy.get('.product-details-content p')
                 .should('contain.text', json[0].offer) 
 
             const fName = clName + myCtr
@@ -41,16 +44,16 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[0].orderItem1)
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 2000 }).click()
+            cy.get('#submit-order').click()
+            cy.wait(10000)
 
             //Verify Order confirmation page is displayed
-            cy.wait(10000);
-            cy.contains('Thank you', { timeout: 8000 })
+            cy.contains('Thank you')
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.get('.h5').should('contain.text', json[0].confirmOrder1);
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutQuestionnaire();
 
@@ -103,16 +106,16 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[1].orderItem1)
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 2000 }).click()
+            cy.get('#submit-order').click()
+            cy.wait(10000);
 
             //Verify Order confirmation page is displayed
-            cy.wait(10000);
-            cy.contains('Thank you', { timeout: 8000 })
+            cy.contains('Thank you')
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.get('.h5').should('contain.text', json[1].confirmOrder1);
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutQuestionnaire();
 
@@ -169,19 +172,19 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[2].orderItem2)
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 2000 }).click()
-            cy.wait(5000)    
+            cy.get('#submit-order').click()
+            cy.wait(10000)    
+
 
             //skip video
             cy.skipPromoVideos()
+            cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
+            cy.get('button[type=submit]').should('be.enabled').click()
 
-            cy.wait(2000)                              //add vsu
-            cy.get('label', { timeout: 10000 }).click({ force: true })
-            cy.get('button[type=submit]').should('be.enabled')
-                .click()
-
-            cy.wait(2000)
+            
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
+            cy.wait(1500)    
+            
             //fillout shipping details        
             cy.filloutShippingDetails(
                 {
@@ -192,7 +195,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             // cy.contains('No thanks,').click()
 
             //Verify Order confirmation page is displayed
-            cy.wait(15000);
             cy.contains('Thank you', { timeout: 8000 })
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.contains(json[2].confirmOrder1).should('exist')
@@ -201,7 +203,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains(json[2].confirmOrder4).should('exist')
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutQuestionnaire();
 
@@ -260,27 +262,21 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.get('#submit-order', { timeout: 1000 }).click()
             cy.wait(10000)
 
-            // skip video
+            //skip video
             cy.skipPromoVideos()
+            cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
+            cy.get('button[type=submit]').should('be.enabled').click()
 
-            cy.wait(2000)                              //add vsu
-            cy.get('label', { timeout: 1000 }).click({ force: true })
-            cy.get('button[type=submit]').should('be.enabled')
-                .click()
 
-            cy.wait(2000)
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
-            cy.wait(1500)    
-
+               
             //fillout shipping details 
-            cy.wait(1000)
+            cy.wait(1500)
+
             cy.filloutShippingDetails({ name: fName + " " + lName, phone: '775-233-3661' })
-
-
             // cy.contains('No thanks,').click()
 
             //Verify Order confirmation page is displayed
-            cy.wait(15000);
             cy.contains('Thank you', { timeout: 8000 })
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.contains(json[3].confirmOrder1).should('exist')
@@ -289,7 +285,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains(json[3].confirmOrder4).should('exist')
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutQuestionnaire();
 
@@ -314,12 +310,14 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             //check assignment
             cy.verifyAssignedClientOTP({ email: cEmail, trainer: assignTrainer })
 
-            //Upload PDF Plan
-            cy.uploadPlan({ email: cEmail })   
-            //impersonate user and view file uploaded
 
-            cy.viewWebPlanSent({ email: cEmail })
-            cy.stopImpersonating()
+            // //Upload PDF Plan
+            // cy.uploadPlan({ email: cEmail })   
+            // //impersonate user and view file uploaded
+
+            // cy.viewWebPlanSent({ email: cEmail })
+            // cy.stopImpersonating()
+
 
         })
     })
@@ -327,7 +325,9 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
     it.only('can purchase Ripped in 90 Days OTP from web', () => {
         cy.get('@orderForms').then(json => {
             cy.envUnderTest(""+Cypress.env(testEnv)+json[4].url+"")         //replaces cy.visit('/' + json[0].url) referencing baseUrl
-            cy.get('.product-details-content p', { timeout: 2000 })
+
+            // cy.get('.product-details-content p', { timeout: 2000 })
+            cy.get('.product-details-content p')
                 .should('contain.text', json[4].offer)
 
             const fName = clName + myCtr
@@ -341,7 +341,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 })
             cy.typePaymentInfo()
 
-            cy.wait(5000)
+       
             //add CDP
             cy.get('.checkbox-area > label').click()
 
@@ -352,22 +352,21 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[4].orderItem2)
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 2000 }).click()
+            cy.get('#submit-order').click()
             cy.wait(10000)
 
             //skip video
             cy.skipPromoVideos()
-            cy.wait(2000)                              //add vsu
-            cy.get('label', { timeout: 1000 }).click()
-            cy.get('button[type=submit]').should('be.enabled')
-                .click()
 
-            cy.wait(2000)
+            cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
+            cy.get('button[type=submit]').should('be.enabled').click()
+
+            
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             cy.wait(1500)    
             
             //fillout shipping details
-            cy.wait(1000)        
+
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
@@ -377,7 +376,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             // cy.contains('No thanks,').click()
 
             //Verify Order confirmation page is displayed
-            cy.wait(15000);
             cy.contains('Thank you', { timeout: 8000 })
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.contains(json[4].confirmOrder1).should('exist')
@@ -386,7 +384,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains(json[4].confirmOrder4).should('exist')
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutQuestionnaire();
 
@@ -447,14 +445,13 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //skip order
             cy.skipPromoVideos()
-
-            cy.wait(2000)                              //add vsu
-            cy.get('label', { timeout: 5000 }).click()
+            cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(1500)    
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
+            cy.wait(1500)   
+
             //fillout shipping details        
 
             cy.filloutShippingDetails(
@@ -466,7 +463,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             // cy.contains('No thanks,').click()
 
             //Verify Order confirmation page is displayed
-            cy.wait(10000);
             cy.contains('Thank you', { timeout: 8000 })
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.contains(json[5].confirmOrder1).should('exist')
@@ -475,7 +471,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains(json[5].confirmOrder4).should('exist')
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutQuestionnaire();
 
@@ -522,7 +518,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.typePaymentInfo()
 
             //add CDP
-            cy.get('.checkbox-area > label', { timeout: 6000 }).click()
+            cy.get('.checkbox-area > label').click()
 
             //Verify Order details
             cy.get('#order-summary tr:nth-child(1) > td:nth-child(1)')
@@ -531,20 +527,21 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[6].orderItem2)
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 1000 }).click()
+
+            cy.get('#submit-order').click()
             cy.wait(10000)
 
-            //skip video
+            //skip order
+
             cy.skipPromoVideos()
-            cy.wait(2000)                              //add vsu
-            cy.get('label', { timeout: 10000 }).click()
+            cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
             cy.get('button[type=submit]').should('be.enabled')
                 .click()
 
-            cy.wait(1500)    
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
-            //fillout shipping details        
+            cy.wait(1500)    
 
+            //fillout shipping details        
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
@@ -554,8 +551,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             // cy.contains('No thanks,').click()
 
             //Verify Order confirmation page is displayed
-            cy.wait(10000);
-            cy.contains('Thank you', { timeout: 15000 })
+            cy.contains('Thank you', { timeout: 8000 })
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.contains(json[6].confirmOrder1).should('exist')
             cy.contains(json[6].confirmOrder2).should('exist')
@@ -563,7 +559,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains(json[6].confirmOrder4).should('exist')
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutQuestionnaire();
 
@@ -611,7 +607,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.typePaymentInfo()
 
             //add CDP
-            cy.get('.checkbox-area > label', { timeout: 6000 }).click()
+            cy.get('.checkbox-area > label').click()
 
             //Verify Order details
             cy.get('#order-summary tr:nth-child(1) > td:nth-child(1)')
@@ -620,21 +616,20 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[7].orderItem2)
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 1000 }).click()
+
+            cy.get('#submit-order').click()
             cy.wait(10000)
 
             //skip video
             cy.skipPromoVideos()
-
-            cy.wait(2000)                              //add vsu
-            cy.get('label', { timeout: 10000 }).click()
+            cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
             cy.get('button[type=submit]').should('be.enabled')
-                .click()
 
-            cy.wait(1500)    
+                  .click()
+  
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             //fillout shipping details        
-
+            cy.wait(1500)   
             cy.filloutShippingDetails(
                 {
                     name: fName + " " + lName,
@@ -645,7 +640,6 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             // cy.contains('No thanks,').click()
 
             //Verify Order confirmation page is displayed
-            cy.wait(10000);
             cy.contains('Thank you', { timeout: 15000 })
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.contains(json[7].confirmOrder1).should('exist')
@@ -654,7 +648,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains(json[7].confirmOrder4).should('exist')
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutQuestionnaire();
 
@@ -703,7 +697,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.typePaymentInfo()
 
             //add CDP
-            cy.get('.checkbox-area > label', { timeout: 6000 }).click()
+            cy.get('.checkbox-area > label').click()
 
             //Verify Order details
             cy.get('#order-summary tr:nth-child(1) > td:nth-child(1)')
@@ -712,18 +706,17 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('contain.text', json[8].orderItem2)
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 5000 }).click()
+            cy.get('#submit-order').click()
             cy.wait(10000)
 
             //skip video
             cy.skipPromoVideos()
 
-            cy.wait(2000)                              //add vsu
-            cy.get('label', { timeout: 1000 }).click()
+            cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
             cy.get('button[type=submit]').should('be.enabled')
-                .click()
-
-            cy.wait(2000)
+                  .click()
+  
+            cy.wait(1500)   
             cy.get('#addToCartBtnTop').click()          //Greens add to cart
             
             //fillout shipping details        
@@ -737,8 +730,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             // cy.contains('No thanks,').click()
 
             //Verify Order confirmation page is displayed
-            cy.wait(10000);
-            cy.contains('Thank you', { timeout: 15000 })
+            cy.contains('Thank you', { timeout: 8000 })
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.contains(json[8].confirmOrder1).should('exist')
             cy.contains(json[8].confirmOrder2).should('exist')
@@ -746,7 +738,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.contains(json[8].confirmOrder4).should('exist')
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutQuestionnaire();
 
@@ -795,7 +787,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
             cy.typePaymentInfo()
 
             //add CDP initially
-            cy.get('.checkbox-area > label', { timeout: 6000 }).click()
+            cy.get('.checkbox-area > label').click()
 
             //Verify Order details
             cy.get('#order-summary tr:nth-child(1) > td:nth-child(1)')
@@ -805,7 +797,7 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
 
             //vs-2871 - unselect a previously selected cdp    
             cy.wait(4000)
-            cy.get('.checkbox-area > label', { timeout: 6000 }).click() //unselect the checkbox
+            cy.get('.checkbox-area > label').click() //unselect the checkbox
             
             //verify cdp is no longer displayed
             cy.get('#order-summary tr:nth-child(1) > td:nth-child(1)')
@@ -814,28 +806,24 @@ describe('OTP Custom Diet and Training Web Purchases', () => {
                 .should('not.be.visible')
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 5000 }).click()
+            cy.get('#submit-order').click()
             cy.wait(10000)
 
             //skip video
             cy.skipPromoVideos()
-            cy.wait(2000)                              //add vsu
-            cy.get('label', { timeout: 10000 }).click()
+            cy.contains('I agree to the payment terms of this recurring product').click()   //add vsu
             cy.get('button[type=submit]').should('be.enabled')
-                .click()
-
+                  .click()
+            
             cy.wait(2000)
-            // cy.get('.paused-overlay__text', { timeout: 10000 }).click()
             cy.skipPromoVideos()
-            cy.wait(2000)
             cy.get('a[test-id=decline-cdp-button]').contains('No thanks').click()
             
             cy.wait(2000)
             cy.contains('No thanks, I’d rather take my chances with sub-optimal fat burning and immune defense support').click()
 
             //Verify Order confirmation page is displayed
-            cy.wait(10000);
-            cy.contains('Thank you', { timeout: 15000 })
+            cy.contains('Thank you', { timeout: 8000})
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.contains(json[11].confirmOrder1).should('exist')
             cy.contains(json[11].confirmOrder2).should('not.exist')  //for VS-2871

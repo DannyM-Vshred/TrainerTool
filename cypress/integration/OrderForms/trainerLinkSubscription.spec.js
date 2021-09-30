@@ -1,16 +1,12 @@
 ///<reference types = "Cypress"/>
 import 'cypress-iframe';
 
-describe('Trainer Link Purchaes', () => {
-    before(() => {
-        
-        // const testEnv = cy.envUnderTest(""+Cypress.env('STAGING-TT_URL')+"")  
-        // const testEnv = cy.envUnderTest(""+Cypress.env('STAGING_URL')+"")  
-    })
 
+
+describe('Trainer Link Purchaes', () => {
     beforeEach(() => {
         const testEnv = cy.envUnderTest(""+Cypress.env('TESTING2_URL')+"")  
-
+    })
         cy.fixture('trainerLink').as('trainerLink')
     })
 
@@ -20,26 +16,34 @@ describe('Trainer Link Purchaes', () => {
         return false
     })
     const trainerName = 'betaTrainerLink'
-    const trainerId = '64598'
-    const trainerLink = "/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + trainerName + "&utm_term=" + trainerId
-    // const trainerLink = testEnv+"/sp/custom-diet-plan/reup/?utm_source=trainers&utm_medium=zendesk&utm_campaign=referral&utm_content=" +  trainerName + "&utm_term=" + trainerId
+
+    const trainerId =  '64598' //'2387' '1320''64598'
+    // const trainerLink = "/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + trainerName + "&utm_term=" + trainerId
+    // const trainerLink = "/sp/custom-diet-plan/reup/?utm_source=trainers&utm_medium=zendesk&utm_campaign=referral&utm_content=" +  trainerName + "&utm_term=" + trainerId
+
     
     const nonTrainer = 'cyTestNonTrainer'
     const nonTrainerID = '114119'
     const nonTrainerLink = "/sp/custom-diet-plan/reup/?utm_source=facebook&utm_medium=trainers&utm_campaign=groups&utm_content=" + nonTrainer + "&utm_term=" + nonTrainerID
     
     const myCtr = '50';
-    const dateS = '0917';
+    const dateS = '3009';
 
-
-    const assignTrainer = 'beta TrainerLink'
+    const assignTrainer = 'cyTrainer TrainerLink' //'cyTrainer TrainerLink'
     const clName = 'cyTest'
-    const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL                      
+    const testEnv = 'STAGING-TT_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL
+
+    it.only('can purchase Silver Plus Monthly CDTP through Trainer Link', () => {
+        // cy.visit(trainerLink)
+        // cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
+
+        cy.getTrainerLink({
+            envi : testEnv,
+            trainer : trainerName,
+            id : trainerId
+        })
 
 
-    it('can purchase Silver Plus Monthly CDTP through Trainer Link', () => {
-      
-        cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
         cy.url().should('include', 'utm_content=' + trainerName + '&utm_term=' + trainerId)
         cy.get('.column-title').contains('DIET & TRAINING PLANS')
             .should('be.visible')
@@ -76,18 +80,18 @@ describe('Trainer Link Purchaes', () => {
             cy.get('.ifNotTAKEN.checkout-confirmation > :nth-child(1) > :nth-child(1)')
                 .should('contain.text', json[0].purchaseNote)
             cy.get('#order-summary').contains(json[0].orderItem1).should('exist')
-
+            cy.wait(3000)
             //Submit Order
-            cy.get('#submit-order', { timeout: 2000 }).click()
+            cy.get('#submit-order').click()
 
             //Verify Order confirmation page is displayed
             cy.wait(10000);
-            cy.contains('Thank you', { timeout: 8000 })
+            cy.contains('Thank you')
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.get('.h5').should('contain.text', json[0].confirmOrder1);
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutQuestionnaire();
 
@@ -119,7 +123,6 @@ describe('Trainer Link Purchaes', () => {
             //     })
         })
     })
-
 
     it('can purchase Silver Monthly CDP through Trainer Link', () => {
         // cy.visit(trainerLink)
@@ -161,18 +164,19 @@ describe('Trainer Link Purchaes', () => {
             cy.get('.ifNotTAKEN.checkout-confirmation > :nth-child(1) > :nth-child(1)')
                 .should('contain.text', json[1].purchaseNote)
             cy.get('#order-summary').contains(json[1].orderItem1).should('exist')
-
+            
             //Submit Order
-            cy.get('#submit-order', { timeout: 2000 }).click()
+            cy.get('#submit-order').click()
 
+            cy.wait(10000)
             //Verify Order confirmation page is displayed
             cy.wait(10000);
-            cy.contains('Thank you', { timeout: 8000 })
+            cy.contains('Thank you')
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.get('.h5').should('contain.text', json[1].confirmOrder1);
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutQuestionnaire();
 
@@ -197,11 +201,11 @@ describe('Trainer Link Purchaes', () => {
                     trainer: assignTrainer
                 })
 
-            //Upload PDF Plan
-            // cy.uploadPlan(
-            //     {
-            //         email: cEmail
-            //     })
+            // Upload PDF Plan
+            cy.uploadPlan(
+                {
+                    email: cEmail
+                })
         })
     })
 
@@ -247,16 +251,16 @@ describe('Trainer Link Purchaes', () => {
             cy.get('#order-summary').contains(json[2].orderItem1).should('exist')
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 2000 }).click()
+            cy.get('#submit-order').click()
 
             //Verify Order confirmation page is displayed
             cy.wait(10000);
-            cy.contains('Thank you', { timeout: 8000 })
+            cy.contains('Thank you')
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.get('.h5').should('contain.text', json[2].confirmOrder1);
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutGoldQuestionnaire();
 
@@ -332,16 +336,16 @@ describe('Trainer Link Purchaes', () => {
             cy.get('#order-summary').contains(json[3].orderItem1).should('exist')
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 2000 }).click()
+            cy.get('#submit-order').click()
 
             //Verify Order confirmation page is displayed
             cy.wait(10000);
-            cy.contains('Thank you', { timeout: 8000 })
+            cy.contains('Thank you')
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.get('.h5').should('contain.text', json[3].confirmOrder1);
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             // cy.filloutGoldQuestionnaire();
             cy.filloutQuestionnaire();
@@ -376,7 +380,8 @@ describe('Trainer Link Purchaes', () => {
 
     it('can purchase Silver Monthly CDP through Trainer Link - non TrainerUser', () => {
         // cy.visit(nonTrainerLink)
-        cy.envUnderTest(""+Cypress.env(testEnv)+trainerLink+"")
+
+        cy.envUnderTest(""+Cypress.env(testEnv)+nonTrainerLink+"")
         cy.url().should('include', 'utm_content=' + nonTrainer + '&utm_term=' + nonTrainerID)
 
         cy.get('.column-title').contains('DIET ONLY PLANS')
@@ -420,12 +425,12 @@ describe('Trainer Link Purchaes', () => {
 
             //Verify Order confirmation page is displayed
             cy.wait(10000);
-            cy.contains('Thank you', { timeout: 8000 })
+            cy.contains('Thank you')
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.get('.h5').should('contain.text', json[1].confirmOrder1);
 
             //fillout questionnaire
-            cy.get('#questionnaire', { timeout: 5000 }).click()
+            cy.get('#questionnaire').click()
             cy.contains(cEmail).should('be.visible')
             cy.filloutQuestionnaire();
 

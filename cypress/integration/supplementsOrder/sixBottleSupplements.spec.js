@@ -14,15 +14,17 @@ describe('Purchase a single Bottle Supplement Only', () => {
         return false
     })
 
-    const myCtr = '21';
-    const dateS = '0615';
+    const myCtr = '22';
+    const dateS = '0920';
     const clName = 'cyBottle'
+    const testEnv = 'STAGING_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL
 
     it.only('can purchase monthly supplement subscriptions', function() {
         const supplement = this.sixBottle
         
         cy.get(supplement).each((sixBottleSupp)=>{
-            cy.visit('/'+sixBottleSupp.url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+sixBottleSupp.url+"")
+
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', sixBottleSupp.offer)
             
@@ -66,7 +68,7 @@ describe('Purchase a single Bottle Supplement Only', () => {
 
             //Verify Order confirmation page is displayed
             cy.wait(2000);
-            cy.contains('Thank you', { timeout: 8000 })
+            cy.contains('Thank you')
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.get('.h5').should('contain.text', sixBottleSupp.confirmOrder1);
 
@@ -99,7 +101,6 @@ describe('Purchase a single Bottle Supplement Only', () => {
             cy.url().should('include', '/member/profile')
             cy.contains('Purchases').click()
 
-           //  cy.contains('#orders-table td', 'Turmeric Black').should('exist')
             cy.contains('#orders-table td', sixBottleSupp.confirmOrder1).should('exist')
             
             cy.get('#menu1').contains('Admin').click()
@@ -113,7 +114,6 @@ describe('Purchase a single Bottle Supplement Only', () => {
             cy.wait(2000)
     
             cy.contains('#tab-subscriptions td', 'bt_test-boost-max-monthly')
-           //  cy.contains('#tab-subscriptions td', 'bt_turmeric-black-monthly')
                 .should('not.exist')
     
             //select Purchase tab

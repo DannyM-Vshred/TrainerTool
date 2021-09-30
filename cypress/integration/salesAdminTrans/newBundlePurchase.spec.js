@@ -2,10 +2,8 @@
 import 'cypress-iframe';
 
 describe('new Bundle purchase through sales Admin', () => {
-
     before(() => {
         cy.fixture('supplements/customBundle').as('bundle');
-        cy.viewport(1920, 1080)
 
     })
 
@@ -16,11 +14,12 @@ describe('new Bundle purchase through sales Admin', () => {
     });
 
 
-    const ctr = '36'
-    const dateS = '0917';
+    const ctr = '61'
+    const dateS = '2409';
+
     const cName = 'cyBundle'
     const assignTrainer = 'beta TrainerBundle'
-    const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL
+    const testEnv = 'TESTING2_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL
 
     it('can create Bundle with Custom Plans via Sales Agent', function() {                                                                                                                              
         const customBundle = this.bundle

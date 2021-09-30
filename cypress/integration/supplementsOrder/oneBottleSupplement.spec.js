@@ -17,12 +17,13 @@ describe('Purchase a single Bottle Supplement Only', () => {
     const myCtr = '17';
     const dateS = '0515';
     const clName = 'cyBottle'
+    const testEnv = 'STAGING_URL'  //STAGING-TT_URL , STAGING_URL, TESTING2_URL
 
     it.only('can purchase monthly supplement subscriptions', function() {
         const supplement = this.oneBottle
         
         cy.get(supplement).each((oneBottleSupp)=>{
-            cy.visit('/'+oneBottleSupp.url)
+            cy.envUnderTest(""+Cypress.env(testEnv)+oneBottleSupp.url+"")
             cy.get('.product-details-content p', { timeout: 2000 })
                 .should('contain.text', oneBottleSupp.offer)
             
@@ -49,8 +50,8 @@ describe('Purchase a single Bottle Supplement Only', () => {
                 .next().should('contain.text', oneBottleSupp.orderQty)
 
             //Submit Order
-            cy.get('#submit-order', { timeout: 2000 }).click()
-            cy.wait(10000)
+            cy.get('#submit-order').click()
+            cy.wait(5000)
 
             cy.skipPromoVideos()
             cy.contains('No thanks',{matchCase : false}).click()
@@ -65,8 +66,8 @@ describe('Purchase a single Bottle Supplement Only', () => {
             cy.contains('No thanks',{matchCase : false}).click()
 
             //Verify Order confirmation page is displayed
-            cy.wait(2000);
-            cy.contains('Thank you', { timeout: 8000 })
+            cy.wait(5000);
+            cy.contains('Thank you')
             cy.get('[test-id="email"]').should('contain.text', cEmail)
             cy.get('.h5').should('contain.text', oneBottleSupp.confirmOrder1);
 
